@@ -1,0 +1,91 @@
+# Copyright 2023 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: Propagator
+  version: 0.0.1
+paths:
+  /Propagator:
+    get:
+      responses:
+        '200':
+          description: ''
+components:
+  schemas:
+    Propagator:
+      description: A propagator definition.
+      type: object
+      required:
+        - kind
+        - spec
+      properties:
+        kind:
+          type: string
+          enum:
+            - Propagator
+        metadata:
+          $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
+        spec:
+          type: object
+          properties:
+            options:
+              type: object
+              properties:
+                direction:
+                  type: string
+                  enum:
+                    - both
+                    - forward
+                    - reverse
+            signals:
+              type: array
+              description: A list of signals belonging to this propagator.
+              items:
+                $ref: '#/components/schemas/SignalEncoding'
+    SignalEncoding:
+      type: object
+      description: A signal encoding definition.
+      required:
+        - signal
+      properties:
+        signal:
+          type: string
+          description: The name of the signal.
+        target:
+          type: string
+        encoding:
+          type: object
+          properties:
+            linear:
+              type: object
+              properties:
+                min:
+                  type: number
+                max:
+                  type: number
+                factor:
+                  type: number
+                offset:
+                  type: number
+            mapping:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  source:
+                    type: number
+                  target:
+                    type: number
+                  range:
+                    type: object
+                    properties:
+                      min:
+                        type: number
+                      max:
+                        type: number
+

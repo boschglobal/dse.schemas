@@ -1,0 +1,185 @@
+/// Copyright 2023 Robert Bosch GmbH
+///
+/// SPDX-License-Identifier: Apache-2.0
+
+/*
+    IDL for Simulation Bus Channel
+    ==============================
+
+    Representation of Messages sent between Models and a Simulation Bus.
+
+    A Simulation Bus may be configured with several Channels. A Model
+    can connect to one or more Channels of a Simulation Bus. Each Channel
+    represents a synchronization point and Signal
+    exchange interface for Models connected to a Simulation Bus.
+
+    Build with command:
+        > flatc --python -o ./fbs simulation_bus_channel.fbs
+
+
+    FlatBuffer Types
+    ----------------
+
+    * 8 bit: byte ubyte bool
+    * 16 bit: short ushort
+    * 32 bit: int uint float
+    * 64 bit: long ulong double
+
+*/
+
+
+namespace dse.schemas.fbs.channel;
+
+
+/**
+    Signal Messages
+    ===============
+
+    MsgPack encoded Signal Data:
+        Data = [
+            [0..N], // (uint) Signal UID
+            [0..N], // (number) Signal Value - can be omitted for SignalRead.
+        ]
+
+    Signal Values can be encoded with any MsgPack numeric type (e.g. Integer
+    or Float).
+ */
+
+table SignalLookup {
+    /// UID of a Signal. If not provided it is expected that the Simulation Bus
+    /// will calculate this value (i.e. using a blake2b hash algorithm applied
+    /// to the `name` field).
+    signal_uid:uint;
+
+    /// Name of the Signal.
+    name:string;
+}
+
+table SignalIndex {
+    indexes:[SignalLookup];
+}
+
+table SignalWrite {
+    /// MsgPack encoded Signal Data.
+    data:[ubyte];
+}
+
+table SignalRead {
+    /// MsgPack encoded Signal Data.
+    data:[ubyte];
+}
+
+table SignalValue {
+    /// MsgPack encoded Signal Data.
+    data:[ubyte];
+}
+
+
+/**
+    Model Messages
+    ==============
+
+    These messages are exchanged between Models and the Simulation Bus. They
+    represent a synchronisation interface for a Channel as well as encapsulating
+    several of the Signal Messages (for improved messaging performance).
+*/
+
+/// ModelRegister: Register a Model with the SimBus.
+/// (Model -> SimBus)
+table ModelRegister {
+    /// Specify the step_size of the Model.
+    step_size:double;
+}
+
+/// ModelReady: Indicate that a Model is ready to start its next execution step.
+/// (Model -> SimBus)
+table ModelReady {
+    /// The Model Time that the Model expects to start its next execution step.
+    model_time:double;
+
+    /// A nested SignalWrite message containing Signal Values changed during the
+    /// prior execution step. They Signal Values will be distributed to other
+    /// Models in the Simulation by the Simulation Bus.
+    signal_write:SignalWrite;
+}
+
+/// ModelStart: Indicate that a Model is ready to start its next execution step.
+/// (SimBus -> Model)
+table ModelStart {
+    /// The Model Time from where the Model should start its execution step.
+    model_time:double;
+
+    /// The expected (or anticipated) Stop Time for this Execution step. A Model
+    /// may during its execution decide to return earlier than this time.
+    stop_time:double;
+
+    /// A nested SignalValue message. The Model should apply the contained
+    /// values before beginning its execution step.
+    signal_value:SignalValue;
+}
+
+/// ModelExit: Indicate that the Model is disconnecting from this Channel of
+/// the Simulation Bus.
+/// (Model -> SimBus)
+table ModelExit {
+}
+
+
+/**
+    Connection Message
+    ==================
+
+ */
+
+/// All messages for this Channel are multiplexed onto the MessageType union.
+union MessageType {
+    /**
+        Signal Messages
+     */
+    SignalIndex:SignalIndex,
+    SignalWrite:SignalWrite,
+    SignalRead:SignalRead,
+    SignalValue:SignalValue,
+
+    /**
+        Model Messages
+     */
+    ModelRegister:ModelRegister,
+    ModelReady:ModelReady,
+    ModelStart:ModelStart,
+    ModelExit:ModelExit,
+}
+
+/// The Channel Message container.
+table ChannelMessage {
+    /// Model UID of the Model sending or receiving this message. The Model UID
+    /// is unique to a Simulation.
+    model_uid:uint;
+
+    /// The message being sent by this Channel Message.
+    message:MessageType;
+
+    /// Client supplied token which will request a Message ACK (i.e. an empty
+    /// Channel Message with the same token value).
+    token:int;
+
+    /// Indicate a return code for a Message Processing. Only set in case of error.
+    rc:int;
+
+    /// A message related to an `rc` value indicating an error.
+    response:string;
+
+    /// This message is PART OF X messages which are being sent a Model at a
+    /// particular time instance. The Model receiving this message should wait
+    /// for all related messages before beginning message processing.
+    /// The value indicates the number of message to collect (the default
+    /// value of 0 infers a value of 1).
+    part_of:int;
+}
+
+/// All messages sent on a Channel Endpoint are expected to be a ChannelMessage.
+root_type ChannelMessage;
+
+/// File Identifier, embedded in the message stream, indicates the root_type
+/// of the message. SBCH => Simulation Bus CHannel
+file_identifier "SBCH";

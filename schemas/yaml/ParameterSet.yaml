@@ -1,0 +1,53 @@
+# Copyright 2023 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: ParameterSet
+  version: 0.0.1
+paths:
+  /ParameterSet:
+    get:
+      responses:
+        '200':
+          description: ''
+components:
+  schemas:
+    ParameterSet:
+      description: A parameter_set definition.
+      required:
+        - kind
+        - spec
+      properties:
+        kind:
+          type: string
+          enum:
+            - ParameterSet
+        metadata:
+          $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
+        spec:
+          type: object
+          required:
+            - parameters
+          properties:
+            parameters:
+              type: array
+              description: A list of parameters belonging to this parameter set.
+              items:
+                $ref: '#/components/schemas/Parameter'
+    Parameter:
+      type: object
+      description: A signal parameter definition.
+      required:
+        - parameter
+      properties:
+        parameter:
+          type: string
+          description: The name of the parameter.
+        value:
+          type: string
+          description: The value of the parameter.
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'

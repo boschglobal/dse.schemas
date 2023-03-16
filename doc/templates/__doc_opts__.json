@@ -1,0 +1,11 @@
+{
+    "language_tabs": [],
+    "yaml": true,
+    "codeSamples": false,
+    "resolve": true,
+    "headings": 2,
+    "omitBody": true,
+    "omitHeader": true,
+    "theme": "darkula",
+    "user_templates": "doc/templates/openapi3"
+}

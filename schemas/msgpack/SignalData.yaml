@@ -1,0 +1,45 @@
+# Copyright 2023 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: SignalData
+  description: Schemas for MsgPack encoded payloads.
+  version: 0.0.1
+paths:
+  /SignalData:
+    get:
+      responses:
+        '200':
+          description: ''
+components:
+  schemas:
+    SignalData:
+      type: array
+      description: MsgPack encoded Signal Data. Number of elements in each nested array should be identical.
+      example: Data = [[0..N],[0..N]]
+      minItems: 1
+      maxItems: 2
+      items:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/SignalUid'
+            - $ref: '#/components/schemas/SignalValueNumeric'
+            - $ref: '#/components/schemas/SignalValueBinary'
+    SignalUid:
+      type: integer
+      description: Signal UID.
+      format: int32
+      minimum: 0
+    SignalValueNumeric:
+      type: number
+      format: double
+      description: Numeric signal value. The value may be encoded as any integer or float type.
+    SignalValueBinary:
+      type: string
+      format: binary
+      description: Binary signal value.
+
