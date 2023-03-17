@@ -1,0 +1,87 @@
+---
+name: CI
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_BASE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build package metadata
+        id: package_meta
+        uses: docker/metadata-action@v4
+        with:
+          images: foo/bar
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+
+      - name: Get package version
+        id: package
+        run: |
+          echo "PACKAGE_VERSION=${{ fromJSON(steps.package_meta.outputs.json).labels['org.opencontainers.image.version'] }}" >> $GITHUB_ENV
+
+      - name: Flatc build targets
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-flatc-builder:main
+          username: ${{ github.actor }}
+          password:  ${{ secrets.GITHUB_TOKEN }}
+          options: |
+            --volume ${{ github.workspace }}:/work
+            --env PACKAGE_VERSION=${{ env.PACKAGE_VERSION }}
+          run: |
+            cd work; make fbs
+
+      - name: Python build targets
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:main
+          username: ${{ github.actor }}
+          password:  ${{ secrets.GITHUB_TOKEN }}
+          options: |
+            --volume ${{ github.workspace }}:/work
+            --env PACKAGE_VERSION=${{ env.PACKAGE_VERSION }}
+          run: |
+            cd work
+            make python
+            make msgpack
+
+      - name: Package
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:main
+          username: ${{ github.actor }}
+          password:  ${{ secrets.GITHUB_TOKEN }}
+          options: |
+            --volume ${{ github.workspace }}:/work
+            --env PACKAGE_VERSION=${{ env.PACKAGE_VERSION }}
+          run: |
+            cd work
+            make dist_package
+            ls -1sh ./dist/*.*
+            ls -1sh ./dist/python/dist/*.*
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/automotive-bus-schema.tar.gz
+            dist/python/dist/automotive_bus_schema-${{ env.PACKAGE_VERSION }}-py3-none-any.whl
