@@ -7,7 +7,6 @@ SPDX-License-Identifier: Apache-2.0
 # DSE Schemas
 
 [![CI](https://github.com/boschglobal/dse.schemas/actions/workflows/ci.yaml/badge.svg)](https://github.com/boschglobal/dse.schemas/actions/workflows/ci.yaml)
-[![Super Linter](https://github.com/boschglobal/dse.schemas/actions/workflows/super_linter.yaml/badge.svg)](https://github.com/boschglobal/dse.schemas/actions/workflows/super_linter.yaml)
 ![GitHub](https://img.shields.io/github/license/boschglobal/dse.schemas)
 
 
