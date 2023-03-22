@@ -19,13 +19,32 @@ Schemas of the Dynamic Simulation Environment (DSE) Core Platform.
 
 ```
 L- docs        Documentation (integrates with Hugo/Docsy).
-L- docker      Supporting build environments.
 L- schemas     Schemas of the DSE Core Platform.
 L- templates   Templates used for building schema packages.
 ```
 
 
 ## Usage
+
+### Toolchains
+
+The Schemas are built using containerised toolchains. Those are
+available from the DSE C Library and can be built as follows:
+
+```bash
+$ git clone https://github.com/boschglobal/dse.clib.git
+$ cd dse.clib
+$ make docker
+```
+
+Alternatively, the latest Docker Images are available on ghcr.io and can be
+used as follows:
+
+```bash
+$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:main
+$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:main
+```
+
 
 ### Build
 
@@ -34,13 +53,9 @@ L- templates   Templates used for building schema packages.
 $ git clone https://github.com/boschglobal/dse.schemas.git
 $ cd dse.schemas
 
-# Build the toolchains (optional, builder containers are published on ghcr.io).
-$ make builders
-...
-$ docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-python-builder      latest              a5ef73ea66dc        16 minutes ago      858MB
-flatc-builder       latest              f4bb83e2c0c9        18 minutes ago      324MB
+# Optionally set builder images.
+$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:main
+$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:main
 
 # Build and package the schemas.
 $ make

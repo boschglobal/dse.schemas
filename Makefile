@@ -6,7 +6,6 @@
 ## Builder Images.
 FLATC_BUILDER_IMAGE ?= flatc-builder:latest
 PYTHON_BUILDER_IMAGE ?= python-builder:latest
-DOCKER_BUILDER_DIRS = flatc-builder python-builder
 
 
 ###############
@@ -57,14 +56,6 @@ DOC_YAML_SCHEMAS = $(shell ls $(YAML_SCHEMA_DIR)/[A-Z]*.yaml) $(shell ls $(MPK_S
 
 
 default: build
-
-
-builders:
-	for d in $(DOCKER_BUILDER_DIRS) ;\
-	do \
-		docker build -f docker/$$d/Dockerfile \
-				--tag $$d:latest ./docker/$$d ;\
-	done;
 
 build:
 	@docker run -it --rm \
@@ -176,5 +167,5 @@ remove:
 clean:
 	-@rm -rf $(DIST_DIR)
 
-.PHONY: default build fbs msgpack python dist dist_package builders clean $(FBS_SCHEMA_SOURCES) $(MPK_SCHEMA_SOURCES)
+.PHONY: default build fbs msgpack python dist dist_package clean $(FBS_SCHEMA_SOURCES) $(MPK_SCHEMA_SOURCES)
 
