@@ -4,7 +4,7 @@ Copyright 2023 Robert Bosch GmbH
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# DSE Schemas
+# Dynamic Simulation Environment - Schemas
 
 [![CI](https://github.com/boschglobal/dse.schemas/actions/workflows/ci.yaml/badge.svg)](https://github.com/boschglobal/dse.schemas/actions/workflows/ci.yaml)
 ![GitHub](https://img.shields.io/github/license/boschglobal/dse.schemas)
@@ -86,5 +86,5 @@ Please refer to the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 ## License
 
-DSE Schemas is open-sourced under the Apache-2.0 license.
+Dynamic Simulation Environment Schemas is open-sourced under the Apache-2.0 license.
 See the [LICENSE](LICENSE) and [NOTICE](./NOTICE) files for details.
