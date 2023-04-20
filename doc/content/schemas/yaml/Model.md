@@ -24,16 +24,6 @@ metadata:
     property2: string
 spec:
   runtime:
-    executable:
-      - path: string
-        os: string
-        arch: string
-        variant: string
-        libs:
-          - string
-        annotations:
-          property1: string
-          property2: string
     dynlib:
       - path: string
         os: string
@@ -44,16 +34,18 @@ spec:
         annotations:
           property1: string
           property2: string
-    container:
-      - path: string
-        os: string
+    executable:
+      - os: string
         arch: string
-        variant: string
         libs:
           - string
         annotations:
           property1: string
           property2: string
+    gateway:
+      annotations:
+        property1: string
+        property2: string
     mcl:
       - path: string
         os: string
@@ -77,7 +69,7 @@ spec:
 
 ```
 
-A model definition.
+This schema object defines a Model kind. A Model kind is used to define a model which participates within a DSE based simulation.
 
 ### Properties
 
@@ -91,11 +83,11 @@ A model definition.
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
 |spec|object|true|none|
-|» runtime|object|false|Collection of runtimes made available by this model (package).|
-|»» executable|[[RuntimeSpec](#schemaruntimespec)]|false|Executable runtime specifications.|
-|»» dynlib|[[RuntimeSpec](#schemaruntimespec)]|false|Dynamic Library runtime specifications.|
-|»» container|[[RuntimeSpec](#schemaruntimespec)]|false|Container runtime specifications.|
-|»» mcl|[[RuntimeSpec](#schemaruntimespec)]|false|Model Compatibility Library runtime specifications.|
+|» runtime|object|false|Selects (or defines) the kind of runtime that a particular model implements. In some cases several runtimes of a particular type may be defined according to operating system architecture.|
+|»» dynlib|[[LibrarySpec](#schemalibraryspec)]|false|Dynamic Library runtime specifications.|
+|»» executable|[[ExecutableSpec](#schemaexecutablespec)]|false|Executable runtime specifications.|
+|»» gateway|[GatewaySpec](#schemagatewayspec)|false|Defines a Gateway Model which represents a connection from a remote simulation system. The remote system loads a model which includes the ModelC Gateway functionality, that model is then able to connect to a DSE based simulation using the ModelC Gateway functionality.<br>The remote system may be a different type of simulation environment.|
+|»» mcl|[[LibrarySpec](#schemalibraryspec)]|false|Model Compatibility Library runtime specifications.|
 |» channels|[object]|false|A list of channels belonging to this model.|
 |»» name|string|false|The name of the channel, used when connecting this channel to the SimBus.|
 |»» alias|string|false|The alias of the channel, used when the channel name will be determined elsewhere.|
@@ -111,12 +103,12 @@ A model definition.
 |---|---|
 |kind|Model|
 
-<h2 id="tocS_RuntimeSpec">RuntimeSpec</h2>
+<h2 id="tocS_LibrarySpec">LibrarySpec</h2>
 
-<a id="schemaruntimespec"></a>
-<a id="schema_RuntimeSpec"></a>
-<a id="tocSruntimespec"></a>
-<a id="tocsruntimespec"></a>
+<a id="schemalibraryspec"></a>
+<a id="schema_LibrarySpec"></a>
+<a id="tocSlibraryspec"></a>
+<a id="tocslibraryspec"></a>
 
 ```yaml
 path: string
@@ -131,7 +123,8 @@ annotations:
 
 ```
 
-A runtime definition.
+Defines a Model which is implemented as a dynamic library.
+The model defined here will be loaded by an appropriate runtime executable, that executable provides all necessary library functions related to the DSE simulation environment. Addition libraries may be specified via the `libs` property.
 
 ### Properties
 
@@ -144,6 +137,58 @@ A runtime definition.
 |libs|[string]|false|A list of libraries on which the runtime is dependant.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|string|false|none|
+
+<h2 id="tocS_GatewaySpec">GatewaySpec</h2>
+
+<a id="schemagatewayspec"></a>
+<a id="schema_GatewaySpec"></a>
+<a id="tocSgatewayspec"></a>
+<a id="tocsgatewayspec"></a>
+
+```yaml
+annotations:
+  property1: string
+  property2: string
+
+```
+
+Defines a Gateway Model which represents a connection from a remote simulation system. The remote system loads a model which includes the ModelC Gateway functionality, that model is then able to connect to a DSE based simulation using the ModelC Gateway functionality.
+The remote system may be a different type of simulation environment.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|annotations|[LibrarySpec/properties/annotations](#schemalibraryspec/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+
+<h2 id="tocS_ExecutableSpec">ExecutableSpec</h2>
+
+<a id="schemaexecutablespec"></a>
+<a id="schema_ExecutableSpec"></a>
+<a id="tocSexecutablespec"></a>
+<a id="tocsexecutablespec"></a>
+
+```yaml
+os: string
+arch: string
+libs:
+  - string
+annotations:
+  property1: string
+  property2: string
+
+```
+
+Defines a model implemented in an executable. The functions representing the model functionality will be taken directly from linked symbols in the executable file.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|os|string|false|Indicate the operating system of the executable (e.g. linux, windows).|
+|arch|string|false|Indicate the architecture of the executable (e.g. amd64, w32)|
+|libs|[string]|false|A list of libraries on which the executable is dependant. The executable would load each of the listed libraries.|
+|annotations|[LibrarySpec/properties/annotations](#schemalibraryspec/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 
 undefined
 

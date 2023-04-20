@@ -16,7 +16,9 @@ paths:
 components:
   schemas:
     Model:
-      description: A model definition.
+      description: >
+        This schema object defines a Model kind. A Model kind is used to define
+        a model which participates within a DSE based simulation.
       type: object
       required:
         - kind
@@ -33,36 +35,42 @@ components:
           properties:
             runtime:
               type: object
-              description: Collection of runtimes made available by this model (package).
+              description: >
+                Selects (or defines) the kind of runtime that a particular model
+                implements. In some cases several runtimes of a particular type
+                may be defined according to operating system architecture.
               properties:
-                executable:
-                  type: array
-                  description: Executable runtime specifications.
-                  items:
-                    $ref: '#/components/schemas/RuntimeSpec'
                 dynlib:
                   type: array
                   description: Dynamic Library runtime specifications.
                   items:
-                    $ref: '#/components/schemas/RuntimeSpec'
-                container:
+                    $ref: '#/components/schemas/LibrarySpec'
+                executable:
                   type: array
-                  description: Container runtime specifications.
+                  description: Executable runtime specifications.
                   items:
-                    $ref: '#/components/schemas/RuntimeSpec'
+                    $ref: '#/components/schemas/ExecutableSpec'
+                gateway:
+                  $ref: '#/components/schemas/GatewaySpec'
                 mcl:
                   type: array
                   description: Model Compatibility Library runtime specifications.
                   items:
-                    $ref: '#/components/schemas/RuntimeSpec'
+                    $ref: '#/components/schemas/LibrarySpec'
             channels:
               type: array
               description: A list of channels belonging to this model.
               items:
                 $ref: 'channel.yaml#/components/schemas/Channel'
-    RuntimeSpec:
+    LibrarySpec:
       type: object
-      description: A runtime definition.
+      description: >
+        Defines a Model which is implemented as a dynamic library.
+
+        The model defined here will be loaded by an appropriate runtime
+        executable, that executable provides all necessary library functions
+        related to the DSE simulation environment. Addition libraries may
+        be specified via the `libs` property.
       required:
         - path
       properties:
@@ -81,6 +89,40 @@ components:
         libs:
           type: array
           description: A list of libraries on which the runtime is dependant.
+          items:
+            type: string
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'
+    GatewaySpec:
+      type: object
+      description: >
+        Defines a Gateway Model which represents a connection from a remote
+        simulation system. The remote system loads a model which includes the
+        ModelC Gateway functionality, that model is then able to connect to a
+        DSE based simulation using the ModelC Gateway functionality.
+
+        The remote system may be a different type of simulation environment.
+      properties:
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'
+    ExecutableSpec:
+      type: object
+      description: >
+        Defines a model implemented in an executable. The functions representing
+        the model functionality will be taken directly from linked symbols in
+        the executable file.
+      properties:
+        os:
+          type: string
+          description: Indicate the operating system of the executable (e.g. linux, windows).
+        arch:
+          type: string
+          description: Indicate the architecture of the executable (e.g. amd64, w32)
+        libs:
+          type: array
+          description: >
+            A list of libraries on which the executable is dependant. The
+            executable would load each of the listed libraries.
           items:
             type: string
         annotations:
