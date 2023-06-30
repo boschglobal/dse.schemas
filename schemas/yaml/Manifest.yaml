@@ -1,0 +1,263 @@
+# Copyright 2023 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: Manifest
+  version: 0.0.1
+paths:
+  /Manifest:
+    get:
+      responses:
+        '200':
+          description: >
+            Manifest for defining a compositional simulation.
+components:
+  schemas:
+    Manifest:
+      description: >
+        This schema object defines a Manifest kind. A Manifest kind is used to
+        describe a compositional simulation in terms of Tools, Models,
+        Configuration and other Files. The manifest can then be used
+        to generate the simulation system.
+      required:
+        - kind
+        - spec
+      properties:
+        kind:
+          type: string
+          enum:
+            - Manifest
+        metadata:
+          $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
+        spec:
+          type: object
+          required:
+            - repos
+            - tools
+            - models
+            - simulations
+          properties:
+            repos:
+              type: array
+              description: >
+                List of repositories where artifacts used by this simulation may be located.
+              items: { $ref: '#/components/schemas/Repo' }
+            tools:
+              type: array
+              description: List of tools used by this simulation.
+              items: { $ref: '#/components/schemas/Tool' }
+            models:
+              type: array
+              description: List of model libraries used by this simulation.
+              items: { $ref: '#/components/schemas/Model' }
+            simulations:
+              type: array
+              description: >
+                List of individual simulations which comprise this compositional
+                simulation.
+              items: { $ref: '#/components/schemas/Simulation' }
+            documentation:
+              type: array
+              description: List of documentation files supporting this simulation.
+              items: { $ref: '#/components/schemas/File' }
+
+    Repo:
+      type: object
+      description: >
+        Define a repository where artifacts might be located. When a repository
+        is referenced by a Tool, Model or File, that object will have the repository
+        properties available as Task Variables which may be used to define a
+        custom URI schema.
+      required:
+        - name
+        - user
+        - token
+      properties:
+        name:
+          type: string
+          description: Name of the repository definition.
+        repo:
+          type: string
+          description: Repository URI (e.g. as used by the `curl` command).
+        path:
+          type: string
+          description: Repository path to the root location of artifacts.
+        registry:
+          type: string
+          description: Registry name/path as used by docker.
+        user:
+          type: string
+          description: User for authentication with the repository.
+        token:
+          type: string
+          description: Token for authentication with the repository.
+
+    Tool:
+      type: object
+      description: >
+        Define a tool which will be used by the simulation.
+      required:
+        - name
+        - version
+      properties:
+        name:
+          type: string
+          description: Name of the tool.
+        version:
+          type: string
+          description: Version of the tool.
+        repo:
+          type: string
+          description: The name of the repo where this tool can be downloaded from.
+        arch:
+          type: array
+          description: Architectures of the tool that should be downloaded.
+          items: { type: string }
+        schema:
+          type: string
+          description: Define the URI schema for the tool.
+
+    Model:
+      type: object
+      description: >
+        Define a model library which will be used by the simulation. A model
+        library may be referenced by one or more model instances (which
+        themselves are defined in individual simulations).
+      required:
+        - name
+        - version
+        - repo
+      properties:
+        name:
+          type: string
+          description: Name of the model.
+        version:
+          type: string
+          description: Version of the model.
+        repo:
+          type: string
+          description: The name of the repository definition where this model can be downloaded from.
+        arch:
+          type: string
+          description: >
+            Architecture of the model that should be downloaded. If more than one
+            architecture of a model should be downloaded, then an additional
+            model (with a different name) can be defined for each architecture.
+        schema:
+          type: string
+          description: Define the URI schema for the model.
+        channels:
+          type: array
+          description: Some models (i.e. Simbus) require specification of channels.
+          items:
+            $ref: 'channel.yaml#/components/schemas/Channel'
+
+    File:
+      type: object
+      description: >
+        Define a file which will be used by a model of the composed simulation.
+
+        File processing follows the sequence; all `uri` nodes are processed
+        (e.g. downloaded/copied), all `processing` commands
+        are executed, finally all `generate` commands are executed.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: >
+            Path of the file relative to the root of the simulation package. This is
+            the final path, after download or generation. When no `processing` or
+            `generate` node is specified, the `uri` is downloaded/copied directly
+            to the specified `name`.
+        uri:
+          type: string
+          description: >
+            The URI where the file (or source for the file) is located. The `uri`
+            may be a URL or local file. If a URL requires authentication, then
+            include a `repo` in the file definition and the authentication will
+            be taken from that referenced repo definition.
+        repo:
+          type: string
+          description: >
+            The name of the repository definition where authentication details
+            for this file are located.
+        processing:
+          type: string
+          description: Processing commands for the downloaded/copied file.
+        generate:
+          type: string
+          description: Generate commands that produce the (final) file.
+        modelc:
+          type: boolean
+          description: >
+            When set to `true` this file is included as a parameter to the ModelC command.
+
+    ModelInstance:
+      type: object
+      description: >
+        Define a model instance, which belongs to a simulation.
+      required:
+        - name
+        - model
+        - channels
+      properties:
+        name:
+          type: string
+          description: Name of the model instance.
+        model:
+          type: string
+          description: The model library used by this model instance.
+        channels:
+          type: array
+          description: Indicates how channels are mapped to the model instance.
+          items:
+            $ref: 'channel.yaml#/components/schemas/Channel'
+        files:
+          type: array
+          description: List of files used by the model instance.
+          items: { $ref: '#/components/schemas/File' }
+
+    Simulation:
+      type: object
+      description: >
+        Define ain individual simulation.
+      required:
+        - name
+        - properties
+        - models
+      properties:
+        name:
+          type: string
+          description: Name of the simulation.
+        parameters:
+          type: object
+          description: Parameters used to configure the simulation.
+          required:
+            - transport
+          properties:
+            transport:
+              type: string
+              description: Select from the supported transports.
+              enum:
+                - redispubsub
+            environment:
+              type: object
+              description: >
+                Dictionary of environment variables which control the simulation. The name
+                of each element will be capitalized before being injected into the
+                simulation environment.
+              additionalProperties:
+                type: string
+
+        files:
+          type: array
+          description: List of files used by the simulation and/or shared between model instances.
+          items: { $ref: '#/components/schemas/File' }
+        models:
+          type: array
+          description: List of model instance definitions included in the simulation.
+          items: { $ref: '#/components/schemas/ModelInstance' }
