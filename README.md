@@ -82,6 +82,20 @@ make install
 make clean
 ```
 
+The generate make target requires some tools which may be installed as follows:
+
+```bash
+$ sudo apt install npm
+
+# widdershins
+$ git clone https://github.com/Mermade/widdershins.git
+$ cd widdershins/
+$ sudo -E npm install -g widdershins```
+
+# swagger-cli
+$ sudo -E npm install -g @apidevtools/swagger-cli
+```
+
 
 ## Dependencies
 
