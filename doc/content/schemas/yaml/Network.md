@@ -25,9 +25,9 @@ spec:
       annotations:
         struct_name: CAN1_systemStatus_t
         struct_size: 4
-        frame_id: 0x1f0u
-        frame_length: 8u
-        frame_schedule: 10ms
+        frame_id: 496
+        frame_length: 8
+        cycle_time_ms: 10
       signals:
         - signal: Crc
           annotations:
@@ -102,8 +102,9 @@ message: systemStatus
 annotations:
   struct_name: CAN1_systemStatus_t
   struct_size: 4
-  frame_id: 0x1f0u
-  frame_length: 8u
+  frame_id: 496
+  frame_length: 8
+  cycle_time_ms: 10
 signals:
   - signal: Crc
     annotations:
@@ -131,7 +132,7 @@ A Network message definition.
 |`struct_size`|Size of the message struct (in bytes).|
 |`frame_id`|The frame id of the message when encoded to a bus transport (e.g. CAN Frame ID).|
 |`frame_length`|The length of the message when encoded (in bytes).|
-|`frame_schedule`|Message will be sent according to the specified schedule (e.g. "1s", "1ms", "1us").|
+|`cycle_time_ms`|Message will be sent according to the specified schedule (milliseconds).|
 
 ### Properties
 
