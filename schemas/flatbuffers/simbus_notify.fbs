@@ -1,0 +1,81 @@
+/// Copyright 2023 Robert Bosch GmbH
+///
+/// SPDX-License-Identifier: Apache-2.0
+
+/*
+    IDL for Simulation Bus Notify
+    =============================
+
+    Representation of Notify Messages.
+
+*/
+
+
+namespace dse.schemas.fbs.notify;
+
+
+/*
+    Signal Vectors
+    ==============
+
+    MsgPack encoded Signal Data:
+        Data = [
+            [0..N], // (uint) Signal UID (mandatory)
+            [0..N], // (number/binary) Signal Value (optional)
+        ]
+
+    Signal Vectors can be encoded with any MsgPack numeric type (e.g. Integer
+    or Float) or as a MsgPack binary type (e.g hin format).
+*/
+
+table SignalVector {
+    /// The name of the Signal Vector / Channel.
+    name:string;
+
+    /// MsgPack encoded Signal Data.
+    data:[ubyte];
+}
+
+
+/*
+    Notify Message
+    ==============
+
+    Notify Messages may be:
+
+        * Sent to a Model - indicating changed signals and/or simulation time.
+        * Sent from a Model - indicating updated signals and/or model time.
+
+    The SimBus algorithm operates based on the directionality of the Notify
+    Messages, as well as available time fields. Each path/direction/time
+    combination has different semantic reasoning applied.
+
+*/
+
+/// Notify Message.
+/// (SimBus -> Model) Analog to ModelStart message.
+table NotifyMessage {
+
+    /// Signal Vectors.
+    signals:[SignalVector];
+
+    /// Model Time.
+    /// (SimBus -> Model) From where the Model should start its execution step.
+    /// (Model -> SimBus) Indicates the reached and committed Model Time.
+    model_time:double;
+
+    /// Notify Time.
+    /// (SimBus -> Model) Indicates the "event" time for the contained signals.
+    /// (Model -> SimBus) Indicates the "event" time for the contained signals.
+    notify_time:double;
+
+    /// Schedule Time.
+    /// (SimBus -> Model) The expected (or anticipated) Stop Time for the execution step.
+    schedule_time:double;
+
+}
+
+
+/// Metadata for this schema endpoint.
+root_type NotifyMessage;
+file_identifier "SBNO";  // SBNO => Simulation Bus NOtify
