@@ -73,6 +73,16 @@ table NotifyMessage {
     /// (SimBus -> Model) The expected (or anticipated) Stop Time for the execution step.
     schedule_time:double;
 
+    /// UID.
+    /// (Model -> SimBus) Indicate which Models are represented by this Notify Message.
+    model_uid:[uint];
+
+    /// Benchmarking.
+    /// (notify) Total amount of time processing the Notify Message (includes model)
+    bench_notify_time_ns:ulong;
+    /// (model) Amount of time spent executing the model code.
+    bench_model_time_ns:ulong;
+
 }
 
 
