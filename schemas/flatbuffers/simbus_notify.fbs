@@ -32,6 +32,9 @@ table SignalVector {
     /// The name of the Signal Vector / Channel.
     name:string;
 
+    /// UID of the Model related to this Signal Vector (optional).
+    model_uid:uint;
+
     /// MsgPack encoded Signal Data.
     data:[ubyte];
 }
