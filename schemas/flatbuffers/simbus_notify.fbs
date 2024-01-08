@@ -1,4 +1,4 @@
-/// Copyright 2023 Robert Bosch GmbH
+/// Copyright 2024 Robert Bosch GmbH
 ///
 /// SPDX-License-Identifier: Apache-2.0
 
@@ -46,8 +46,8 @@ table SignalVector {
 
     Notify Messages may be:
 
-        * Sent to a Model - indicating changed signals and/or simulation time.
-        * Sent from a Model - indicating updated signals and/or model time.
+        * Sent TO a Model - indicating changed signals and/or simulation time.
+        * Sent FROM a Model - indicating updated signals and/or model time.
 
     The SimBus algorithm operates based on the directionality of the Notify
     Messages, as well as available time fields. Each path/direction/time
@@ -57,8 +57,8 @@ table SignalVector {
 
 /// Notify Message.
 /// (SimBus -> Model) Analog to ModelStart message.
+/// (Model -> SimBus) Analog to ModelReady message.
 table NotifyMessage {
-
     /// Signal Vectors.
     signals:[SignalVector];
 
