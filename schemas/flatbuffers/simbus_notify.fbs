@@ -81,11 +81,10 @@ table NotifyMessage {
     model_uid:[uint];
 
     /// Benchmarking.
-    /// (notify) Total amount of time processing the Notify Message (includes model)
+    /// (notify) Amount of time processing the Notify Message.
     bench_notify_time_ns:ulong;
-    /// (model) Amount of time spent executing the model code.
+    /// (model) Amount of time executing the Model (i.e. calling do_step()).
     bench_model_time_ns:ulong;
-
 }
 
 
