@@ -144,6 +144,7 @@ dist:
 
 _generate_clean:
 	-@rm -rf $(DOC_SCHEMA_YAML_DIR)
+	$(MAKE) -C code/go/dse clean
 
 generate: _generate_clean $(DOC_YAML_SCHEMAS)
 	for d in $(DOC_YAML_SCHEMAS) ;\
@@ -157,6 +158,8 @@ generate: _generate_clean $(DOC_YAML_SCHEMAS)
 		sed -i '1s;^;---\n;' $(DOC_SCHEMA_YAML_DIR)/$$(basename S$$d .yaml).md ;\
 	done;
 	cp doc/templates/yaml/_index.md $(DOC_SCHEMA_YAML_DIR)/_index.md
+
+	$(MAKE) -C code/go/dse generate
 
 test:
 
