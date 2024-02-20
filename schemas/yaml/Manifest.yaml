@@ -12,8 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: >
-            Manifest for defining a compositional simulation.
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Manifest'
 components:
   schemas:
     Manifest:
@@ -33,36 +37,39 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
-          type: object
-          required:
-            - repos
-            - tools
-            - models
-            - simulations
-          properties:
-            repos:
-              type: array
-              description: >
-                List of repositories where artifacts used by this simulation may be located.
-              items: { $ref: '#/components/schemas/Repo' }
-            tools:
-              type: array
-              description: List of tools used by this simulation.
-              items: { $ref: '#/components/schemas/Tool' }
-            models:
-              type: array
-              description: List of model libraries used by this simulation.
-              items: { $ref: '#/components/schemas/Model' }
-            simulations:
-              type: array
-              description: >
-                List of individual simulations which comprise this compositional
-                simulation.
-              items: { $ref: '#/components/schemas/Simulation' }
-            documentation:
-              type: array
-              description: List of documentation files supporting this simulation.
-              items: { $ref: '#/components/schemas/File' }
+          $ref: '#/components/schemas/ManifestSpec'
+
+    ManifestSpec:
+      type: object
+      required:
+        - repos
+        - tools
+        - models
+        - simulations
+      properties:
+        repos:
+          type: array
+          description: >
+            List of repositories where artifacts used by this simulation may be located.
+          items: { $ref: '#/components/schemas/Repo' }
+        tools:
+          type: array
+          description: List of tools used by this simulation.
+          items: { $ref: '#/components/schemas/Tool' }
+        models:
+          type: array
+          description: List of model libraries used by this simulation.
+          items: { $ref: '#/components/schemas/Model' }
+        simulations:
+          type: array
+          description: >
+            List of individual simulations which comprise this compositional
+            simulation.
+          items: { $ref: '#/components/schemas/Simulation' }
+        documentation:
+          type: array
+          description: List of documentation files supporting this simulation.
+          items: { $ref: '#/components/schemas/File' }
 
     Repo:
       type: object

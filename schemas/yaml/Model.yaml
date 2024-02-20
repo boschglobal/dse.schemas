@@ -12,7 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
 components:
   schemas:
     Model:
@@ -31,37 +36,39 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
+          $ref: '#/components/schemas/ModelSpec'
+    ModelSpec:
+      type: object
+      properties:
+        runtime:
           type: object
+          description: >
+            Selects (or defines) the kind of runtime that a particular model
+            implements. In some cases several runtimes of a particular type
+            may be defined according to operating system architecture.
           properties:
-            runtime:
-              type: object
-              description: >
-                Selects (or defines) the kind of runtime that a particular model
-                implements. In some cases several runtimes of a particular type
-                may be defined according to operating system architecture.
-              properties:
-                dynlib:
-                  type: array
-                  description: Dynamic Library runtime specifications.
-                  items:
-                    $ref: '#/components/schemas/LibrarySpec'
-                executable:
-                  type: array
-                  description: Executable runtime specifications.
-                  items:
-                    $ref: '#/components/schemas/ExecutableSpec'
-                gateway:
-                  $ref: '#/components/schemas/GatewaySpec'
-                mcl:
-                  type: array
-                  description: Model Compatibility Library runtime specifications.
-                  items:
-                    $ref: '#/components/schemas/LibrarySpec'
-            channels:
+            dynlib:
               type: array
-              description: A list of channels belonging to this model.
+              description: Dynamic Library runtime specifications.
               items:
-                $ref: 'channel.yaml#/components/schemas/Channel'
+                $ref: '#/components/schemas/LibrarySpec'
+            executable:
+              type: array
+              description: Executable runtime specifications.
+              items:
+                $ref: '#/components/schemas/ExecutableSpec'
+            gateway:
+              $ref: '#/components/schemas/GatewaySpec'
+            mcl:
+              type: array
+              description: Model Compatibility Library runtime specifications.
+              items:
+                $ref: '#/components/schemas/LibrarySpec'
+        channels:
+          type: array
+          description: A list of channels belonging to this model.
+          items:
+            $ref: 'channel.yaml#/components/schemas/Channel'
     LibrarySpec:
       type: object
       description: >

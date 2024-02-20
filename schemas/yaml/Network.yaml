@@ -12,7 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Network'
 components:
   schemas:
     Network:
@@ -39,15 +44,7 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
-          type: object
-          required:
-            - messages
-          properties:
-            messages:
-              type: array
-              description: A list of messages belonging to this Network.
-              items:
-                $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/NetworkSpec'
       example:
         kind: Network
         metadata:
@@ -92,6 +89,16 @@ components:
                   - function: crc_validate
                     annotations:
                       position: 0
+    NetworkSpec:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          description: A list of messages belonging to this Network.
+          items:
+            $ref: '#/components/schemas/Message'
     Message:
       type: object
       description: |

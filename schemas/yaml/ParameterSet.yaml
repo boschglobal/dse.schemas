@@ -12,7 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParameterSet'
 components:
   schemas:
     ParameterSet:
@@ -28,15 +33,17 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
-          type: object
-          required:
-            - parameters
-          properties:
-            parameters:
-              type: array
-              description: A list of parameters belonging to this parameter set.
-              items:
-                $ref: '#/components/schemas/Parameter'
+          $ref: '#/components/schemas/ParameterSetSpec'
+    ParameterSetSpec:
+      type: object
+      required:
+        - parameters
+      properties:
+        parameters:
+          type: array
+          description: A list of parameters belonging to this parameter set.
+          items:
+            $ref: '#/components/schemas/Parameter'
     Parameter:
       type: object
       description: A signal parameter definition.

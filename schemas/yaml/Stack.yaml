@@ -10,9 +10,16 @@ info:
 paths:
   /Stack:
     get:
+      summary: Return all stack objects.
       responses:
         '200':
-          description: ''
+          description: 'Stack object array.'
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stack'
 components:
   schemas:
     Stack:
@@ -30,39 +37,41 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
+          $ref: '#/components/schemas/StackSpec'
+    StackSpec:
+      type: object
+      properties:
+        connection:
           type: object
           properties:
-            connection:
+            timeout:
+              type: string
+              description: Model timeout for messages from the transport.
+            transport:
               type: object
-              properties:
-                timeout:
-                  type: string
-                  description: Model timeout for messages from the transport.
-                transport:
-                  type: object
-                  oneOf:
-                    - type: object
-                      required:
-                        - redis
-                      properties:
-                        redis:
-                          $ref: '#/components/schemas/RedisConnection'
-                    - type: object
-                      required:
-                        - redispubsub
-                      properties:
-                        redispubsub:
-                          $ref: '#/components/schemas/RedisConnection'
-                    - type: object
-                      required:
-                        - mq
-                      properties:
-                        mq:
-                          $ref: '#/components/schemas/MessageQueue'
-            models:
-              type: array
-              items:
-                $ref: '#/components/schemas/ModelInstance'
+              oneOf:
+                - type: object
+                  required:
+                    - redis
+                  properties:
+                    redis:
+                      $ref: '#/components/schemas/RedisConnection'
+                - type: object
+                  required:
+                    - redispubsub
+                  properties:
+                    redispubsub:
+                      $ref: '#/components/schemas/RedisConnection'
+                - type: object
+                  required:
+                    - mq
+                  properties:
+                    mq:
+                      $ref: '#/components/schemas/MessageQueue'
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelInstance'
     ModelInstance:
       type: object
       description: A model instance object.

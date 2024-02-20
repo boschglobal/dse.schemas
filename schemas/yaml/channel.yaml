@@ -6,6 +6,17 @@
 openapi: 3.0.0
 info:
   title: Channel
+paths:
+  /Channel:
+    get:
+      responses:
+        '200':
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
 components:
   schemas:
     Channel:

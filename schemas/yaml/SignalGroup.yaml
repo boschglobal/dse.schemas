@@ -12,7 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SignalGroup'
 components:
   schemas:
     SignalGroup:
@@ -28,15 +33,17 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
-          type: object
-          required:
-            - signals
-          properties:
-            signals:
-              type: array
-              description: A list of signals belonging to this signal group.
-              items:
-                $ref: '#/components/schemas/Signal'
+          $ref: '#/components/schemas/SignalGroupSpec'
+    SignalGroupSpec:
+      type: object
+      required:
+        - signals
+      properties:
+        signals:
+          type: array
+          description: A list of signals belonging to this signal group.
+          items:
+            $ref: '#/components/schemas/Signal'
     Signal:
       type: object
       description: A signal definition.

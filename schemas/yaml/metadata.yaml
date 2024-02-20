@@ -6,6 +6,37 @@
 openapi: 3.0.0
 info:
   title: Metadata
+paths:
+  /Annotations:
+    get:
+      responses:
+        '200':
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Annotations'
+  /Labels:
+    get:
+      responses:
+        '200':
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Labels'
+  /ObjectMetadata:
+    get:
+      responses:
+        '200':
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectMetadata'
 components:
   schemas:
     Annotations:

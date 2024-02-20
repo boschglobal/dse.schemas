@@ -12,7 +12,12 @@ paths:
     get:
       responses:
         '200':
-          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Runnable'
 components:
   schemas:
     Runnable:
@@ -35,15 +40,7 @@ components:
         metadata:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
-          type: object
-          required:
-            - tasks
-          properties:
-            tasks:
-              type: array
-              description: A list of tasks belonging to this Runnable.
-              items:
-                $ref: '#/components/schemas/Task'
+          $ref: '#/components/schemas/RunnableSpec'
       example:
         kind: Runnable
         metadata:
@@ -62,6 +59,16 @@ components:
               schedule: 20
             - function: task_40ms
               schedule: 40
+    RunnableSpec:
+      type: object
+      required:
+        - tasks
+      properties:
+        tasks:
+          type: array
+          description: A list of tasks belonging to this Runnable.
+          items:
+            $ref: '#/components/schemas/Task'
     Task:
       type: object
       description: |
