@@ -51,14 +51,33 @@ A Runnable definition.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» tasks|[[Task](#schematask)]|true|A list of tasks belonging to this Runnable.|
+|spec|[RunnableSpec](#schemarunnablespec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|Runnable|
+
+<h2 id="tocS_RunnableSpec">RunnableSpec</h2>
+
+<a id="schemarunnablespec"></a>
+<a id="schema_RunnableSpec"></a>
+<a id="tocSrunnablespec"></a>
+<a id="tocsrunnablespec"></a>
+
+```yaml
+tasks:
+  - function: task_init
+    schedule: 20
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|tasks|[[Task](#schematask)]|true|A list of tasks belonging to this Runnable.|
 
 <h2 id="tocS_Task">Task</h2>
 

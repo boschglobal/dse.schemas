@@ -44,14 +44,35 @@ A signal group definition.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» signals|[[Signal](#schemasignal)]|true|A list of signals belonging to this signal group.|
+|spec|[SignalGroupSpec](#schemasignalgroupspec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|SignalGroup|
+
+<h2 id="tocS_SignalGroupSpec">SignalGroupSpec</h2>
+
+<a id="schemasignalgroupspec"></a>
+<a id="schema_SignalGroupSpec"></a>
+<a id="tocSsignalgroupspec"></a>
+<a id="tocssignalgroupspec"></a>
+
+```yaml
+signals:
+  - signal: string
+    annotations:
+      property1: string
+      property2: string
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|signals|[[Signal](#schemasignal)]|true|A list of signals belonging to this signal group.|
 
 <h2 id="tocS_Signal">Signal</h2>
 

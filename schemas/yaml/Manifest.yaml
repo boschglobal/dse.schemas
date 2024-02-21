@@ -12,6 +12,7 @@ paths:
     get:
       responses:
         '200':
+          description: ''
           content:
             text/yaml:
               schema:
@@ -203,7 +204,7 @@ components:
           description: >
             When set to `true` this file is included as a parameter to the ModelC command.
 
-    ModelInstance:
+    ModelInstanceDefinition:
       type: object
       description: >
         Define a model instance, which belongs to a simulation.
@@ -267,4 +268,4 @@ components:
         models:
           type: array
           description: List of model instance definitions included in the simulation.
-          items: { $ref: '#/components/schemas/ModelInstance' }
+          items: { $ref: '#/components/schemas/ModelInstanceDefinition' }

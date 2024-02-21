@@ -12,6 +12,7 @@ paths:
     get:
       responses:
         '200':
+          description: ''
           content:
             text/yaml:
               schema:
@@ -125,7 +126,7 @@ components:
           type: array
           description: A list of signals represented in this message.
           items:
-            $ref: '#/components/schemas/Signal'
+            $ref: '#/components/schemas/NetworkSignal'
         functions:
           type: object
           description: Message functions to be applied to this message.
@@ -163,7 +164,7 @@ components:
             - function: crc_validate
               annotations:
                 position: 0
-    Signal:
+    NetworkSignal:
       type: object
       description: |
         A Network signal definition.

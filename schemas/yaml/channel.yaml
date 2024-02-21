@@ -11,6 +11,7 @@ paths:
     get:
       responses:
         '200':
+          description: ''
           content:
             text/yaml:
               schema:

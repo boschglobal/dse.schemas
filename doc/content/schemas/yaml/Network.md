@@ -81,14 +81,53 @@ A Network definition.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» messages|[[Message](#schemamessage)]|true|A list of messages belonging to this Network.|
+|spec|[NetworkSpec](#schemanetworkspec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|Network|
+
+<h2 id="tocS_NetworkSpec">NetworkSpec</h2>
+
+<a id="schemanetworkspec"></a>
+<a id="schema_NetworkSpec"></a>
+<a id="tocSnetworkspec"></a>
+<a id="tocsnetworkspec"></a>
+
+```yaml
+messages:
+  - message: systemStatus
+    annotations:
+      struct_name: CAN1_systemStatus_t
+      struct_size: 4
+      frame_id: 496
+      frame_length: 8
+      cycle_time_ms: 10
+    signals:
+      - signal: Crc
+        annotations:
+          struct_member_name: crc
+          struct_member_offset: 0
+          struct_member_primitive_type: uint8_t
+    functions:
+      encode:
+        - function: crc_generate
+          annotations:
+            position: 0
+      decode:
+        - function: crc_validate
+          annotations:
+            position: 0
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|messages|[[Message](#schemamessage)]|true|A list of messages belonging to this Network.|
 
 <h2 id="tocS_Message">Message</h2>
 
@@ -141,17 +180,17 @@ A Network message definition.
 |message|string|true|The name of the message.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|string|false|none|
-|signals|[[Signal](#schemasignal)]|false|A list of signals represented in this message.|
+|signals|[[NetworkSignal](#schemanetworksignal)]|false|A list of signals represented in this message.|
 |functions|object|false|Message functions to be applied to this message.|
 |» encode|[[Function](#schemafunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
 |» decode|[[Function](#schemafunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
 
-<h2 id="tocS_Signal">Signal</h2>
+<h2 id="tocS_NetworkSignal">NetworkSignal</h2>
 
-<a id="schemasignal"></a>
-<a id="schema_Signal"></a>
-<a id="tocSsignal"></a>
-<a id="tocssignal"></a>
+<a id="schemanetworksignal"></a>
+<a id="schema_NetworkSignal"></a>
+<a id="tocSnetworksignal"></a>
+<a id="tocsnetworksignal"></a>
 
 ```yaml
 signal: Temperature

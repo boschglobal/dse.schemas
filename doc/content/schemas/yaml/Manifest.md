@@ -110,18 +110,105 @@ This schema object defines a Manifest kind. A Manifest kind is used to describe 
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» repos|[[Repo](#schemarepo)]|true|List of repositories where artifacts used by this simulation may be located.|
-|» tools|[[Tool](#schematool)]|true|List of tools used by this simulation.|
-|» models|[[Model](#schemamodel)]|true|List of model libraries used by this simulation.|
-|» simulations|[[Simulation](#schemasimulation)]|true|List of individual simulations which comprise this compositional simulation.|
-|» documentation|[[File](#schemafile)]|false|List of documentation files supporting this simulation.|
+|spec|[ManifestSpec](#schemamanifestspec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|Manifest|
+
+<h2 id="tocS_ManifestSpec">ManifestSpec</h2>
+
+<a id="schemamanifestspec"></a>
+<a id="schema_ManifestSpec"></a>
+<a id="tocSmanifestspec"></a>
+<a id="tocsmanifestspec"></a>
+
+```yaml
+repos:
+  - name: string
+    repo: string
+    path: string
+    registry: string
+    user: string
+    token: string
+tools:
+  - name: string
+    version: string
+    repo: string
+    arch:
+      - string
+    schema: string
+models:
+  - name: string
+    version: string
+    repo: string
+    arch: string
+    schema: string
+    channels:
+      - name: string
+        alias: string
+        expectedModelCount: 0
+        selectors:
+          property1: string
+          property2: string
+        annotations:
+          property1: string
+          property2: string
+simulations:
+  - name: string
+    parameters:
+      transport: redispubsub
+      environment:
+        property1: string
+        property2: string
+    files:
+      - name: string
+        uri: string
+        repo: string
+        processing: string
+        generate: string
+        modelc: true
+    models:
+      - name: string
+        model: string
+        channels:
+          - name: string
+            alias: string
+            expectedModelCount: 0
+            selectors:
+              property1: string
+              property2: string
+            annotations:
+              property1: string
+              property2: string
+        files:
+          - name: string
+            uri: string
+            repo: string
+            processing: string
+            generate: string
+            modelc: true
+documentation:
+  - name: string
+    uri: string
+    repo: string
+    processing: string
+    generate: string
+    modelc: true
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|repos|[[Repo](#schemarepo)]|true|List of repositories where artifacts used by this simulation may be located.|
+|tools|[[Tool](#schematool)]|true|List of tools used by this simulation.|
+|models|[[Model](#schemamodel)]|true|List of model libraries used by this simulation.|
+|simulations|[[Simulation](#schemasimulation)]|true|List of individual simulations which comprise this compositional simulation.|
+|documentation|[[File](#schemafile)]|false|List of documentation files supporting this simulation.|
 
 <h2 id="tocS_Repo">Repo</h2>
 
@@ -259,12 +346,12 @@ File processing follows the sequence; all `uri` nodes are processed (e.g. downlo
 |generate|string|false|Generate commands that produce the (final) file.|
 |modelc|boolean|false|When set to `true` this file is included as a parameter to the ModelC command.|
 
-<h2 id="tocS_ModelInstance">ModelInstance</h2>
+<h2 id="tocS_ModelInstanceDefinition">ModelInstanceDefinition</h2>
 
-<a id="schemamodelinstance"></a>
-<a id="schema_ModelInstance"></a>
-<a id="tocSmodelinstance"></a>
-<a id="tocsmodelinstance"></a>
+<a id="schemamodelinstancedefinition"></a>
+<a id="schema_ModelInstanceDefinition"></a>
+<a id="tocSmodelinstancedefinition"></a>
+<a id="tocsmodelinstancedefinition"></a>
 
 ```yaml
 name: string
@@ -356,7 +443,7 @@ Define ain individual simulation.
 |» environment|object|false|Dictionary of environment variables which control the simulation. The name of each element will be capitalized before being injected into the simulation environment.|
 |»» **additionalProperties**|string|false|none|
 |files|[[File](#schemafile)]|false|List of files used by the simulation and/or shared between model instances.|
-|models|[[ModelInstance](#schemamodelinstance)]|true|List of model instance definitions included in the simulation.|
+|models|[[ModelInstanceDefinition](#schemamodelinstancedefinition)]|true|List of model instance definitions included in the simulation.|
 
 #### Enumerated Values
 

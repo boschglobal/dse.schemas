@@ -45,14 +45,36 @@ A parameter_set definition.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» parameters|[[Parameter](#schemaparameter)]|true|A list of parameters belonging to this parameter set.|
+|spec|[ParameterSetSpec](#schemaparametersetspec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|ParameterSet|
+
+<h2 id="tocS_ParameterSetSpec">ParameterSetSpec</h2>
+
+<a id="schemaparametersetspec"></a>
+<a id="schema_ParameterSetSpec"></a>
+<a id="tocSparametersetspec"></a>
+<a id="tocsparametersetspec"></a>
+
+```yaml
+parameters:
+  - parameter: string
+    value: string
+    annotations:
+      property1: string
+      property2: string
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|parameters|[[Parameter](#schemaparameter)]|true|A list of parameters belonging to this parameter set.|
 
 <h2 id="tocS_Parameter">Parameter</h2>
 

@@ -57,16 +57,55 @@ A propagator definition.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
-|spec|object|true|none|
-|» options|object|false|none|
-|»» direction|string|false|none|
-|» signals|[[SignalEncoding](#schemasignalencoding)]|false|A list of signals belonging to this propagator.|
+|spec|[PropagatorSpec](#schemapropagatorspec)|true|none|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |kind|Propagator|
+
+<h2 id="tocS_PropagatorSpec">PropagatorSpec</h2>
+
+<a id="schemapropagatorspec"></a>
+<a id="schema_PropagatorSpec"></a>
+<a id="tocSpropagatorspec"></a>
+<a id="tocspropagatorspec"></a>
+
+```yaml
+options:
+  direction: both
+signals:
+  - signal: string
+    target: string
+    encoding:
+      linear:
+        min: 0
+        max: 0
+        factor: 0
+        offset: 0
+      mapping:
+        - name: string
+          source: 0
+          target: 0
+          range:
+            min: 0
+            max: 0
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|options|object|false|none|
+|» direction|string|false|none|
+|signals|[[SignalEncoding](#schemasignalencoding)]|false|A list of signals belonging to this propagator.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
 |direction|both|
 |direction|forward|
 |direction|reverse|
