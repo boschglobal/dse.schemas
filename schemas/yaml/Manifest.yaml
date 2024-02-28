@@ -60,7 +60,7 @@ components:
         models:
           type: array
           description: List of model libraries used by this simulation.
-          items: { $ref: '#/components/schemas/Model' }
+          items: { $ref: '#/components/schemas/ModelDefinition' }
         simulations:
           type: array
           description: >
@@ -128,7 +128,7 @@ components:
           type: string
           description: Define the URI schema for the tool.
 
-    Model:
+    ModelDefinition:
       type: object
       description: >
         Define a model library which will be used by the simulation. A model

@@ -24,13 +24,13 @@ type Manifest struct {
 }
 type ManifestKind string
 type ManifestSpec struct {
-	Documentation *[]File      `yaml:"documentation,omitempty"`
-	Models        []Model      `yaml:"models"`
-	Repos         []Repo       `yaml:"repos"`
-	Simulations   []Simulation `yaml:"simulations"`
-	Tools         []Tool       `yaml:"tools"`
+	Documentation *[]File           `yaml:"documentation,omitempty"`
+	Models        []ModelDefinition `yaml:"models"`
+	Repos         []Repo            `yaml:"repos"`
+	Simulations   []Simulation      `yaml:"simulations"`
+	Tools         []Tool            `yaml:"tools"`
 }
-type Model struct {
+type ModelDefinition struct {
 	Arch     *string    `yaml:"arch,omitempty"`
 	Channels *[]Channel `yaml:"channels,omitempty"`
 	Name     string     `yaml:"name"`

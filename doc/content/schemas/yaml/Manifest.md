@@ -206,7 +206,7 @@ documentation:
 |---|---|---|---|
 |repos|[[Repo](#schemarepo)]|true|List of repositories where artifacts used by this simulation may be located.|
 |tools|[[Tool](#schematool)]|true|List of tools used by this simulation.|
-|models|[[Model](#schemamodel)]|true|List of model libraries used by this simulation.|
+|models|[[ModelDefinition](#schemamodeldefinition)]|true|List of model libraries used by this simulation.|
 |simulations|[[Simulation](#schemasimulation)]|true|List of individual simulations which comprise this compositional simulation.|
 |documentation|[[File](#schemafile)]|false|List of documentation files supporting this simulation.|
 
@@ -269,12 +269,12 @@ Define a tool which will be used by the simulation.
 |arch|[string]|false|Architectures of the tool that should be downloaded.|
 |schema|string|false|Define the URI schema for the tool.|
 
-<h2 id="tocS_Model">Model</h2>
+<h2 id="tocS_ModelDefinition">ModelDefinition</h2>
 
-<a id="schemamodel"></a>
-<a id="schema_Model"></a>
-<a id="tocSmodel"></a>
-<a id="tocsmodel"></a>
+<a id="schemamodeldefinition"></a>
+<a id="schema_ModelDefinition"></a>
+<a id="tocSmodeldefinition"></a>
+<a id="tocsmodeldefinition"></a>
 
 ```yaml
 name: string
@@ -384,7 +384,7 @@ Define a model instance, which belongs to a simulation.
 |---|---|---|---|
 |name|string|true|Name of the model instance.|
 |model|string|true|The model library used by this model instance.|
-|channels|[[Model/properties/channels/items](#schemamodel/properties/channels/items)]|true|Indicates how channels are mapped to the model instance.|
+|channels|[[ModelDefinition/properties/channels/items](#schemamodeldefinition/properties/channels/items)]|true|Indicates how channels are mapped to the model instance.|
 |files|[[File](#schemafile)]|false|List of files used by the model instance.|
 
 <h2 id="tocS_Simulation">Simulation</h2>
