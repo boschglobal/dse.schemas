@@ -68,6 +68,8 @@ components:
                   properties:
                     mq:
                       $ref: '#/components/schemas/MessageQueue'
+        runtime:
+          $ref: '#/components/schemas/StackRuntime'
         models:
           type: array
           items:
@@ -113,10 +115,38 @@ components:
                       name:
                         type: string
                         description: The name of the MCL model.
+        runtime:
+          $ref: '#/components/schemas/ModelInstanceRuntime'
         channels:
           type: array
           items:
             $ref: 'channel.yaml#/components/schemas/Channel'
+    StackRuntime:
+      type: object
+      description: Runtime properties of a Stack.
+      properties:
+        env:
+          type: object
+          description: Environment variables.
+          additionalProperties:
+            type: string
+    ModelInstanceRuntime:
+      type: object
+      description: Runtime properties of a Model Instance.
+      properties:
+        env:
+          type: object
+          description: Environment variables.
+          additionalProperties:
+            type: string
+        files:
+          type: array
+          description: Additional file arguments passed to ModelC.
+          items:
+            type: string
+        x32:
+          type: boolean
+          description: Run Model with 32bit ModelC executable (x32 abi)
     RedisConnection:
       type: object
       description: Redis connection.

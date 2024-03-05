@@ -29,6 +29,10 @@ spec:
       redis:
         uri: string
         timeout: 0
+  runtime:
+    env:
+      property1: string
+      property2: string
   models:
     - name: string
       uid: 0
@@ -41,6 +45,13 @@ spec:
           strategy: string
           models:
             - name: string
+      runtime:
+        env:
+          property1: string
+          property2: string
+        files:
+          - string
+        x32: true
       channels:
         - name: string
           alias: string
@@ -89,6 +100,10 @@ connection:
     redis:
       uri: string
       timeout: 0
+runtime:
+  env:
+    property1: string
+    property2: string
 models:
   - name: string
     uid: 0
@@ -101,6 +116,13 @@ models:
         strategy: string
         models:
           - name: string
+    runtime:
+      env:
+        property1: string
+        property2: string
+      files:
+        - string
+      x32: true
     channels:
       - name: string
         alias: string
@@ -147,6 +169,7 @@ continued
 
 |Name|Type|Required|Description|
 |---|---|---|---|
+|runtime|[StackRuntime](#schemastackruntime)|false|Runtime properties of a Stack.|
 |models|[[ModelInstance](#schemamodelinstance)]|false|[A model instance object.]|
 
 <h2 id="tocS_ModelInstance">ModelInstance</h2>
@@ -168,6 +191,13 @@ model:
     strategy: string
     models:
       - name: string
+runtime:
+  env:
+    property1: string
+    property2: string
+  files:
+    - string
+  x32: true
 channels:
   - name: string
     alias: string
@@ -197,6 +227,7 @@ A model instance object.
 |»» strategy|string|true|none|
 |»» models|[object]|true|A list of models belonging to this MCL.|
 |»»» name|string|true|The name of the MCL model.|
+|runtime|[ModelInstanceRuntime](#schemamodelinstanceruntime)|false|Runtime properties of a Model Instance.|
 |channels|[object]|false|none|
 |» name|string|false|The name of the channel, used when connecting this channel to the SimBus.|
 |» alias|string|false|The alias of the channel, used when the channel name will be determined elsewhere.|
@@ -205,6 +236,57 @@ A model instance object.
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|string|false|none|
+
+<h2 id="tocS_StackRuntime">StackRuntime</h2>
+
+<a id="schemastackruntime"></a>
+<a id="schema_StackRuntime"></a>
+<a id="tocSstackruntime"></a>
+<a id="tocsstackruntime"></a>
+
+```yaml
+env:
+  property1: string
+  property2: string
+
+```
+
+Runtime properties of a Stack.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|env|object|false|Environment variables.|
+|» **additionalProperties**|string|false|none|
+
+<h2 id="tocS_ModelInstanceRuntime">ModelInstanceRuntime</h2>
+
+<a id="schemamodelinstanceruntime"></a>
+<a id="schema_ModelInstanceRuntime"></a>
+<a id="tocSmodelinstanceruntime"></a>
+<a id="tocsmodelinstanceruntime"></a>
+
+```yaml
+env:
+  property1: string
+  property2: string
+files:
+  - string
+x32: true
+
+```
+
+Runtime properties of a Model Instance.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|env|object|false|Environment variables.|
+|» **additionalProperties**|string|false|none|
+|files|[string]|false|Additional file arguments passed to ModelC.|
+|x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi)|
 
 <h2 id="tocS_RedisConnection">RedisConnection</h2>
 

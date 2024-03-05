@@ -24,8 +24,14 @@ type ModelInstance struct {
 		} `yaml:"mcl,omitempty"`
 		Name string `yaml:"name"`
 	} `yaml:"model"`
-	Name string `yaml:"name"`
-	Uid  int    `yaml:"uid"`
+	Name    string                `yaml:"name"`
+	Runtime *ModelInstanceRuntime `yaml:"runtime,omitempty"`
+	Uid     int                   `yaml:"uid"`
+}
+type ModelInstanceRuntime struct {
+	Env   *map[string]string `yaml:"env,omitempty"`
+	Files *[]string          `yaml:"files,omitempty"`
+	X32   *bool              `yaml:"x32,omitempty"`
 }
 type RedisConnection struct {
 	Timeout *int    `yaml:"timeout,omitempty"`
@@ -37,12 +43,16 @@ type Stack struct {
 	Spec     StackSpec       `yaml:"spec"`
 }
 type StackKind string
+type StackRuntime struct {
+	Env *map[string]string `yaml:"env,omitempty"`
+}
 type StackSpec struct {
 	Connection *struct {
 		Timeout   *string                         `yaml:"timeout,omitempty"`
 		Transport *StackSpec_Connection_Transport `yaml:"transport,omitempty"`
 	} `yaml:"connection,omitempty"`
-	Models *[]ModelInstance `yaml:"models,omitempty"`
+	Models  *[]ModelInstance `yaml:"models,omitempty"`
+	Runtime *StackRuntime    `yaml:"runtime,omitempty"`
 }
 type StackSpecConnectionTransport0 struct {
 	Redis RedisConnection `yaml:"redis"`
