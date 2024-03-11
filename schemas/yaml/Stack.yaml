@@ -130,6 +130,9 @@ components:
           description: Environment variables.
           additionalProperties:
             type: string
+        stacked:
+          type: boolean
+          description: Run all Models (of this stack) in a single instance of ModelC.
     ModelInstanceRuntime:
       type: object
       description: Runtime properties of a Model Instance.

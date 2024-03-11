@@ -44,7 +44,8 @@ type Stack struct {
 }
 type StackKind string
 type StackRuntime struct {
-	Env *map[string]string `yaml:"env,omitempty"`
+	Env     *map[string]string `yaml:"env,omitempty"`
+	Stacked *bool              `yaml:"stacked,omitempty"`
 }
 type StackSpec struct {
 	Connection *struct {

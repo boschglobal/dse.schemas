@@ -33,6 +33,7 @@ spec:
     env:
       property1: string
       property2: string
+    stacked: true
   models:
     - name: string
       uid: 0
@@ -104,6 +105,7 @@ runtime:
   env:
     property1: string
     property2: string
+  stacked: true
 models:
   - name: string
     uid: 0
@@ -248,6 +250,7 @@ A model instance object.
 env:
   property1: string
   property2: string
+stacked: true
 
 ```
 
@@ -259,6 +262,7 @@ Runtime properties of a Stack.
 |---|---|---|---|
 |env|object|false|Environment variables.|
 |» **additionalProperties**|string|false|none|
+|stacked|boolean|false|Run all Models (of this stack) in a single instance of ModelC.|
 
 <h2 id="tocS_ModelInstanceRuntime">ModelInstanceRuntime</h2>
 
