@@ -127,14 +127,14 @@ messages:
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|messages|[[Message](#schemamessage)]|true|A list of messages belonging to this Network.|
+|messages|[[NetworkMessage](#schemanetworkmessage)]|true|A list of messages belonging to this Network.|
 
-<h2 id="tocS_Message">Message</h2>
+<h2 id="tocS_NetworkMessage">NetworkMessage</h2>
 
-<a id="schemamessage"></a>
-<a id="schema_Message"></a>
-<a id="tocSmessage"></a>
-<a id="tocsmessage"></a>
+<a id="schemanetworkmessage"></a>
+<a id="schema_NetworkMessage"></a>
+<a id="tocSnetworkmessage"></a>
+<a id="tocsnetworkmessage"></a>
 
 ```yaml
 message: systemStatus
@@ -181,9 +181,7 @@ A Network message definition.
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|string|false|none|
 |signals|[[NetworkSignal](#schemanetworksignal)]|false|A list of signals represented in this message.|
-|functions|object|false|Message functions to be applied to this message.|
-|» encode|[[Function](#schemafunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
-|» decode|[[Function](#schemafunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
+|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
 
 <h2 id="tocS_NetworkSignal">NetworkSignal</h2>
 
@@ -216,14 +214,41 @@ A Network signal definition.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |signal|string|true|The name of the signal.|
-|annotations|[Message/properties/annotations](#schemamessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+|annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 
-<h2 id="tocS_Function">Function</h2>
+<h2 id="tocS_NetworkFunctions">NetworkFunctions</h2>
 
-<a id="schemafunction"></a>
-<a id="schema_Function"></a>
-<a id="tocSfunction"></a>
-<a id="tocsfunction"></a>
+<a id="schemanetworkfunctions"></a>
+<a id="schema_NetworkFunctions"></a>
+<a id="tocSnetworkfunctions"></a>
+<a id="tocsnetworkfunctions"></a>
+
+```yaml
+encode:
+  - &a1
+    function: crc_generate
+    annotations:
+      position: 0
+decode:
+  - *a1
+
+```
+
+Message functions to be applied to this message.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|encode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
+|decode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
+
+<h2 id="tocS_NetworkFunction">NetworkFunction</h2>
+
+<a id="schemanetworkfunction"></a>
+<a id="schema_NetworkFunction"></a>
+<a id="tocSnetworkfunction"></a>
+<a id="tocsnetworkfunction"></a>
 
 ```yaml
 function: crc_generate
@@ -239,7 +264,7 @@ A Network Function definition.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |function|string|true|The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).|
-|annotations|[Message/properties/annotations](#schemamessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+|annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 
 undefined
 

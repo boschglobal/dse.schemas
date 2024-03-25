@@ -99,8 +99,8 @@ components:
           type: array
           description: A list of messages belonging to this Network.
           items:
-            $ref: '#/components/schemas/Message'
-    Message:
+            $ref: '#/components/schemas/NetworkMessage'
+    NetworkMessage:
       type: object
       description: |
         A Network message definition.
@@ -128,19 +128,7 @@ components:
           items:
             $ref: '#/components/schemas/NetworkSignal'
         functions:
-          type: object
-          description: Message functions to be applied to this message.
-          properties:
-            encode:
-              type: array
-              description: Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.
-              items:
-                $ref: '#/components/schemas/Function'
-            decode:
-              type: array
-              description: Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.
-              items:
-                $ref: '#/components/schemas/Function'
+          $ref: '#/components/schemas/NetworkFunctions'
       example:
         message: systemStatus
         annotations:
@@ -190,7 +178,21 @@ components:
           struct_member_name: temperature
           struct_member_offset: 2
           struct_member_primitive_type: int16_t
-    Function:
+    NetworkFunctions:
+      type: object
+      description: Message functions to be applied to this message.
+      properties:
+        encode:
+          type: array
+          description: Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.
+          items:
+            $ref: '#/components/schemas/NetworkFunction'
+        decode:
+          type: array
+          description: Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.
+          items:
+            $ref: '#/components/schemas/NetworkFunction'
+    NetworkFunction:
       type: object
       description: |
         A Network Function definition.
