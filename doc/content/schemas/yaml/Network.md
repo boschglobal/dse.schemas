@@ -80,7 +80,7 @@ A Network definition.
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[NetworkSpec](#schemanetworkspec)|true|none|
 
 #### Enumerated Values
@@ -179,7 +179,7 @@ A Network message definition.
 |---|---|---|---|
 |message|string|true|The name of the message.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|» **additionalProperties**|string|false|none|
+|» **additionalProperties**|any|false|none|
 |signals|[[NetworkSignal](#schemanetworksignal)]|false|A list of signals represented in this message.|
 |functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
 

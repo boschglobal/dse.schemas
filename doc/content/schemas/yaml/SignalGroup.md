@@ -20,14 +20,14 @@ metadata:
     property1: string
     property2: string
   annotations:
-    property1: string
-    property2: string
+    ? property1
+    ? property2
 spec:
   signals:
     - signal: string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
 
 ```
 
@@ -43,7 +43,7 @@ A signal group definition.
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[SignalGroupSpec](#schemasignalgroupspec)|true|none|
 
 #### Enumerated Values
@@ -63,8 +63,8 @@ A signal group definition.
 signals:
   - signal: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 
 ```
 
@@ -84,8 +84,8 @@ signals:
 ```yaml
 signal: string
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 
 ```
 
@@ -97,7 +97,7 @@ A signal definition.
 |---|---|---|---|
 |signal|string|true|The name of the signal.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|» **additionalProperties**|string|false|none|
+|» **additionalProperties**|any|false|none|
 
 undefined
 

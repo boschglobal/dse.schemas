@@ -20,8 +20,8 @@ metadata:
     property1: string
     property2: string
   annotations:
-    property1: string
-    property2: string
+    ? property1
+    ? property2
 spec:
   connection:
     timeout: string
@@ -38,8 +38,8 @@ spec:
     - name: string
       uid: 0
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
       model:
         name: string
         mcl:
@@ -61,8 +61,8 @@ spec:
             property1: string
             property2: string
           annotations:
-            property1: string
-            property2: string
+            ? property1
+            ? property2
 
 ```
 
@@ -78,7 +78,7 @@ A stack definition.
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[StackSpec](#schemastackspec)|true|none|
 
 #### Enumerated Values
@@ -110,8 +110,8 @@ models:
   - name: string
     uid: 0
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
     model:
       name: string
       mcl:
@@ -133,8 +133,8 @@ models:
           property1: string
           property2: string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
 
 ```
 
@@ -185,8 +185,8 @@ continued
 name: string
 uid: 0
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 model:
   name: string
   mcl:
@@ -208,8 +208,8 @@ channels:
       property1: string
       property2: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 
 ```
 
@@ -222,7 +222,7 @@ A model instance object.
 |name|string|true|none|
 |uid|integer|true|none|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|» **additionalProperties**|string|false|none|
+|» **additionalProperties**|any|false|none|
 |model|object|true|none|
 |» name|string|true|none|
 |» mcl|object|false|none|
@@ -237,7 +237,7 @@ A model instance object.
 |» selectors|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 
 <h2 id="tocS_StackRuntime">StackRuntime</h2>
 

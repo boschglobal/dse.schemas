@@ -4,8 +4,8 @@
 
 ###############
 ## Builder Images.
-FLATC_BUILDER_IMAGE ?= flatc-builder:latest
-PYTHON_BUILDER_IMAGE ?= python-builder:latest
+FLATC_BUILDER_IMAGE ?= ghcr.io/boschglobal/dse-flatc-builder:main
+PYTHON_BUILDER_IMAGE ?= ghcr.io/boschglobal/dse-python-builder:main
 
 
 ###############

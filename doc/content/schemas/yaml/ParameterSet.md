@@ -20,15 +20,15 @@ metadata:
     property1: string
     property2: string
   annotations:
-    property1: string
-    property2: string
+    ? property1
+    ? property2
 spec:
   parameters:
     - parameter: string
       value: string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
 
 ```
 
@@ -44,7 +44,7 @@ A parameter_set definition.
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[ParameterSetSpec](#schemaparametersetspec)|true|none|
 
 #### Enumerated Values
@@ -65,8 +65,8 @@ parameters:
   - parameter: string
     value: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 
 ```
 
@@ -87,8 +87,8 @@ parameters:
 parameter: string
 value: string
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 
 ```
 
@@ -101,7 +101,7 @@ A signal parameter definition.
 |parameter|string|true|The name of the parameter.|
 |value|string|false|The value of the parameter.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|» **additionalProperties**|string|false|none|
+|» **additionalProperties**|any|false|none|
 
 undefined
 

@@ -20,8 +20,8 @@ metadata:
     property1: string
     property2: string
   annotations:
-    property1: string
-    property2: string
+    ? property1
+    ? property2
 spec:
   runtime:
     dynlib:
@@ -32,20 +32,20 @@ spec:
         libs:
           - string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
     executable:
       - os: string
         arch: string
         libs:
           - string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
     gateway:
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
     mcl:
       - path: string
         os: string
@@ -54,8 +54,8 @@ spec:
         libs:
           - string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
   channels:
     - name: string
       alias: string
@@ -64,8 +64,8 @@ spec:
         property1: string
         property2: string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
 
 ```
 
@@ -81,7 +81,7 @@ This schema object defines a Model kind. A Model kind is used to define a model 
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[ModelSpec](#schemamodelspec)|true|none|
 
 #### Enumerated Values
@@ -107,20 +107,20 @@ runtime:
       libs:
         - string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
   executable:
     - os: string
       arch: string
       libs:
         - string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
   gateway:
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
   mcl:
     - path: string
       os: string
@@ -129,8 +129,8 @@ runtime:
       libs:
         - string
       annotations:
-        property1: string
-        property2: string
+        ? property1
+        ? property2
 channels:
   - name: string
     alias: string
@@ -139,8 +139,8 @@ channels:
       property1: string
       property2: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 
 ```
 
@@ -160,7 +160,7 @@ channels:
 |» selectors|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 
 <h2 id="tocS_LibrarySpec">LibrarySpec</h2>
 
@@ -177,8 +177,8 @@ variant: string
 libs:
   - string
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 
 ```
 
@@ -195,7 +195,7 @@ The model defined here will be loaded by an appropriate runtime executable, that
 |variant|string|false|Indicate the architecture sub variant of the runtime (e.g. v7)|
 |libs|[string]|false|A list of libraries on which the runtime is dependant.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|» **additionalProperties**|string|false|none|
+|» **additionalProperties**|any|false|none|
 
 <h2 id="tocS_GatewaySpec">GatewaySpec</h2>
 
@@ -206,8 +206,8 @@ The model defined here will be loaded by an appropriate runtime executable, that
 
 ```yaml
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 
 ```
 
@@ -233,8 +233,8 @@ arch: string
 libs:
   - string
 annotations:
-  property1: string
-  property2: string
+  ? property1
+  ? property2
 
 ```
 

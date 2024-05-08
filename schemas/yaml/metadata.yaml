@@ -45,8 +45,7 @@ components:
     Annotations:
       type: object
       description: Non identifying information (i.e. information specific to the object itself).
-      additionalProperties:
-        type: string
+      additionalProperties: {}
     Labels:
       type: object
       description: Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).

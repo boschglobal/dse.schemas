@@ -1,6 +1,6 @@
 package kind
 
-type Annotations map[string]string
+type Annotations map[string]interface{}
 type Labels map[string]string
 type ObjectMetadata struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`

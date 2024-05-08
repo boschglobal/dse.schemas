@@ -20,8 +20,8 @@ metadata:
     property1: string
     property2: string
   annotations:
-    property1: string
-    property2: string
+    ? property1
+    ? property2
 spec:
   repos:
     - name: string
@@ -51,8 +51,8 @@ spec:
             property1: string
             property2: string
           annotations:
-            property1: string
-            property2: string
+            ? property1
+            ? property2
   simulations:
     - name: string
       parameters:
@@ -78,8 +78,8 @@ spec:
                 property1: string
                 property2: string
               annotations:
-                property1: string
-                property2: string
+                ? property1
+                ? property2
           files:
             - name: string
               uri: string
@@ -109,7 +109,7 @@ This schema object defines a Manifest kind. A Manifest kind is used to describe 
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[ManifestSpec](#schemamanifestspec)|true|none|
 
 #### Enumerated Values
@@ -154,8 +154,8 @@ models:
           property1: string
           property2: string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
 simulations:
   - name: string
     parameters:
@@ -181,8 +181,8 @@ simulations:
               property1: string
               property2: string
             annotations:
-              property1: string
-              property2: string
+              ? property1
+              ? property2
         files:
           - name: string
             uri: string
@@ -290,8 +290,8 @@ channels:
       property1: string
       property2: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 
 ```
 
@@ -313,7 +313,7 @@ Define a model library which will be used by the simulation. A model library may
 |» selectors|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 
 <h2 id="tocS_File">File</h2>
 
@@ -364,8 +364,8 @@ channels:
       property1: string
       property2: string
     annotations:
-      property1: string
-      property2: string
+      ? property1
+      ? property2
 files:
   - name: string
     uri: string
@@ -419,8 +419,8 @@ models:
           property1: string
           property2: string
         annotations:
-          property1: string
-          property2: string
+          ? property1
+          ? property2
     files:
       - name: string
         uri: string

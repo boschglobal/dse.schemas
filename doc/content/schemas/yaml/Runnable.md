@@ -50,7 +50,7 @@ A Runnable definition.
 |» labels|object|false|Identifying information used to identify objects within the system (e.g. giving a specific 'label' to an object).|
 |»» **additionalProperties**|string|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
-|»» **additionalProperties**|string|false|none|
+|»» **additionalProperties**|any|false|none|
 |spec|[RunnableSpec](#schemarunnablespec)|true|none|
 
 #### Enumerated Values
