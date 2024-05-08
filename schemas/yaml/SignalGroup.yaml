@@ -54,5 +54,7 @@ components:
         signal:
           type: string
           description: The name of the signal.
+        transform:
+          $ref: 'transform.yaml#/components/schemas/Transform'
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'

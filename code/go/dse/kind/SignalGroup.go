@@ -9,6 +9,7 @@ const (
 type Signal struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Signal      string       `yaml:"signal"`
+	Transform   *Transform   `yaml:"transform,omitempty"`
 }
 type SignalGroup struct {
 	Kind     SignalGroupKind `yaml:"kind"`

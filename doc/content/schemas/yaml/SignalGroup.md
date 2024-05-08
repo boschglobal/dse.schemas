@@ -25,6 +25,10 @@ metadata:
 spec:
   signals:
     - signal: string
+      transform:
+        linear:
+          factor: 0
+          offset: 0
       annotations:
         ? property1
         ? property2
@@ -62,6 +66,10 @@ A signal group definition.
 ```yaml
 signals:
   - signal: string
+    transform:
+      linear:
+        factor: 0
+        offset: 0
     annotations:
       ? property1
       ? property2
@@ -83,6 +91,10 @@ signals:
 
 ```yaml
 signal: string
+transform:
+  linear:
+    factor: 0
+    offset: 0
 annotations:
   ? property1
   ? property2
@@ -96,6 +108,10 @@ A signal definition.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |signal|string|true|The name of the signal.|
+|transform|object|false|A transformation definition.|
+|» linear|object|false|Represents a linear transformation in the form:<br>    f(X) = X * factor + offset.|
+|»» factor|number(double)|true|none|
+|»» offset|number(double)|true|none|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 
