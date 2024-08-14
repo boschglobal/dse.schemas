@@ -31,6 +31,7 @@ type ModelInstance struct {
 type ModelInstanceRuntime struct {
 	Env   *map[string]string `yaml:"env,omitempty"`
 	Files *[]string          `yaml:"files,omitempty"`
+	I386  *bool              `yaml:"i386,omitempty"`
 	X32   *bool              `yaml:"x32,omitempty"`
 }
 type RedisConnection struct {

@@ -150,6 +150,9 @@ components:
         x32:
           type: boolean
           description: Run Model with 32bit ModelC executable (x32 abi)
+        i386:
+          type: boolean
+          description: Run Model with 32bit ModelC executable (i386 abi)
     RedisConnection:
       type: object
       description: Redis connection.

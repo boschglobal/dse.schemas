@@ -53,6 +53,7 @@ spec:
         files:
           - string
         x32: true
+        i386: true
       channels:
         - name: string
           alias: string
@@ -125,6 +126,7 @@ models:
       files:
         - string
       x32: true
+      i386: true
     channels:
       - name: string
         alias: string
@@ -200,6 +202,7 @@ runtime:
   files:
     - string
   x32: true
+  i386: true
 channels:
   - name: string
     alias: string
@@ -278,6 +281,7 @@ env:
 files:
   - string
 x32: true
+i386: true
 
 ```
 
@@ -291,6 +295,7 @@ Runtime properties of a Model Instance.
 |» **additionalProperties**|string|false|none|
 |files|[string]|false|Additional file arguments passed to ModelC.|
 |x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi)|
+|i386|boolean|false|Run Model with 32bit ModelC executable (i386 abi)|
 
 <h2 id="tocS_RedisConnection">RedisConnection</h2>
 
