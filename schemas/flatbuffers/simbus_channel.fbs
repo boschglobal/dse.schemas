@@ -89,6 +89,13 @@ table SignalValue {
 table ModelRegister {
     /// Specify the step_size of the Model.
     step_size:double;
+
+    /// Model UID of the Model sending this message.
+    model_uid:uint;
+
+    /// Notify UID for sending consolidated Notify messages to a single endpoint
+    /// which represents several Model UIDs.
+    notify_uid:uint;
 }
 
 /// ModelReady: Indicate that a Model is ready to start its next execution step.
