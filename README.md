@@ -90,10 +90,20 @@ $ sudo apt install npm
 # widdershins
 $ git clone https://github.com/Mermade/widdershins.git
 $ cd widdershins/
-$ sudo -E npm install -g widdershins```
+$ sudo -E npm install -g widdershins --before=2020-04-01
 
 # swagger-cli
 $ sudo -E npm install -g @apidevtools/swagger-cli
+
+# oapi-codegen
+$ go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
+
+# Audit
+$ npm list -g
+/usr/local/lib
+├── @apidevtools/swagger-cli@4.0.4
+├── nexe@3.0.0
+└── widdershins@4.0.1
 ```
 
 

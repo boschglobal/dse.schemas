@@ -3,27 +3,44 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-KIND_YAML_DIR = ../../../schemas/yaml
-KIND_YAML_FILES = $(shell ls $(KIND_YAML_DIR)/*.yaml)
+YAML_DIR = ../../../schemas/yaml
+KIND_YAML_FILES = $(shell cd $(YAML_DIR); ls *.yaml)
+KIND_YAML_FILES := $(filter-out Simulation.yaml, $(KIND_YAML_FILES))
+KIND_GO_FILES = $(subst .yaml,.go, $(KIND_YAML_FILES))
+KIND_FILES = $(addprefix kind/, $(KIND_GO_FILES))
+AST_FILES = ast/Simulation.go ast/metadata.go
 
 
 .PHONY: generate
-generate: clean kind
+generate: clean kind ast
 
-kind: $(KIND_YAML_FILES)
+
+kind: $(KIND_FILES)
 	@echo "package kind" > kind/kind.go
+kind/%.go: $(YAML_DIR)/%.yaml
+	@echo "$$(basename $<) --> $@"
+	@~/go/bin/oapi-codegen -config $(@D)/config.yaml $< > $@
+	@sed -i '/delete_this_line/d' $@
+	@sed -i '/\/\//d' $@
+	@sed -i '/./!d' $@
+	@sed -i -e 's/externalRef[[:digit:]]*\.//g' $@
+	@sed -i -e 's/`json:"/`yaml:"/g' $@
+	@go fmt $@
 
-.PHONY: $(KIND_YAML_FILES)
-$(KIND_YAML_FILES):
-	@echo $$(basename $@)
-	@~/go/bin/oapi-codegen -config kind/config.yaml $@ > kind/$$(basename $@ .yaml).go
-	@sed -i '/delete_this_line/d' kind/$$(basename $@ .yaml).go
-	@sed -i '/\/\//d' kind/$$(basename $@ .yaml).go
-	@sed -i '/./!d' kind/$$(basename $@ .yaml).go
-	@sed -i -e 's/externalRef[[:digit:]]*\.//g' kind/$$(basename $@ .yaml).go
-	@sed -i -e 's/`json:"/`yaml:"/g' kind/$$(basename $@ .yaml).go
-	@go fmt kind/$$(basename $@ .yaml).go
+ast: $(AST_FILES)
+	@echo "package ast" > ast/ast.go
+ast/%.go: $(YAML_DIR)/%.yaml
+	@echo "$$(basename $<) --> $@"
+	@~/go/bin/oapi-codegen -config $(@D)/config.yaml $< > $@
+	@sed -i '/delete_this_line/d' $@
+	@sed -i '/\/\//d' $@
+	@sed -i '/./!d' $@
+	@sed -i -e 's/externalRef[[:digit:]]*\.//g' $@
+	@sed -i -e 's/`json:"/`yaml:"/g' $@
+	@go fmt $@
+
 
 .PHONY: clean
 clean:
 	@rm -f kind/*.go
+	@rm -f ast/*.go

@@ -142,11 +142,11 @@ dist:
 	@ls -1sh $(DIST_DIR)/*.*
 	@ls -1sh $(PYTHON_DIST_DIR)/dist/*.*
 
-_generate_clean:
+generate_clean:
 	-@rm -rf $(DOC_SCHEMA_YAML_DIR)
 	$(MAKE) -C code/go/dse clean
 
-generate: _generate_clean $(DOC_YAML_SCHEMAS)
+generate_doc:
 	for d in $(DOC_YAML_SCHEMAS) ;\
 	do \
 		swagger-cli validate $$d ;\
@@ -159,7 +159,10 @@ generate: _generate_clean $(DOC_YAML_SCHEMAS)
 	done;
 	cp doc/templates/yaml/_index.md $(DOC_SCHEMA_YAML_DIR)/_index.md
 
+generate_code:
 	$(MAKE) -C code/go/dse generate
+
+generate: generate_clean generate_code $(DOC_YAML_SCHEMAS) generate_doc
 
 test:
 
@@ -173,4 +176,3 @@ clean:
 	-@rm -rf $(DIST_DIR)
 
 .PHONY: default build fbs msgpack python dist dist_package clean $(FBS_SCHEMA_SOURCES) $(MPK_SCHEMA_SOURCES)
-

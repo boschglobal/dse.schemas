@@ -1,0 +1,263 @@
+# Copyright 2023 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: Simulation AST
+  version: 0.0.1
+paths:
+  /Stack:
+    get:
+      responses:
+        '200':
+          description: 'Simulation object array.'
+          content:
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Simulation'
+components:
+  schemas:
+    Simulation:
+      description: |
+        Simulation Abstract Syntax Tree (AST).
+      type: object
+      required:
+        - kind
+        - spec
+      properties:
+        kind:
+          type: string
+          enum:
+            - Simulation
+        metadata:
+          $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
+        spec:
+           $ref: '#/components/schemas/SimulationSpec'
+      example:
+
+        kind: Simulation
+        metadata:
+          name: project
+          annotations:
+            input: somefile.json
+            generator: parse2ast
+        spec:
+          simulation:
+            arch: linux-amd64
+            channels:
+              - name: physical
+              - name: network
+                networks:
+                  - name: CAN
+                    mime_type: application/x
+            uses:
+              - name: model.linear
+                url: https://github.com/boschglobal/dse.fmi
+                version: 1.1.15
+                path: model/linear/path
+            vars:
+              - name: enable
+                value: true
+            stacks:
+              - name: stack_name
+                stacked: true
+                arch: linux-amd64
+                models:
+                  - name: linear
+                    model: model.linear
+                    channels:
+                      - name: physical
+                        alias: scalar
+                    env:
+                      - name: SIMBUS_LOGLEVEL
+                        value: 4
+                    workflows:
+                      - name: generate-fmimcl
+                        vars:
+                          - name: FMU_DIR
+                            value: '{{.PATH}}/fmu'
+
+    SimulationSpec:
+      type: object
+      required:
+        - arch
+        - channels
+        - stacks
+      properties:
+        arch:
+          type: string
+          description: The default system architecture for the simulation.
+          example: linux-amd64
+        channels:
+          type: array
+          description: The list of channels available in this simulation.
+          items:
+            $ref: '#/components/schemas/SimulationChannel'
+        uses:
+          type: array
+          description: The list of uses references to external artifacts or repos.
+          items:
+            $ref: '#/components/schemas/Uses'
+        vars:
+          type: array
+          description: The list of variables available to models in this simulation.
+          items:
+            $ref: '#/components/schemas/Var'
+        stacks:
+          type: array
+          description: The list of stacks contained within this simulation.
+          items:
+            $ref: '#/components/schemas/Stack'
+    SimulationChannel:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of this channel.
+        networks:
+          type: array
+          description: A list of networks associated with a channel.
+          items:
+            $ref: '#/components/schemas/SimulationNetwork'
+    SimulationNetwork:
+      type: object
+      description: A network definition.
+      required:
+        - name
+        - mime_type
+      properties:
+        name:
+          type: string
+          description: The name of the network signal (on the associated channel).
+        mime_type:
+          type: string
+          description: MIME type defining the network.
+    ModelChannel:
+      type: object
+      description: A model <-> simulation channel mapping.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the channel in the simulation.
+        alias:
+          type: string
+          description: The name (alias) of the channel in the model.
+    Uses:
+      type: object
+      description: Defines an external resource used by the simulation.
+      required:
+        - name
+        - url
+      properties:
+        name:
+          type: string
+          description: The name of uses item (to be used for references).
+        url:
+          type: string
+          description: The URL of the uses item.
+        version:
+          type: string
+          description: The tag/version of the uses item.
+        path:
+          type: string
+          description: A sub-path relative to the uses artefact (URL or ZIP file) where the item is located.
+    Var:
+      type: object
+      description: A variable definition.
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: A variable name.
+        value:
+          type: string
+          description: A coresponding variable value.
+    Stack:
+      type: object
+      description: A stack definition which composes one or more models as a logical unit of the simulation.
+      required:
+        - name
+        - models
+      properties:
+        name:
+          type: string
+          description: The name of the stack.
+        arch:
+          type: string
+          description: The architecture of the stack, if different from the simulation default architecture.
+          example: linux-amd64
+        stacked:
+          type: boolean
+          description: Indicate that models in this stack should be run in a 'stacked' configuration (i.e. as a single process).
+        env:
+          type: array
+          description: |
+            Sets environment variables in the runtime of this simulation stack.
+          items:
+            $ref: '#/components/schemas/Var'
+        models:
+          type: array
+          description: The list of models belonging to this simulation stack.
+          items:
+            $ref: '#/components/schemas/Model'
+    Model:
+      type: object
+      required:
+        - name
+        - model
+        - channels
+      properties:
+        name:
+          type: string
+          description: The name of the model in the simulation (i.e. the model instance name).
+        model:
+          type: string
+          description: The name of the model this instance represents.
+        arch:
+          type: string
+          description: The architecture of the model, if different from the stack or simulation default architecture.
+          example: linux-amd64
+        channels:
+          type: array
+          description: An array of model <-> simulaiton channel mappings.
+          items:
+            $ref: '#/components/schemas/ModelChannel'
+        env:
+          type: array
+          description: |
+            Sets environmnet variables in the runtime of this model.
+            Values defined here supersede those set in the simulation stack (of the model).
+          items:
+            $ref: '#/components/schemas/Var'
+        workflows:
+          type: array
+          description: An array of workflows used to construct/process artefacts used by this model instance.
+          items:
+            $ref: '#/components/schemas/Workflow'
+    Workflow:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the workflow.
+        uses:
+          type: string
+          description: If a workflow is located in a different repository than the model, indicate that here.
+        vars:
+          type: array
+          description: |
+            Set  variable values to be used by the workflow.
+          items:
+            $ref: '#/components/schemas/Var'
