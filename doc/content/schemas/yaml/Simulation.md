@@ -100,6 +100,7 @@ uses:
 vars:
   - name: string
     value: string
+    reference: uses
 stacks:
   - name: string
     arch: linux-amd64
@@ -107,6 +108,7 @@ stacks:
     env:
       - name: string
         value: string
+        reference: uses
     models:
       - name: string
         model: string
@@ -117,12 +119,14 @@ stacks:
         env:
           - name: string
             value: string
+            reference: uses
         workflows:
           - name: string
             uses: string
             vars:
               - name: string
                 value: string
+                reference: uses
 
 ```
 
@@ -238,6 +242,7 @@ Defines an external resource used by the simulation.
 ```yaml
 name: string
 value: string
+reference: uses
 
 ```
 
@@ -249,6 +254,13 @@ A variable definition.
 |---|---|---|---|
 |name|string|true|A variable name.|
 |value|string|true|A coresponding variable value.|
+|reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resouce name is specified in the value.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|reference|uses|
 
 <h2 id="tocS_Stack">Stack</h2>
 
@@ -264,6 +276,7 @@ stacked: true
 env:
   - name: string
     value: string
+    reference: uses
 models:
   - name: string
     model: string
@@ -274,12 +287,14 @@ models:
     env:
       - name: string
         value: string
+        reference: uses
     workflows:
       - name: string
         uses: string
         vars:
           - name: string
             value: string
+            reference: uses
 
 ```
 
@@ -312,12 +327,14 @@ channels:
 env:
   - name: string
     value: string
+    reference: uses
 workflows:
   - name: string
     uses: string
     vars:
       - name: string
         value: string
+        reference: uses
 
 ```
 
@@ -345,6 +362,7 @@ uses: string
 vars:
   - name: string
     value: string
+    reference: uses
 
 ```
 

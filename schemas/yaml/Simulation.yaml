@@ -182,6 +182,11 @@ components:
         value:
           type: string
           description: A coresponding variable value.
+        reference:
+          type: string
+          description: This value is derived from the specified reference (e.g. a downloaded file) The resouce name is specified in the value.
+          enum:
+            - uses
     Stack:
       type: object
       description: A stack definition which composes one or more models as a logical unit of the simulation.

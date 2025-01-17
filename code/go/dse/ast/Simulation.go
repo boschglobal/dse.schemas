@@ -5,6 +5,9 @@ import ()
 const (
 	SimulationKindSimulation SimulationKind = "Simulation"
 )
+const (
+	VarReferenceUses VarReference = "uses"
+)
 
 type Model struct {
 	Arch      *string        `yaml:"arch,omitempty"`
@@ -53,9 +56,11 @@ type Uses struct {
 	Version *string `yaml:"version,omitempty"`
 }
 type Var struct {
-	Name  string `yaml:"name"`
-	Value string `yaml:"value"`
+	Name      string        `yaml:"name"`
+	Reference *VarReference `yaml:"reference,omitempty"`
+	Value     string        `yaml:"value"`
 }
+type VarReference string
 type Workflow struct {
 	Name string  `yaml:"name"`
 	Uses *string `yaml:"uses,omitempty"`
