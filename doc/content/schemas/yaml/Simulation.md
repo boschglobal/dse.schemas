@@ -204,7 +204,7 @@ A model <-> simulation channel mapping.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |name|string|true|The name of the channel in the simulation.|
-|alias|string|false|The name (alias) of the channel in the model.|
+|alias|string|true|The name (alias) of the channel in the model.|
 
 <h2 id="tocS_Uses">Uses</h2>
 

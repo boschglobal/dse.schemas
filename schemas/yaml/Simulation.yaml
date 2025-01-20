@@ -143,6 +143,7 @@ components:
       description: A model <-> simulation channel mapping.
       required:
         - name
+        - alias
       properties:
         name:
           type: string

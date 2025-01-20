@@ -18,8 +18,8 @@ type Model struct {
 	Workflows *[]Workflow    `yaml:"workflows,omitempty"`
 }
 type ModelChannel struct {
-	Alias *string `yaml:"alias,omitempty"`
-	Name  string  `yaml:"name"`
+	Alias string `yaml:"alias"`
+	Name  string `yaml:"name"`
 }
 type Simulation struct {
 	Kind     SimulationKind  `yaml:"kind"`
