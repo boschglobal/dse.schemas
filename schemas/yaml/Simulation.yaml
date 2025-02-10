@@ -182,10 +182,10 @@ components:
           description: A variable name.
         value:
           type: string
-          description: A coresponding variable value.
+          description: A corresponding variable value.
         reference:
           type: string
-          description: This value is derived from the specified reference (e.g. a downloaded file) The resouce name is specified in the value.
+          description: This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.
           enum:
             - uses
     Stack:
@@ -221,6 +221,7 @@ components:
       required:
         - name
         - model
+        - uses
         - channels
       properties:
         name:
@@ -228,26 +229,38 @@ components:
           description: The name of the model in the simulation (i.e. the model instance name).
         model:
           type: string
-          description: The name of the model this instance represents.
+          description: The name of the model this instance represents (as named in the associated repository metadata).
+        uses:
+          type: string
+          description: Name of the uses item that represents the implementation of the model.
+        metadata:
+          type: object
+          description: Additional data relating to the model implementation (e.g. package layout details).
+          additionalProperties: {}
         arch:
           type: string
           description: The architecture of the model, if different from the stack or simulation default architecture.
           example: linux-amd64
         channels:
           type: array
-          description: An array of model <-> simulaiton channel mappings.
+          description: An array of model <-> simulation channel mappings.
           items:
             $ref: '#/components/schemas/ModelChannel'
+        files:
+          type: array
+          description: An array of file paths which should be combined with the model deployment.
+          items:
+            type: string
         env:
           type: array
           description: |
-            Sets environmnet variables in the runtime of this model.
+            Sets environment variables in the runtime of this model.
             Values defined here supersede those set in the simulation stack (of the model).
           items:
             $ref: '#/components/schemas/Var'
         workflows:
           type: array
-          description: An array of workflows used to construct/process artefacts used by this model instance.
+          description: An array of workflows used to construct/process artifacts used by this model instance.
           items:
             $ref: '#/components/schemas/Workflow'
     Workflow:

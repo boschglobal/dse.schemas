@@ -112,10 +112,16 @@ stacks:
     models:
       - name: string
         model: string
+        uses: string
+        metadata:
+          ? property1
+          ? property2
         arch: linux-amd64
         channels:
           - name: string
             alias: string
+        files:
+          - string
         env:
           - name: string
             value: string
@@ -280,10 +286,16 @@ env:
 models:
   - name: string
     model: string
+    uses: string
+    metadata:
+      ? property1
+      ? property2
     arch: linux-amd64
     channels:
       - name: string
         alias: string
+    files:
+      - string
     env:
       - name: string
         value: string
@@ -320,10 +332,16 @@ A stack definition which composes one or more models as a logical unit of the si
 ```yaml
 name: string
 model: string
+uses: string
+metadata:
+  ? property1
+  ? property2
 arch: linux-amd64
 channels:
   - name: string
     alias: string
+files:
+  - string
 env:
   - name: string
     value: string
@@ -343,11 +361,15 @@ workflows:
 |Name|Type|Required|Description|
 |---|---|---|---|
 |name|string|true|The name of the model in the simulation (i.e. the model instance name).|
-|model|string|true|The name of the model this instance represents.|
+|model|string|true|The name of the model this instance represents (as named in the associated repository metadata).|
+|uses|string|true|Name of the uses item that represents the implementation of the model.|
+|metadata|object|false|Additional data relating to the model implementation (e.g. package layout details).|
+|» **additionalProperties**|any|false|none|
 |arch|string|false|The architecture of the model, if different from the stack or simulation default architecture.|
-|channels|[[ModelChannel](#schemamodelchannel)]|true|An array of model <-> simulaiton channel mappings.|
-|env|[[Var](#schemavar)]|false|Sets environmnet variables in the runtime of this model.<br>Values defined here supersede those set in the simulation stack (of the model).|
-|workflows|[[Workflow](#schemaworkflow)]|false|An array of workflows used to construct/process artefacts used by this model instance.|
+|channels|[[ModelChannel](#schemamodelchannel)]|true|An array of model <-> simulation channel mappings.|
+|files|[string]|false|An array of file paths which should be combined with the model deployment.|
+|env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this model.<br>Values defined here supersede those set in the simulation stack (of the model).|
+|workflows|[[Workflow](#schemaworkflow)]|false|An array of workflows used to construct/process artifacts used by this model instance.|
 
 <h2 id="tocS_Workflow">Workflow</h2>
 
