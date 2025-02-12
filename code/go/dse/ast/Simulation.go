@@ -53,10 +53,11 @@ type Stack struct {
 	Stacked *bool   `yaml:"stacked,omitempty"`
 }
 type Uses struct {
-	Name    string  `yaml:"name"`
-	Path    *string `yaml:"path,omitempty"`
-	Url     string  `yaml:"url"`
-	Version *string `yaml:"version,omitempty"`
+	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`
+	Name     string                  `yaml:"name"`
+	Path     *string                 `yaml:"path,omitempty"`
+	Url      string                  `yaml:"url"`
+	Version  *string                 `yaml:"version,omitempty"`
 }
 type Var struct {
 	Name      string        `yaml:"name"`

@@ -97,6 +97,9 @@ uses:
     url: string
     version: string
     path: string
+    metadata:
+      ? property1
+      ? property2
 vars:
   - name: string
     value: string
@@ -224,6 +227,9 @@ name: string
 url: string
 version: string
 path: string
+metadata:
+  ? property1
+  ? property2
 
 ```
 
@@ -234,9 +240,11 @@ Defines an external resource used by the simulation.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |name|string|true|The name of uses item (to be used for references).|
-|url|string|true|The URL of the uses item.|
+|url|string|true|The URL of the uses item (repository or artefact).|
 |version|string|false|The tag/version of the uses item.|
 |path|string|false|A sub-path relative to the uses artefact (URL or ZIP file) where the item is located.|
+|metadata|object|false|Additional data relating to the uses item (e.g. container details).|
+|» **additionalProperties**|any|false|none|
 
 <h2 id="tocS_Var">Var</h2>
 
@@ -259,8 +267,8 @@ A variable definition.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |name|string|true|A variable name.|
-|value|string|true|A coresponding variable value.|
-|reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resouce name is specified in the value.|
+|value|string|true|A corresponding variable value.|
+|reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.|
 
 #### Enumerated Values
 

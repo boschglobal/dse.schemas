@@ -163,13 +163,17 @@ components:
           description: The name of uses item (to be used for references).
         url:
           type: string
-          description: The URL of the uses item.
+          description: The URL of the uses item (repository or artefact).
         version:
           type: string
           description: The tag/version of the uses item.
         path:
           type: string
           description: A sub-path relative to the uses artefact (URL or ZIP file) where the item is located.
+        metadata:
+          type: object
+          description: Additional data relating to the uses item (e.g. container details).
+          additionalProperties: {}
     Var:
       type: object
       description: A variable definition.
