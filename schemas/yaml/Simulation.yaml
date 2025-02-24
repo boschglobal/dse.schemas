@@ -192,6 +192,24 @@ components:
           description: This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.
           enum:
             - uses
+    File:
+      type: object
+      description: A file definition.
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: Name of the file (to be placed in the data folder of a model) or a relative path of the file (i.e. relative to the Model defining the file).
+        value:
+          type: string
+          description: A corresponding file value, interpret as a 'uses' reference or a local file path.
+        reference:
+          type: string
+          description: This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.
+          enum:
+            - uses
     Stack:
       type: object
       description: A stack definition which composes one or more models as a logical unit of the simulation.
@@ -252,9 +270,12 @@ components:
             $ref: '#/components/schemas/ModelChannel'
         files:
           type: array
-          description: An array of file paths which should be combined with the model deployment.
+          description: |
+            An array of files to be combined with the model deployment. Files specified without a path are placed
+            in the model data folder (i.e. 'sim/<model>/data'), otherwise the file is placed relative to the
+            model folder.
           items:
-            type: string
+            $ref: '#/components/schemas/File'
         env:
           type: array
           description: |
@@ -281,6 +302,6 @@ components:
         vars:
           type: array
           description: |
-            Set  variable values to be used by the workflow.
+            Set variable values to be used by the workflow.
           items:
             $ref: '#/components/schemas/Var'

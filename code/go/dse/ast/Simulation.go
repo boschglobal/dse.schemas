@@ -3,17 +3,26 @@ package ast
 import ()
 
 const (
+	FileReferenceUses FileReference = "uses"
+)
+const (
 	SimulationKindSimulation SimulationKind = "Simulation"
 )
 const (
 	VarReferenceUses VarReference = "uses"
 )
 
+type File struct {
+	Name      string         `yaml:"name"`
+	Reference *FileReference `yaml:"reference,omitempty"`
+	Value     string         `yaml:"value"`
+}
+type FileReference string
 type Model struct {
 	Arch      *string                 `yaml:"arch,omitempty"`
 	Channels  []ModelChannel          `yaml:"channels"`
 	Env       *[]Var                  `yaml:"env,omitempty"`
-	Files     *[]string               `yaml:"files,omitempty"`
+	Files     *[]File                 `yaml:"files,omitempty"`
 	Metadata  *map[string]interface{} `yaml:"metadata,omitempty"`
 	Model     string                  `yaml:"model"`
 	Name      string                  `yaml:"name"`

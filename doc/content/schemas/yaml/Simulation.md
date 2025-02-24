@@ -124,7 +124,9 @@ stacks:
           - name: string
             alias: string
         files:
-          - string
+          - name: string
+            value: string
+            reference: uses
         env:
           - name: string
             value: string
@@ -276,6 +278,36 @@ A variable definition.
 |---|---|
 |reference|uses|
 
+<h2 id="tocS_File">File</h2>
+
+<a id="schemafile"></a>
+<a id="schema_File"></a>
+<a id="tocSfile"></a>
+<a id="tocsfile"></a>
+
+```yaml
+name: string
+value: string
+reference: uses
+
+```
+
+A file definition.
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|name|string|true|Name of the file (to be placed in the data folder of a model) or a relative path of the file (i.e. relative to the Model defining the file).|
+|value|string|true|A corresponding file value, interpret as a 'uses' reference or a local file path.|
+|reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|reference|uses|
+
 <h2 id="tocS_Stack">Stack</h2>
 
 <a id="schemastack"></a>
@@ -303,7 +335,9 @@ models:
       - name: string
         alias: string
     files:
-      - string
+      - name: string
+        value: string
+        reference: uses
     env:
       - name: string
         value: string
@@ -349,7 +383,9 @@ channels:
   - name: string
     alias: string
 files:
-  - string
+  - name: string
+    value: string
+    reference: uses
 env:
   - name: string
     value: string
@@ -375,7 +411,7 @@ workflows:
 |» **additionalProperties**|any|false|none|
 |arch|string|false|The architecture of the model, if different from the stack or simulation default architecture.|
 |channels|[[ModelChannel](#schemamodelchannel)]|true|An array of model <-> simulation channel mappings.|
-|files|[string]|false|An array of file paths which should be combined with the model deployment.|
+|files|[[File](#schemafile)]|false|An array of files to be combined with the model deployment. Files specified without a path are placed<br>in the model data folder (i.e. 'sim/<model>/data'), otherwise the file is placed relative to the<br>model folder.|
 |env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this model.<br>Values defined here supersede those set in the simulation stack (of the model).|
 |workflows|[[Workflow](#schemaworkflow)]|false|An array of workflows used to construct/process artifacts used by this model instance.|
 
@@ -402,7 +438,7 @@ vars:
 |---|---|---|---|
 |name|string|true|The name of the workflow.|
 |uses|string|false|If a workflow is located in a different repository than the model, indicate that here.|
-|vars|[[Var](#schemavar)]|false|Set  variable values to be used by the workflow.|
+|vars|[[Var](#schemavar)]|false|Set variable values to be used by the workflow.|
 
 undefined
 
