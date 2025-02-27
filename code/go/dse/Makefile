@@ -9,10 +9,10 @@ KIND_YAML_FILES := $(filter-out Simulation.yaml, $(KIND_YAML_FILES))
 KIND_GO_FILES = $(subst .yaml,.go, $(KIND_YAML_FILES))
 KIND_FILES = $(addprefix kind/, $(KIND_GO_FILES))
 AST_FILES = ast/Simulation.go ast/metadata.go
-
+PATCH_FILES = patch/marshal_yaml.patch
 
 .PHONY: generate
-generate: clean kind ast
+generate: clean kind ast patch
 
 
 kind: $(KIND_FILES)
@@ -39,6 +39,11 @@ ast/%.go: $(YAML_DIR)/%.yaml
 	@sed -i -e 's/`json:"/`yaml:"/g' $@
 	@go fmt $@
 
+.PHONY: $(PATCH_FILES)
+patch: $(PATCH_FILES)
+$(PATCH_FILES):
+	@echo "Apply Patch: $@ --> "
+	@git apply $@
 
 .PHONY: clean
 clean:

@@ -2,6 +2,8 @@ package kind
 
 import (
 	"encoding/json"
+	"strings"
+
 	"github.com/oapi-codegen/runtime"
 )
 
@@ -134,4 +136,11 @@ func (t StackSpec_Connection_Transport) MarshalJSON() ([]byte, error) {
 func (t *StackSpec_Connection_Transport) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
+}
+func (t StackSpec_Connection_Transport) MarshalYAML() (interface{}, error) {
+	b, err := t.union.MarshalJSON()
+	b = []byte(strings.ToLower(string(b)))
+	r := make(map[string]interface{})
+	json.Unmarshal(b, &r)
+	return r, err
 }

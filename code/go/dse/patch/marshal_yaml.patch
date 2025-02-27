@@ -1,0 +1,24 @@
+diff --git a/code/go/dse/kind/Stack.go b/code/go/dse/kind/Stack.go
+index 2022842..d3b0fb8 100644
+--- a/code/go/dse/kind/Stack.go
++++ b/code/go/dse/kind/Stack.go
+@@ -2,6 +2,8 @@ package kind
+
+ import (
+ 	"encoding/json"
++	"strings"
++
+ 	"github.com/oapi-codegen/runtime"
+ )
+
+@@ -135,3 +137,10 @@ func (t *StackSpec_Connection_Transport) UnmarshalJSON(b []byte) error {
+ 	err := t.union.UnmarshalJSON(b)
+ 	return err
+ }
++func (t StackSpec_Connection_Transport) MarshalYAML() (interface{}, error) {
++	b, err := t.union.MarshalJSON()
++	b = []byte(strings.ToLower(string(b)))
++	r := make(map[string]interface{})
++	json.Unmarshal(b, &r)
++	return r, err
++}
