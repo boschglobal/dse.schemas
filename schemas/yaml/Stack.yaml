@@ -147,6 +147,11 @@ components:
           description: Additional file arguments passed to ModelC.
           items:
             type: string
+        paths:
+          type: array
+          description: Paths to scan for additional (YAML) files, subsequently passed as arguments ModelC.
+          items:
+            type: string
         x32:
           type: boolean
           description: Run Model with 32bit ModelC executable (x32 abi)

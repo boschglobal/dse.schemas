@@ -52,6 +52,8 @@ spec:
           property2: string
         files:
           - string
+        paths:
+          - string
         x32: true
         i386: true
       channels:
@@ -124,6 +126,8 @@ models:
         property1: string
         property2: string
       files:
+        - string
+      paths:
         - string
       x32: true
       i386: true
@@ -200,6 +204,8 @@ runtime:
     property1: string
     property2: string
   files:
+    - string
+  paths:
     - string
   x32: true
   i386: true
@@ -280,6 +286,8 @@ env:
   property2: string
 files:
   - string
+paths:
+  - string
 x32: true
 i386: true
 
@@ -294,6 +302,7 @@ Runtime properties of a Model Instance.
 |env|object|false|Environment variables.|
 |» **additionalProperties**|string|false|none|
 |files|[string]|false|Additional file arguments passed to ModelC.|
+|paths|[string]|false|Paths to scan for additional (YAML) files, subsequently passed as arguments ModelC.|
 |x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi)|
 |i386|boolean|false|Run Model with 32bit ModelC executable (i386 abi)|
 
