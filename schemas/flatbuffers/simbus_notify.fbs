@@ -18,14 +18,22 @@ namespace dse.schemas.fbs.notify;
     Signal Vectors
     ==============
 
+    Signal Vectors containing scalar/numbers should be represented in
+    native FBS vectors. Binary Signals must be represented in MsgPack
+    encoded Signal Data.
+
+
+    MsgPack Notes
+    -------------
+
     MsgPack encoded Signal Data:
         Data = [
             [0..N], // (uint) Signal UID (mandatory)
             [0..N], // (number/binary) Signal Value (optional)
         ]
 
-    Signal Vectors can be encoded with any MsgPack numeric type (e.g. Integer
-    or Float) or as a MsgPack binary type (e.g hin format).
+    MsgPack encoded Signal Vectors can be encoded with any MsgPack numeric
+    type (e.g. Integer or Float) or as a MsgPack binary type (e.g bin format).
 */
 
 table SignalVector {
@@ -37,6 +45,12 @@ table SignalVector {
 
     /// MsgPack encoded Signal Data.
     data:[ubyte];
+
+    /// Vector encoded Signal UIDs [0..N].
+    signal_uid:[uint32];
+
+    /// Vector encoded Signal Value (scalar) [0..N].
+    signal_value:[double];
 }
 
 
