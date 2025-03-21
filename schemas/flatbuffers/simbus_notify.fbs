@@ -36,6 +36,14 @@ namespace dse.schemas.fbs.notify;
     type (e.g. Integer or Float) or as a MsgPack binary type (e.g bin format).
 */
 
+struct Signal {
+    /// Signal UID.
+    uid:uint32;
+
+    /// Signal Value (scalar).
+    value:double;
+}
+
 table SignalVector {
     /// The name of the Signal Vector / Channel.
     name:string;
@@ -46,11 +54,8 @@ table SignalVector {
     /// MsgPack encoded Signal Data.
     data:[ubyte];
 
-    /// Vector encoded Signal UIDs [0..N].
-    signal_uid:[uint32];
-
-    /// Vector encoded Signal Value (scalar) [0..N].
-    signal_value:[double];
+    /// Vector encoded Signals (scalar).
+    signal:[Signal];
 }
 
 
