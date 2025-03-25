@@ -34,6 +34,7 @@ spec:
       property1: string
       property2: string
     stacked: true
+    sequential: true
   models:
     - name: string
       uid: 0
@@ -109,6 +110,7 @@ runtime:
     property1: string
     property2: string
   stacked: true
+  sequential: true
 models:
   - name: string
     uid: 0
@@ -260,6 +262,7 @@ env:
   property1: string
   property2: string
 stacked: true
+sequential: true
 
 ```
 
@@ -272,6 +275,7 @@ Runtime properties of a Stack.
 |env|object|false|Environment variables.|
 |» **additionalProperties**|string|false|none|
 |stacked|boolean|false|Run all Models (of this stack) in a single instance of ModelC.|
+|sequential|boolean|false|Run the Models in this Stack as a Sequential Co-Simulation. All Models run in a single instance of ModelC (i.e. setting `stacked` is implicitly selected).|
 
 <h2 id="tocS_ModelInstanceRuntime">ModelInstanceRuntime</h2>
 

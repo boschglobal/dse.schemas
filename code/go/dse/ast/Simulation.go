@@ -65,7 +65,9 @@ type Uses struct {
 	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`
 	Name     string                  `yaml:"name"`
 	Path     *string                 `yaml:"path,omitempty"`
+	Token    *string                 `yaml:"token,omitempty"`
 	Url      string                  `yaml:"url"`
+	User     *string                 `yaml:"user,omitempty"`
 	Version  *string                 `yaml:"version,omitempty"`
 }
 type Var struct {

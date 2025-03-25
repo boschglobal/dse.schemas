@@ -133,6 +133,9 @@ components:
         stacked:
           type: boolean
           description: Run all Models (of this stack) in a single instance of ModelC.
+        sequential:
+          type: boolean
+          description: Run the Models in this Stack as a Sequential Co-Simulation. All Models run in a single instance of ModelC (i.e. setting `stacked` is implicitly selected).
     ModelInstanceRuntime:
       type: object
       description: Runtime properties of a Model Instance.

@@ -172,10 +172,10 @@ components:
           description: A sub-path relative to the uses artefact (URL or ZIP file) where the item is located.
         user:
           type: string
-          description: Username for resources which require authentication (typically an environment variable: `$SOME_USER`).
+          description: "Username for resources which require authentication (typically an environment variable: `$SOME_USER`)."
         token:
           type: string
-          description: Token for resources which require authentication (typically an environment variable: `$SOME_TOKEN`).
+          description: "Token for resources which require authentication (typically an environment variable: `$SOME_TOKEN`)."
         metadata:
           type: object
           description: Additional data relating to the uses item (e.g. container details).

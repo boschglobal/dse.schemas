@@ -97,6 +97,8 @@ uses:
     url: string
     version: string
     path: string
+    user: string
+    token: string
     metadata:
       ? property1
       ? property2
@@ -229,6 +231,8 @@ name: string
 url: string
 version: string
 path: string
+user: string
+token: string
 metadata:
   ? property1
   ? property2
@@ -245,6 +249,8 @@ Defines an external resource used by the simulation.
 |url|string|true|The URL of the uses item (repository or artefact).|
 |version|string|false|The tag/version of the uses item.|
 |path|string|false|A sub-path relative to the uses artefact (URL or ZIP file) where the item is located.|
+|user|string|false|Username for resources which require authentication (typically an environment variable: `$SOME_USER`).|
+|token|string|false|Token for resources which require authentication (typically an environment variable: `$SOME_TOKEN`).|
 |metadata|object|false|Additional data relating to the uses item (e.g. container details).|
 |» **additionalProperties**|any|false|none|
 
