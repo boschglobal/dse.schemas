@@ -233,6 +233,9 @@ components:
         stacked:
           type: boolean
           description: Indicate that models in this stack should be run in a 'stacked' configuration (i.e. as a single process).
+        sequential:
+          type: boolean
+          description: Indicate that models in this stack should be run as a Sequential Co-Simulation.
         env:
           type: array
           description: |
