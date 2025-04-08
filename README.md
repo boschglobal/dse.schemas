@@ -87,16 +87,29 @@ The generate make target requires some tools which may be installed as follows:
 ```bash
 $ sudo apt install npm
 
+or
+
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+$ export NVM_DIR="$HOME/.nvm"
+$ [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+$ nvm ls-remote
+$ nvm install 18
+$ nvm use 18
+$ sudo chown -R $USER:$(id -gn $USER) /home/XYZ/package-lock.json
+
 # widdershins
 $ git clone https://github.com/Mermade/widdershins.git
 $ cd widdershins/
-$ sudo -E npm install -g widdershins --before=2020-04-01
+$ npm install -g widdershins --before=2020-04-01
 
 # swagger-cli
-$ sudo -E npm install -g @apidevtools/swagger-cli
+$ npm install -g @apidevtools/swagger-cli
 
 # oapi-codegen
 $ go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
+
+# json-schema-to-openapi-schema
+$ npm install -g @openapi-contrib/json-schema-to-openapi-schema
 
 # Audit
 $ npm list -g

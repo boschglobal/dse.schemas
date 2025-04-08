@@ -110,6 +110,7 @@ stacks:
   - name: string
     arch: linux-amd64
     stacked: true
+    sequential: true
     env:
       - name: string
         value: string
@@ -325,6 +326,7 @@ A file definition.
 name: string
 arch: linux-amd64
 stacked: true
+sequential: true
 env:
   - name: string
     value: string
@@ -367,6 +369,7 @@ A stack definition which composes one or more models as a logical unit of the si
 |name|string|true|The name of the stack.|
 |arch|string|false|The architecture of the stack, if different from the simulation default architecture.|
 |stacked|boolean|false|Indicate that models in this stack should be run in a 'stacked' configuration (i.e. as a single process).|
+|sequential|boolean|false|Indicate that models in this stack should be run as a Sequential Co-Simulation.|
 |env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this simulation stack.|
 |models|[[Model](#schemamodel)]|true|The list of models belonging to this simulation stack.|
 

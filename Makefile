@@ -44,6 +44,8 @@ MPK_SCHEMA_SOURCES = $(shell ls $(MPK_SCHEMA_DIR)/*.yaml)
 # Python (for creating a Python Package)
 PYTHON_SRC_DIR = $(FBS_OUT_DIR)/python
 PYTHON_DIST_DIR = $(DIST_DIR)/python
+# FBS JSON SCHEMA
+FBS_JSON_SCHEMA_DIR = $(shell pwd -P)/dist/dse-schemas/flatbuffers/jsonschema
 # YAML
 YAML_SCHEMA_DIR = $(shell pwd -P)/schemas/yaml
 
@@ -51,6 +53,8 @@ YAML_SCHEMA_DIR = $(shell pwd -P)/schemas/yaml
 ###############
 ## Generate options
 DOC_SCHEMA_DIR = $(shell pwd -P)/doc/content/schemas
+DOC_SCHEMA_FBS_DIR = $(DOC_SCHEMA_DIR)/fbs
+DOC_FBS_SCHEMAS = $(shell ls $(FBS_JSON_SCHEMA_DIR)/*.yaml)
 DOC_SCHEMA_YAML_DIR = $(DOC_SCHEMA_DIR)/yaml
 DOC_YAML_SCHEMAS = $(shell ls $(YAML_SCHEMA_DIR)/[A-Z]*.yaml) $(shell ls $(MPK_SCHEMA_DIR)/[A-Z]*.yaml)
 
@@ -88,6 +92,7 @@ $(FBS_SCHEMA_SOURCES):
 	mkdir -p $(FBS_OUT_DIR)/fbs/$$(basename $$(dirname $@))
 	mkdir -p $(FBS_OUT_DIR)/go
 	mkdir -p $(FBS_OUT_DIR)/lua
+	mkdir -p $(FBS_OUT_DIR)/jsonschema
 
 	# Generate Flatbuffers code.
 	$(FLATCC) -a $(FLATC_OPTIONS) -o $(FBS_OUT_DIR)/c/$(SCHEMA_LIB)/$$(basename $$(dirname $@)) $@
@@ -95,6 +100,8 @@ $(FBS_SCHEMA_SOURCES):
 	cd $(FBS_OUT_DIR)/go; $(FLATC) --go $(FLATC_OPTIONS) $@
 	$(FLATC) --python $(FLATC_OPTIONS) -o $(FBS_OUT_DIR)/python $@
 	cd $(FBS_OUT_DIR)/lua; $(FLATC) --lua $(FLATC_OPTIONS) $@
+	cd $(FBS_OUT_DIR)/jsonschema; $(FLATC) --jsonschema $(FLATC_OPTIONS) $@
+
 	# Copy over the original Flatbuffer schemas.
 	cp $@ $(FBS_OUT_DIR)/fbs/$$(basename $$(dirname $@))
 
@@ -146,7 +153,21 @@ generate_clean:
 	-@rm -rf $(DOC_SCHEMA_YAML_DIR)
 	$(MAKE) -C code/go/dse clean
 
-generate_doc:
+# NOTE FBS doc generation is not working.
+generate_doc_fbs:
+	for d in $(DOC_FBS_SCHEMAS) ;\
+	do \
+		swagger-cli validate $$d ;\
+		mkdir -p $(DOC_SCHEMA_FBS_DIR) ;\
+		widdershins --environment doc/templates/__doc_opts__.json $$d -o $(DOC_SCHEMA_FBS_DIR)/$$(basename $$d .yaml).md ;\
+		sed -i "1s;^;---\n;" $(DOC_SCHEMA_FBS_DIR)/$$(basename $$d .yaml).md ;\
+		sed -i "1s;^;linkTitle: \"$$(basename $$d .yaml)\"\n;" $(DOC_SCHEMA_FBS_DIR)/$$(basename $$d .yaml).md ;\
+		sed -i "1s;^;title: \"Schema: $$(basename $$d .yaml)\"\n;" $(DOC_SCHEMA_FBS_DIR)/$$(basename $$d .yaml).md ;\
+		sed -i '1s;^;---\n;' $(DOC_SCHEMA_FBS_DIR)/$$(basename S$$d .yaml).md ;\
+	done;
+	cp doc/templates/fbs/_index.md $(DOC_SCHEMA_FBS_DIR)/_index.md
+
+generate_doc_yaml:
 	for d in $(DOC_YAML_SCHEMAS) ;\
 	do \
 		swagger-cli validate $$d ;\
@@ -158,6 +179,8 @@ generate_doc:
 		sed -i '1s;^;---\n;' $(DOC_SCHEMA_YAML_DIR)/$$(basename S$$d .yaml).md ;\
 	done;
 	cp doc/templates/yaml/_index.md $(DOC_SCHEMA_YAML_DIR)/_index.md
+
+generate_doc: generate_doc_yaml
 
 generate_code:
 	$(MAKE) -C code/go/dse generate

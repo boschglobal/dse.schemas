@@ -55,11 +55,12 @@ type SimulationSpec struct {
 	Vars     *[]Var              `yaml:"vars,omitempty"`
 }
 type Stack struct {
-	Arch    *string `yaml:"arch,omitempty"`
-	Env     *[]Var  `yaml:"env,omitempty"`
-	Models  []Model `yaml:"models"`
-	Name    string  `yaml:"name"`
-	Stacked *bool   `yaml:"stacked,omitempty"`
+	Arch       *string `yaml:"arch,omitempty"`
+	Env        *[]Var  `yaml:"env,omitempty"`
+	Models     []Model `yaml:"models"`
+	Name       string  `yaml:"name"`
+	Sequential *bool   `yaml:"sequential,omitempty"`
+	Stacked    *bool   `yaml:"stacked,omitempty"`
 }
 type Uses struct {
 	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`

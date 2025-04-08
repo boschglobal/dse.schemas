@@ -182,6 +182,9 @@ table ChannelMessage {
     /// The value indicates the number of message to collect (the default
     /// value of 0 infers a value of 1).
     part_of:int;
+
+    /// Channel Name this message is sent on (informational only).
+    channel_name:string;
 }
 
 /// All messages sent on a Channel Endpoint are expected to be a ChannelMessage.
