@@ -48,6 +48,8 @@ components:
         spec:
           simulation:
             arch: linux-amd64
+            stepsize: 0.0005
+            endtime: 0.2
             channels:
               - name: physical
               - name: network
@@ -92,6 +94,16 @@ components:
           type: string
           description: The default system architecture for the simulation.
           example: linux-amd64
+        stepsize:
+          type: number
+          format: double
+          description: The configured simulation step-size.
+          example: 0.0005
+        endtime:
+          type: number
+          format: double
+          description: The configured simulation end-time.
+          example: 0.005
         channels:
           type: array
           description: The list of channels available in this simulation.

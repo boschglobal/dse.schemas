@@ -50,7 +50,9 @@ type SimulationNetwork struct {
 type SimulationSpec struct {
 	Arch     string              `yaml:"arch"`
 	Channels []SimulationChannel `yaml:"channels"`
+	Endtime  *float64            `yaml:"endtime,omitempty"`
 	Stacks   []Stack             `yaml:"stacks"`
+	Stepsize *float64            `yaml:"stepsize,omitempty"`
 	Uses     *[]Uses             `yaml:"uses,omitempty"`
 	Vars     *[]Var              `yaml:"vars,omitempty"`
 }

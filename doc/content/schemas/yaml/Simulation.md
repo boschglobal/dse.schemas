@@ -22,6 +22,8 @@ metadata:
 spec:
   simulation:
     arch: linux-amd64
+    stepsize: 0.0005
+    endtime: 0.2
     channels:
       - name: physical
       - name: network
@@ -87,6 +89,8 @@ Simulation Abstract Syntax Tree (AST).
 
 ```yaml
 arch: linux-amd64
+stepsize: 0.0005
+endtime: 0.005
 channels:
   - name: string
     networks:
@@ -149,6 +153,8 @@ stacks:
 |Name|Type|Required|Description|
 |---|---|---|---|
 |arch|string|true|The default system architecture for the simulation.|
+|stepsize|number(double)|false|The configured simulation step-size.|
+|endtime|number(double)|false|The configured simulation end-time.|
 |channels|[[SimulationChannel](#schemasimulationchannel)]|true|The list of channels available in this simulation.|
 |uses|[[Uses](#schemauses)]|false|The list of uses references to external artifacts or repos.|
 |vars|[[Var](#schemavar)]|false|The list of variables available to models in this simulation.|

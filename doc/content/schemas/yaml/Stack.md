@@ -15,58 +15,40 @@ linkTitle: "Stack"
 ```yaml
 kind: Stack
 metadata:
-  name: string
-  labels:
-    property1: string
-    property2: string
+  name: default
   annotations:
-    ? property1
-    ? property2
+    simulation:
+      stepsize: 0.0005
+      endtime: 0.2
 spec:
   connection:
-    timeout: string
     transport:
       redis:
-        uri: string
-        timeout: 0
-  runtime:
-    env:
-      property1: string
-      property2: string
-    stacked: true
-    sequential: true
+        timeout: 60
+        uri: redis://localhost:6379
   models:
-    - name: string
+    - name: simbus
       uid: 0
-      annotations:
-        ? property1
-        ? property2
       model:
-        name: string
-        mcl:
-          strategy: string
-          models:
-            - name: string
+        name: simbus
+      channels:
+        - expectedModelCount: 1
+          name: physical
+    - name: input
+      uid: 1
+      model:
+        name: dse.modelc.csv
       runtime:
         env:
-          property1: string
-          property2: string
-        files:
-          - string
+          CSV_FILE: model/input/data/input.csv
         paths:
-          - string
-        x32: true
-        i386: true
+          - model/input/data
       channels:
-        - name: string
-          alias: string
-          expectedModelCount: 0
+        - alias: signal_channel
+          name: physical
           selectors:
-            property1: string
-            property2: string
-          annotations:
-            ? property1
-            ? property2
+            channel: signal_vector
+            model: input
 
 ```
 

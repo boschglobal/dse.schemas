@@ -38,6 +38,45 @@ components:
           $ref: 'metadata.yaml#/components/schemas/ObjectMetadata'
         spec:
           $ref: '#/components/schemas/StackSpec'
+      example:
+
+        kind: Stack
+        metadata:
+          name: default
+          annotations:
+            simulation:
+              stepsize: 0.0005
+              endtime: 0.2
+        spec:
+          connection:
+            transport:
+              redis:
+                timeout: 60
+                uri: redis://localhost:6379
+          models:
+            - name: simbus
+              uid: 0
+              model:
+                name: simbus
+              channels:
+                - expectedModelCount: 1
+                  name: physical
+            - name: input
+              uid: 1
+              model:
+                name: dse.modelc.csv
+              runtime:
+                env:
+                  CSV_FILE: model/input/data/input.csv
+                paths:
+                  - model/input/data
+              channels:
+                - alias: signal_channel
+                  name: physical
+                  selectors:
+                    channel: signal_vector
+                    model: input
+
     StackSpec:
       type: object
       properties:
