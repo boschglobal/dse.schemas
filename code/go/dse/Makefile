@@ -48,8 +48,11 @@ $(PATCH_FILES):
 
 flatbuffers:
 	cp -r $(FLATBUFFER_GO_DIR)/dse/schemas schemas
+	@echo "package channel" > schemas/fbs/channel/channel.go
+	@echo "package notify" > schemas/fbs/notify/notify.go
 
 .PHONY: clean
 clean:
 	@rm -f kind/*.go
 	@rm -f ast/*.go
+	@rm -rf schemas
