@@ -10,9 +10,10 @@ KIND_GO_FILES = $(subst .yaml,.go, $(KIND_YAML_FILES))
 KIND_FILES = $(addprefix kind/, $(KIND_GO_FILES))
 AST_FILES = ast/Simulation.go ast/metadata.go
 PATCH_FILES = patch/marshal_yaml.patch
+FLATBUFFER_GO_DIR = ../../../dist/dse-schemas/flatbuffers/go
 
 .PHONY: generate
-generate: clean kind ast patch
+generate: clean kind ast patch flatbuffers
 
 
 kind: $(KIND_FILES)
@@ -44,6 +45,9 @@ patch: $(PATCH_FILES)
 $(PATCH_FILES):
 	@echo "Apply Patch: $@ --> "
 	@git apply $@
+
+flatbuffers:
+	cp -r $(FLATBUFFER_GO_DIR)/dse/schemas schemas
 
 .PHONY: clean
 clean:
