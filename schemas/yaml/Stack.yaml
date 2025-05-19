@@ -196,10 +196,14 @@ components:
             type: string
         x32:
           type: boolean
-          description: Run Model with 32bit ModelC executable (x32 abi)
+          description: Run Model with 32bit ModelC executable (x32 abi).
         i386:
           type: boolean
-          description: Run Model with 32bit ModelC executable (i386 abi)
+          description: Run Model with 32bit ModelC executable (i386 abi).
+        external:
+          type: boolean
+          description: |
+            This model is external to the operated simulation (e.g. a Gateway).
     RedisConnection:
       type: object
       description: Redis connection.

@@ -31,11 +31,12 @@ type ModelInstance struct {
 	Uid     int                   `yaml:"uid"`
 }
 type ModelInstanceRuntime struct {
-	Env   *map[string]string `yaml:"env,omitempty"`
-	Files *[]string          `yaml:"files,omitempty"`
-	I386  *bool              `yaml:"i386,omitempty"`
-	Paths *[]string          `yaml:"paths,omitempty"`
-	X32   *bool              `yaml:"x32,omitempty"`
+	Env      *map[string]string `yaml:"env,omitempty"`
+	External *bool              `yaml:"external,omitempty"`
+	Files    *[]string          `yaml:"files,omitempty"`
+	I386     *bool              `yaml:"i386,omitempty"`
+	Paths    *[]string          `yaml:"paths,omitempty"`
+	X32      *bool              `yaml:"x32,omitempty"`
 }
 type RedisConnection struct {
 	Timeout *int    `yaml:"timeout,omitempty"`

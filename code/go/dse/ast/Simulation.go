@@ -22,6 +22,7 @@ type Model struct {
 	Arch      *string                 `yaml:"arch,omitempty"`
 	Channels  []ModelChannel          `yaml:"channels"`
 	Env       *[]Var                  `yaml:"env,omitempty"`
+	External  *bool                   `yaml:"external,omitempty"`
 	Files     *[]File                 `yaml:"files,omitempty"`
 	Metadata  *map[string]interface{} `yaml:"metadata,omitempty"`
 	Model     string                  `yaml:"model"`

@@ -127,6 +127,7 @@ stacks:
           ? property1
           ? property2
         arch: linux-amd64
+        external: true
         channels:
           - name: string
             alias: string
@@ -345,6 +346,7 @@ models:
       ? property1
       ? property2
     arch: linux-amd64
+    external: true
     channels:
       - name: string
         alias: string
@@ -394,6 +396,7 @@ metadata:
   ? property1
   ? property2
 arch: linux-amd64
+external: true
 channels:
   - name: string
     alias: string
@@ -425,6 +428,7 @@ workflows:
 |metadata|object|false|Additional data relating to the model implementation (e.g. package layout details).|
 |» **additionalProperties**|any|false|none|
 |arch|string|false|The architecture of the model, if different from the stack or simulation default architecture.|
+|external|boolean|false|This model is external to the operated simulation (e.g. a Gateway<br>model). External models may optionally reference a 'uses' item and<br>its associated workflows.|
 |channels|[[ModelChannel](#schemamodelchannel)]|true|An array of model <-> simulation channel mappings.|
 |files|[[File](#schemafile)]|false|An array of files to be combined with the model deployment. Files specified without a path are placed<br>in the model data folder (i.e. 'sim/<model>/data'), otherwise the file is placed relative to the<br>model folder.|
 |env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this model.<br>Values defined here supersede those set in the simulation stack (of the model).|

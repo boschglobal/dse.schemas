@@ -284,6 +284,12 @@ components:
           type: string
           description: The architecture of the model, if different from the stack or simulation default architecture.
           example: linux-amd64
+        external:
+          type: boolean
+          description: |
+            This model is external to the operated simulation (e.g. a Gateway
+            model). External models may optionally reference a 'uses' item and
+            its associated workflows.
         channels:
           type: array
           description: An array of model <-> simulation channel mappings.

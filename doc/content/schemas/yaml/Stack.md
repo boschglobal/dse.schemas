@@ -115,6 +115,7 @@ models:
         - string
       x32: true
       i386: true
+      external: true
     channels:
       - name: string
         alias: string
@@ -193,6 +194,7 @@ runtime:
     - string
   x32: true
   i386: true
+  external: true
 channels:
   - name: string
     alias: string
@@ -276,6 +278,7 @@ paths:
   - string
 x32: true
 i386: true
+external: true
 
 ```
 
@@ -289,8 +292,9 @@ Runtime properties of a Model Instance.
 |» **additionalProperties**|string|false|none|
 |files|[string]|false|Additional file arguments passed to ModelC.|
 |paths|[string]|false|Paths to scan for additional (YAML) files, subsequently passed as arguments ModelC.|
-|x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi)|
-|i386|boolean|false|Run Model with 32bit ModelC executable (i386 abi)|
+|x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi).|
+|i386|boolean|false|Run Model with 32bit ModelC executable (i386 abi).|
+|external|boolean|false|This model is external to the operated simulation (e.g. a Gateway).|
 
 <h2 id="tocS_RedisConnection">RedisConnection</h2>
 
