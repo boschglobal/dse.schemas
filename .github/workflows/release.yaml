@@ -1,0 +1,30 @@
+---
+name: Release
+
+on:  # yamllint disable-line rule:truthy
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  pull-requests: read
+  packages: write
+
+jobs:
+  add_gomod_tags:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Release Tag
+        run: |
+          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Add Go Module Tags
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git tag -a -f -m "${{ env.TAG_NAME }}" code/go/dse/${{ env.TAG_NAME }}
+          git push origin tag code/go/dse/${{ env.TAG_NAME }}
