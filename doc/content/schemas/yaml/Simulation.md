@@ -122,6 +122,7 @@ stacks:
     models:
       - name: string
         model: string
+        uid: 0
         uses: string
         metadata:
           ? property1
@@ -341,6 +342,7 @@ env:
 models:
   - name: string
     model: string
+    uid: 0
     uses: string
     metadata:
       ? property1
@@ -391,6 +393,7 @@ A stack definition which composes one or more models as a logical unit of the si
 ```yaml
 name: string
 model: string
+uid: 0
 uses: string
 metadata:
   ? property1
@@ -424,6 +427,7 @@ workflows:
 |---|---|---|---|
 |name|string|true|The name of the model in the simulation (i.e. the model instance name).|
 |model|string|true|The name of the model this instance represents (as named in the associated repository metadata).|
+|uid|integer|false|UID assigned to this model instance. Should be unique to the simulation.|
 |uses|string|true|Name of the uses item that represents the implementation of the model.|
 |metadata|object|false|Additional data relating to the model implementation (e.g. package layout details).|
 |» **additionalProperties**|any|false|none|

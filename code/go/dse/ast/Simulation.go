@@ -27,6 +27,7 @@ type Model struct {
 	Metadata  *map[string]interface{} `yaml:"metadata,omitempty"`
 	Model     string                  `yaml:"model"`
 	Name      string                  `yaml:"name"`
+	Uid       *int                    `yaml:"uid,omitempty"`
 	Uses      string                  `yaml:"uses"`
 	Workflows *[]Workflow             `yaml:"workflows,omitempty"`
 }

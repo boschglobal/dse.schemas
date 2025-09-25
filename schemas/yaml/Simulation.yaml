@@ -273,6 +273,9 @@ components:
         model:
           type: string
           description: The name of the model this instance represents (as named in the associated repository metadata).
+        uid:
+          type: integer
+          description: UID assigned to this model instance. Should be unique to the simulation.
         uses:
           type: string
           description: Name of the uses item that represents the implementation of the model.
