@@ -1,0 +1,28 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    directories:
+      - "**/*"
+    schedule:
+      interval: "weekly"
+    groups:
+      gomod-automerge:
+        update-types:
+          - "patch"
+          - "minor"
+    labels:
+      - "automerge"
+      - "dependabot"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions-merge:
+        update-types:
+          - "patch"
+          - "minor"
+          - "major"
+    labels:
+      - "dependabot"

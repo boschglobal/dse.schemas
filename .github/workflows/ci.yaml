@@ -22,7 +22,7 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Build package metadata
         id: package_meta
@@ -82,10 +82,21 @@ jobs:
             ls -1sh ./dist/*.*
             ls -1sh ./dist/python/dist/*.*
 
-      - name: Publish
-        uses: softprops/action-gh-release@v1
+      - name: Create Release from Tag
         if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            dist/dse-schemas.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
+            --notes-from-tag
+
+      - name: Upload Release Asset
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release upload "$tag" \
+            dist/dse-schemas.tar.gz \
             dist/python/dist/dse.schemas-${{ env.PACKAGE_VERSION }}-py3-none-any.whl
