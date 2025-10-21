@@ -103,4 +103,4 @@ jobs:
         run: |
           gh release upload "$tag" \
             dist/dse-schemas.tar.gz \
-            dist/python/dist/dse.schemas-${{ env.PACKAGE_VERSION }}-py3-none-any.whl
+            dist/python/dist/dse_schemas-${{ env.PACKAGE_VERSION }}-py3-none-any.whl
