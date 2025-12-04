@@ -111,7 +111,10 @@ vars:
     value: string
     reference: uses
 stacks:
-  - name: string
+  - annotations:
+      - ? property1
+        ? property2
+    name: string
     arch: linux-amd64
     stacked: true
     sequential: true
@@ -120,7 +123,10 @@ stacks:
         value: string
         reference: uses
     models:
-      - name: string
+      - annotations:
+          - ? property1
+            ? property2
+        name: string
         model: string
         uid: 0
         uses: string
@@ -331,6 +337,9 @@ A file definition.
 <a id="tocsstack"></a>
 
 ```yaml
+annotations:
+  - ? property1
+    ? property2
 name: string
 arch: linux-amd64
 stacked: true
@@ -340,7 +349,10 @@ env:
     value: string
     reference: uses
 models:
-  - name: string
+  - annotations:
+      - ? property1
+        ? property2
+    name: string
     model: string
     uid: 0
     uses: string
@@ -376,6 +388,8 @@ A stack definition which composes one or more models as a logical unit of the si
 
 |Name|Type|Required|Description|
 |---|---|---|---|
+|annotations|[object]|false|none|
+|» **additionalProperties**|any|false|none|
 |name|string|true|The name of the stack.|
 |arch|string|false|The architecture of the stack, if different from the simulation default architecture.|
 |stacked|boolean|false|Indicate that models in this stack should be run in a 'stacked' configuration (i.e. as a single process).|
@@ -391,6 +405,9 @@ A stack definition which composes one or more models as a logical unit of the si
 <a id="tocsmodel"></a>
 
 ```yaml
+annotations:
+  - ? property1
+    ? property2
 name: string
 model: string
 uid: 0
@@ -425,6 +442,7 @@ workflows:
 
 |Name|Type|Required|Description|
 |---|---|---|---|
+|annotations|[[Stack/properties/annotations/items](#schemastack/properties/annotations/items)]|false|[Non identifying information (i.e. information specific to the object itself).]|
 |name|string|true|The name of the model in the simulation (i.e. the model instance name).|
 |model|string|true|The name of the model this instance represents (as named in the associated repository metadata).|
 |uid|integer|false|UID assigned to this model instance. Should be unique to the simulation.|

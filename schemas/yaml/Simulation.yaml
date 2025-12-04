@@ -235,6 +235,10 @@ components:
         - name
         - models
       properties:
+        annotations:
+            type: array
+            items:
+              $ref: 'metadata.yaml#/components/schemas/Annotations'
         name:
           type: string
           description: The name of the stack.
@@ -267,6 +271,10 @@ components:
         - uses
         - channels
       properties:
+        annotations:
+          type: array
+          items:
+            $ref: 'metadata.yaml#/components/schemas/Annotations'
         name:
           type: string
           description: The name of the model in the simulation (i.e. the model instance name).

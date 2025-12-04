@@ -19,17 +19,18 @@ type File struct {
 }
 type FileReference string
 type Model struct {
-	Arch      *string                 `yaml:"arch,omitempty"`
-	Channels  []ModelChannel          `yaml:"channels"`
-	Env       *[]Var                  `yaml:"env,omitempty"`
-	External  *bool                   `yaml:"external,omitempty"`
-	Files     *[]File                 `yaml:"files,omitempty"`
-	Metadata  *map[string]interface{} `yaml:"metadata,omitempty"`
-	Model     string                  `yaml:"model"`
-	Name      string                  `yaml:"name"`
-	Uid       *int                    `yaml:"uid,omitempty"`
-	Uses      string                  `yaml:"uses"`
-	Workflows *[]Workflow             `yaml:"workflows,omitempty"`
+	Annotations *[]Annotations          `yaml:"annotations,omitempty"`
+	Arch        *string                 `yaml:"arch,omitempty"`
+	Channels    []ModelChannel          `yaml:"channels"`
+	Env         *[]Var                  `yaml:"env,omitempty"`
+	External    *bool                   `yaml:"external,omitempty"`
+	Files       *[]File                 `yaml:"files,omitempty"`
+	Metadata    *map[string]interface{} `yaml:"metadata,omitempty"`
+	Model       string                  `yaml:"model"`
+	Name        string                  `yaml:"name"`
+	Uid         *int                    `yaml:"uid,omitempty"`
+	Uses        string                  `yaml:"uses"`
+	Workflows   *[]Workflow             `yaml:"workflows,omitempty"`
 }
 type ModelChannel struct {
 	Alias string `yaml:"alias"`
@@ -59,12 +60,13 @@ type SimulationSpec struct {
 	Vars     *[]Var              `yaml:"vars,omitempty"`
 }
 type Stack struct {
-	Arch       *string `yaml:"arch,omitempty"`
-	Env        *[]Var  `yaml:"env,omitempty"`
-	Models     []Model `yaml:"models"`
-	Name       string  `yaml:"name"`
-	Sequential *bool   `yaml:"sequential,omitempty"`
-	Stacked    *bool   `yaml:"stacked,omitempty"`
+	Annotations *[]Annotations `yaml:"annotations,omitempty"`
+	Arch        *string        `yaml:"arch,omitempty"`
+	Env         *[]Var         `yaml:"env,omitempty"`
+	Models      []Model        `yaml:"models"`
+	Name        string         `yaml:"name"`
+	Sequential  *bool          `yaml:"sequential,omitempty"`
+	Stacked     *bool          `yaml:"stacked,omitempty"`
 }
 type Uses struct {
 	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`
