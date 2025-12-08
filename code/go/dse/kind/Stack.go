@@ -17,7 +17,7 @@ type MessageQueue struct {
 type ModelInstance struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Channels    *[]Channel   `yaml:"channels,omitempty"`
-	Model       struct {
+	Model       *struct {
 		Mcl *struct {
 			Models []struct {
 				Name string `yaml:"name"`
@@ -25,7 +25,7 @@ type ModelInstance struct {
 			Strategy string `yaml:"strategy"`
 		} `yaml:"mcl,omitempty"`
 		Name string `yaml:"name"`
-	} `yaml:"model"`
+	} `yaml:"model,omitempty"`
 	Name    string                `yaml:"name"`
 	Runtime *ModelInstanceRuntime `yaml:"runtime,omitempty"`
 	Uid     int                   `yaml:"uid"`
@@ -35,6 +35,7 @@ type ModelInstanceRuntime struct {
 	External *bool              `yaml:"external,omitempty"`
 	Files    *[]string          `yaml:"files,omitempty"`
 	I386     *bool              `yaml:"i386,omitempty"`
+	Mcl      *string            `yaml:"mcl,omitempty"`
 	Paths    *[]string          `yaml:"paths,omitempty"`
 	X32      *bool              `yaml:"x32,omitempty"`
 }

@@ -116,6 +116,7 @@ models:
       x32: true
       i386: true
       external: true
+      mcl: string
     channels:
       - name: string
         alias: string
@@ -195,6 +196,7 @@ runtime:
   x32: true
   i386: true
   external: true
+  mcl: string
 channels:
   - name: string
     alias: string
@@ -218,7 +220,7 @@ A model instance object.
 |uid|integer|true|none|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
-|model|object|true|none|
+|model|object|false|none|
 |» name|string|true|none|
 |» mcl|object|false|none|
 |»» strategy|string|true|none|
@@ -279,6 +281,7 @@ paths:
 x32: true
 i386: true
 external: true
+mcl: string
 
 ```
 
@@ -295,6 +298,7 @@ Runtime properties of a Model Instance.
 |x32|boolean|false|Run Model with 32bit ModelC executable (x32 abi).|
 |i386|boolean|false|Run Model with 32bit ModelC executable (i386 abi).|
 |external|boolean|false|This model is external to the operated simulation (e.g. a Gateway).|
+|mcl|string|false|This model is loaded and operated by the named MCL. The named MCL is provided by the ModelC (i.e. built-in).|
 
 <h2 id="tocS_RedisConnection">RedisConnection</h2>
 

@@ -119,7 +119,6 @@ components:
       required:
         - name
         - uid
-        - model
       properties:
         name:
           type: string
@@ -204,6 +203,10 @@ components:
           type: boolean
           description: |
             This model is external to the operated simulation (e.g. a Gateway).
+        mcl:
+          type: string
+          description: |
+            This model is loaded and operated by the named MCL. The named MCL is provided by the ModelC (i.e. built-in).
     RedisConnection:
       type: object
       description: Redis connection.
