@@ -18,12 +18,6 @@ type ModelInstance struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Channels    *[]Channel   `yaml:"channels,omitempty"`
 	Model       *struct {
-		Mcl *struct {
-			Models []struct {
-				Name string `yaml:"name"`
-			} `yaml:"models"`
-			Strategy string `yaml:"strategy"`
-		} `yaml:"mcl,omitempty"`
 		Name string `yaml:"name"`
 	} `yaml:"model,omitempty"`
 	Name    string                `yaml:"name"`

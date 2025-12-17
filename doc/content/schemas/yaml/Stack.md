@@ -101,10 +101,6 @@ models:
       ? property2
     model:
       name: string
-      mcl:
-        strategy: string
-        models:
-          - name: string
     runtime:
       env:
         property1: string
@@ -181,10 +177,6 @@ annotations:
   ? property2
 model:
   name: string
-  mcl:
-    strategy: string
-    models:
-      - name: string
 runtime:
   env:
     property1: string
@@ -222,10 +214,6 @@ A model instance object.
 |» **additionalProperties**|any|false|none|
 |model|object|false|none|
 |» name|string|true|none|
-|» mcl|object|false|none|
-|»» strategy|string|true|none|
-|»» models|[object]|true|A list of models belonging to this MCL.|
-|»»» name|string|true|The name of the MCL model.|
 |runtime|[ModelInstanceRuntime](#schemamodelinstanceruntime)|false|Runtime properties of a Model Instance.|
 |channels|[object]|false|none|
 |» name|string|false|The name of the channel, used when connecting this channel to the SimBus.|

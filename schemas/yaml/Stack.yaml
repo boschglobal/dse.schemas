@@ -133,26 +133,6 @@ components:
           properties:
             name:
               type: string
-            mcl:
-              type: object
-              required:
-                - strategy
-                - models
-              properties:
-                strategy:
-                  type: string
-                models:
-                  type: array
-                  description: A list of models belonging to this MCL.
-                  items:
-                    type: object
-                    description: An MCL model definition.
-                    required:
-                      - name
-                    properties:
-                      name:
-                        type: string
-                        description: The name of the MCL model.
         runtime:
           $ref: '#/components/schemas/ModelInstanceRuntime'
         channels:
