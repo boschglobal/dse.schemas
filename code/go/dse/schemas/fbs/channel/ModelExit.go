@@ -20,11 +20,19 @@ func GetRootAsModelExit(buf []byte, offset flatbuffers.UOffsetT) *ModelExit {
 	return x
 }
 
+func FinishModelExitBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsModelExit(buf []byte, offset flatbuffers.UOffsetT) *ModelExit {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ModelExit{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedModelExitBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ModelExit) Init(buf []byte, i flatbuffers.UOffsetT) {

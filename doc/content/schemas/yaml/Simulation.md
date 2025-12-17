@@ -110,6 +110,7 @@ vars:
   - name: string
     value: string
     reference: uses
+    networktype: network
 stacks:
   - annotations:
       - ? property1
@@ -122,6 +123,7 @@ stacks:
       - name: string
         value: string
         reference: uses
+        networktype: network
     models:
       - annotations:
           - ? property1
@@ -146,6 +148,7 @@ stacks:
           - name: string
             value: string
             reference: uses
+            networktype: network
         workflows:
           - name: string
             uses: string
@@ -153,6 +156,12 @@ stacks:
               - name: string
                 value: string
                 reference: uses
+                networktype: network
+        vars:
+          - name: string
+            value: string
+            reference: uses
+            networktype: network
 
 ```
 
@@ -280,6 +289,7 @@ Defines an external resource used by the simulation.
 name: string
 value: string
 reference: uses
+networktype: network
 
 ```
 
@@ -292,12 +302,14 @@ A variable definition.
 |name|string|true|A variable name.|
 |value|string|true|A corresponding variable value.|
 |reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.|
+|networktype|string|false|This value determines whether the variable resolves to the network's MIME type or its signal name.|
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
 |reference|uses|
+|networktype|network|
 
 <h2 id="tocS_File">File</h2>
 
@@ -348,6 +360,7 @@ env:
   - name: string
     value: string
     reference: uses
+    networktype: network
 models:
   - annotations:
       - ? property1
@@ -372,6 +385,7 @@ models:
       - name: string
         value: string
         reference: uses
+        networktype: network
     workflows:
       - name: string
         uses: string
@@ -379,6 +393,12 @@ models:
           - name: string
             value: string
             reference: uses
+            networktype: network
+    vars:
+      - name: string
+        value: string
+        reference: uses
+        networktype: network
 
 ```
 
@@ -428,6 +448,7 @@ env:
   - name: string
     value: string
     reference: uses
+    networktype: network
 workflows:
   - name: string
     uses: string
@@ -435,6 +456,12 @@ workflows:
       - name: string
         value: string
         reference: uses
+        networktype: network
+vars:
+  - name: string
+    value: string
+    reference: uses
+    networktype: network
 
 ```
 
@@ -455,6 +482,7 @@ workflows:
 |files|[[File](#schemafile)]|false|An array of files to be combined with the model deployment. Files specified without a path are placed<br>in the model data folder (i.e. 'sim/<model>/data'), otherwise the file is placed relative to the<br>model folder.|
 |env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this model.<br>Values defined here supersede those set in the simulation stack (of the model).|
 |workflows|[[Workflow](#schemaworkflow)]|false|An array of workflows used to construct/process artifacts used by this model instance.|
+|vars|[[Var](#schemavar)]|false|Set variable values to be used by the model.|
 
 <h2 id="tocS_Workflow">Workflow</h2>
 
@@ -470,6 +498,7 @@ vars:
   - name: string
     value: string
     reference: uses
+    networktype: network
 
 ```
 

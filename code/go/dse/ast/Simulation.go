@@ -9,6 +9,9 @@ const (
 	SimulationKindSimulation SimulationKind = "Simulation"
 )
 const (
+	Network VarNetworktype = "network"
+)
+const (
 	VarReferenceUses VarReference = "uses"
 )
 
@@ -30,6 +33,7 @@ type Model struct {
 	Name        string                  `yaml:"name"`
 	Uid         *int                    `yaml:"uid,omitempty"`
 	Uses        string                  `yaml:"uses"`
+	Vars        *[]Var                  `yaml:"vars,omitempty"`
 	Workflows   *[]Workflow             `yaml:"workflows,omitempty"`
 }
 type ModelChannel struct {
@@ -78,10 +82,12 @@ type Uses struct {
 	Version  *string                 `yaml:"version,omitempty"`
 }
 type Var struct {
-	Name      string        `yaml:"name"`
-	Reference *VarReference `yaml:"reference,omitempty"`
-	Value     string        `yaml:"value"`
+	Name        string          `yaml:"name"`
+	Networktype *VarNetworktype `yaml:"networktype,omitempty"`
+	Reference   *VarReference   `yaml:"reference,omitempty"`
+	Value       string          `yaml:"value"`
 }
+type VarNetworktype string
 type VarReference string
 type Workflow struct {
 	Name string  `yaml:"name"`

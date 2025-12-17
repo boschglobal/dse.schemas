@@ -13,6 +13,8 @@ type NotifyMessage struct {
 	_tab flatbuffers.Table
 }
 
+const NotifyMessageIdentifier = "SBNO"
+
 func GetRootAsNotifyMessage(buf []byte, offset flatbuffers.UOffsetT) *NotifyMessage {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &NotifyMessage{}
@@ -20,11 +22,29 @@ func GetRootAsNotifyMessage(buf []byte, offset flatbuffers.UOffsetT) *NotifyMess
 	return x
 }
 
+func FinishNotifyMessageBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	identifierBytes := []byte(NotifyMessageIdentifier)
+	builder.FinishWithFileIdentifier(offset, identifierBytes)
+}
+
+func NotifyMessageBufferHasIdentifier(buf []byte) bool {
+	return flatbuffers.BufferHasIdentifier(buf, NotifyMessageIdentifier)
+}
+
 func GetSizePrefixedRootAsNotifyMessage(buf []byte, offset flatbuffers.UOffsetT) *NotifyMessage {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &NotifyMessage{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedNotifyMessageBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	identifierBytes := []byte(NotifyMessageIdentifier)
+	builder.FinishSizePrefixedWithFileIdentifier(offset, identifierBytes)
+}
+
+func SizePrefixedNotifyMessageBufferHasIdentifier(buf []byte) bool {
+	return flatbuffers.SizePrefixedBufferHasIdentifier(buf, NotifyMessageIdentifier)
 }
 
 func (rcv *NotifyMessage) Init(buf []byte, i flatbuffers.UOffsetT) {

@@ -17,11 +17,19 @@ func GetRootAsSignalIndex(buf []byte, offset flatbuffers.UOffsetT) *SignalIndex 
 	return x
 }
 
+func FinishSignalIndexBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsSignalIndex(buf []byte, offset flatbuffers.UOffsetT) *SignalIndex {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &SignalIndex{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedSignalIndexBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *SignalIndex) Init(buf []byte, i flatbuffers.UOffsetT) {

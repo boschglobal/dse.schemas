@@ -19,11 +19,19 @@ func GetRootAsModelRegister(buf []byte, offset flatbuffers.UOffsetT) *ModelRegis
 	return x
 }
 
+func FinishModelRegisterBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsModelRegister(buf []byte, offset flatbuffers.UOffsetT) *ModelRegister {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ModelRegister{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedModelRegisterBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ModelRegister) Init(buf []byte, i flatbuffers.UOffsetT) {

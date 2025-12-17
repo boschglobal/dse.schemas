@@ -17,11 +17,19 @@ func GetRootAsSignalVector(buf []byte, offset flatbuffers.UOffsetT) *SignalVecto
 	return x
 }
 
+func FinishSignalVectorBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsSignalVector(buf []byte, offset flatbuffers.UOffsetT) *SignalVector {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &SignalVector{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedSignalVectorBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *SignalVector) Init(buf []byte, i flatbuffers.UOffsetT) {

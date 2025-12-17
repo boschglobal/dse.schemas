@@ -17,11 +17,19 @@ func GetRootAsSignalLookup(buf []byte, offset flatbuffers.UOffsetT) *SignalLooku
 	return x
 }
 
+func FinishSignalLookupBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsSignalLookup(buf []byte, offset flatbuffers.UOffsetT) *SignalLookup {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &SignalLookup{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedSignalLookupBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *SignalLookup) Init(buf []byte, i flatbuffers.UOffsetT) {

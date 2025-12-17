@@ -17,11 +17,19 @@ func GetRootAsSignalRead(buf []byte, offset flatbuffers.UOffsetT) *SignalRead {
 	return x
 }
 
+func FinishSignalReadBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsSignalRead(buf []byte, offset flatbuffers.UOffsetT) *SignalRead {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &SignalRead{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedSignalReadBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *SignalRead) Init(buf []byte, i flatbuffers.UOffsetT) {

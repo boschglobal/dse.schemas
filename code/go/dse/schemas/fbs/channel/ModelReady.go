@@ -19,11 +19,19 @@ func GetRootAsModelReady(buf []byte, offset flatbuffers.UOffsetT) *ModelReady {
 	return x
 }
 
+func FinishModelReadyBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsModelReady(buf []byte, offset flatbuffers.UOffsetT) *ModelReady {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ModelReady{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedModelReadyBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ModelReady) Init(buf []byte, i flatbuffers.UOffsetT) {

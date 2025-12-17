@@ -210,6 +210,11 @@ components:
           description: This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.
           enum:
             - uses
+        networktype:
+          type: string
+          description: This value determines whether the variable resolves to the network's MIME type or its signal name.
+          enum:
+            - network
     File:
       type: object
       description: A file definition.
@@ -326,6 +331,12 @@ components:
           description: An array of workflows used to construct/process artifacts used by this model instance.
           items:
             $ref: '#/components/schemas/Workflow'
+        vars:
+          type: array
+          description: |
+            Set variable values to be used by the model.
+          items:
+            $ref: '#/components/schemas/Var'
     Workflow:
       type: object
       required:

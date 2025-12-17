@@ -11,6 +11,8 @@ type ChannelMessage struct {
 	_tab flatbuffers.Table
 }
 
+const ChannelMessageIdentifier = "SBCH"
+
 func GetRootAsChannelMessage(buf []byte, offset flatbuffers.UOffsetT) *ChannelMessage {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &ChannelMessage{}
@@ -18,11 +20,29 @@ func GetRootAsChannelMessage(buf []byte, offset flatbuffers.UOffsetT) *ChannelMe
 	return x
 }
 
+func FinishChannelMessageBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	identifierBytes := []byte(ChannelMessageIdentifier)
+	builder.FinishWithFileIdentifier(offset, identifierBytes)
+}
+
+func ChannelMessageBufferHasIdentifier(buf []byte) bool {
+	return flatbuffers.BufferHasIdentifier(buf, ChannelMessageIdentifier)
+}
+
 func GetSizePrefixedRootAsChannelMessage(buf []byte, offset flatbuffers.UOffsetT) *ChannelMessage {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ChannelMessage{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedChannelMessageBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	identifierBytes := []byte(ChannelMessageIdentifier)
+	builder.FinishSizePrefixedWithFileIdentifier(offset, identifierBytes)
+}
+
+func SizePrefixedChannelMessageBufferHasIdentifier(buf []byte) bool {
+	return flatbuffers.SizePrefixedBufferHasIdentifier(buf, ChannelMessageIdentifier)
 }
 
 func (rcv *ChannelMessage) Init(buf []byte, i flatbuffers.UOffsetT) {
