@@ -35,14 +35,6 @@ namespace dse.schemas.fbs.channel;
     Signal Messages
     ===============
 
-    MsgPack encoded Signal Data:
-        Data = [
-            [0..N], // (uint) Signal UID
-            [0..N], // (number) Signal Value - can be omitted for SignalRead.
-        ]
-
-    Signal Values can be encoded with any MsgPack numeric type (e.g. Integer
-    or Float).
  */
 
 table SignalLookup {
@@ -55,23 +47,37 @@ table SignalLookup {
     name:string;
 }
 
+struct Signal {
+    /// Signal UID.
+    uid:uint32;
+
+    /// Signal Value (scalar).
+    value:double;
+}
+
 table SignalIndex {
     indexes:[SignalLookup];
 }
 
 table SignalWrite {
-    /// MsgPack encoded Signal Data.
-    data:[ubyte];
+    data:[ubyte]  (deprecated);
+
+    /// Vector encoded Signals (scalar).
+    signal:[Signal];
 }
 
 table SignalRead {
-    /// MsgPack encoded Signal Data.
-    data:[ubyte];
+    data:[ubyte]  (deprecated);
+
+    /// Vector encoded Signals (scalar).
+    signal:[Signal];
 }
 
 table SignalValue {
-    /// MsgPack encoded Signal Data.
-    data:[ubyte];
+    data:[ubyte]  (deprecated);
+
+    /// Vector encoded Signals (scalar).
+    signal:[Signal];
 }
 
 

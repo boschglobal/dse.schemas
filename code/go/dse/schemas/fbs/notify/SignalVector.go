@@ -65,42 +65,6 @@ func (rcv *SignalVector) MutateModelUid(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(6, n)
 }
 
-/// MsgPack encoded Signal Data.
-func (rcv *SignalVector) Data(j int) byte {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
-	if o != 0 {
-		a := rcv._tab.Vector(o)
-		return rcv._tab.GetByte(a + flatbuffers.UOffsetT(j*1))
-	}
-	return 0
-}
-
-func (rcv *SignalVector) DataLength() int {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
-	if o != 0 {
-		return rcv._tab.VectorLen(o)
-	}
-	return 0
-}
-
-func (rcv *SignalVector) DataBytes() []byte {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
-	if o != 0 {
-		return rcv._tab.ByteVector(o + rcv._tab.Pos)
-	}
-	return nil
-}
-
-/// MsgPack encoded Signal Data.
-func (rcv *SignalVector) MutateData(j int, n byte) bool {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
-	if o != 0 {
-		a := rcv._tab.Vector(o)
-		return rcv._tab.MutateByte(a+flatbuffers.UOffsetT(j*1), n)
-	}
-	return false
-}
-
 /// Vector encoded Signals (scalar).
 func (rcv *SignalVector) Signal(obj *Signal, j int) bool {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(10))
@@ -122,8 +86,30 @@ func (rcv *SignalVector) SignalLength() int {
 }
 
 /// Vector encoded Signals (scalar).
+/// Vector encoded Signals (binary).
+func (rcv *SignalVector) BinarySignal(obj *BinarySignal, j int) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(12))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		x += flatbuffers.UOffsetT(j) * 4
+		x = rcv._tab.Indirect(x)
+		obj.Init(rcv._tab.Bytes, x)
+		return true
+	}
+	return false
+}
+
+func (rcv *SignalVector) BinarySignalLength() int {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(12))
+	if o != 0 {
+		return rcv._tab.VectorLen(o)
+	}
+	return 0
+}
+
+/// Vector encoded Signals (binary).
 func SignalVectorStart(builder *flatbuffers.Builder) {
-	builder.StartObject(4)
+	builder.StartObject(5)
 }
 func SignalVectorAddName(builder *flatbuffers.Builder, name flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(name), 0)
@@ -131,17 +117,17 @@ func SignalVectorAddName(builder *flatbuffers.Builder, name flatbuffers.UOffsetT
 func SignalVectorAddModelUid(builder *flatbuffers.Builder, modelUid uint32) {
 	builder.PrependUint32Slot(1, modelUid, 0)
 }
-func SignalVectorAddData(builder *flatbuffers.Builder, data flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(data), 0)
-}
-func SignalVectorStartDataVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
-	return builder.StartVector(1, numElems, 1)
-}
 func SignalVectorAddSignal(builder *flatbuffers.Builder, signal flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(signal), 0)
 }
 func SignalVectorStartSignalVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(16, numElems, 8)
+}
+func SignalVectorAddBinarySignal(builder *flatbuffers.Builder, binarySignal flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(binarySignal), 0)
+}
+func SignalVectorStartBinarySignalVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
+	return builder.StartVector(4, numElems, 4)
 }
 func SignalVectorEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()
