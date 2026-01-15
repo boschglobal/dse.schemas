@@ -192,11 +192,63 @@ func (rcv *NotifyMessage) MutateBenchModelTimeNs(n uint64) bool {
 
 /// Channel Messages.
 /// Send only one of the following per Notify message.
+/// Client supplied token which will request a Message ACK (i.e. an empty
+/// Channel Message with the same token value).
+func (rcv *NotifyMessage) Token() int32 {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(18))
+	if o != 0 {
+		return rcv._tab.GetInt32(o + rcv._tab.Pos)
+	}
+	return 0
+}
+
+/// Channel Messages.
+/// Send only one of the following per Notify message.
+/// Client supplied token which will request a Message ACK (i.e. an empty
+/// Channel Message with the same token value).
+func (rcv *NotifyMessage) MutateToken(n int32) bool {
+	return rcv._tab.MutateInt32Slot(18, n)
+}
+
+/// Indicate a return code for a Message Processing. Only set in case of error.
+func (rcv *NotifyMessage) Rc() int32 {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(20))
+	if o != 0 {
+		return rcv._tab.GetInt32(o + rcv._tab.Pos)
+	}
+	return 0
+}
+
+/// Indicate a return code for a Message Processing. Only set in case of error.
+func (rcv *NotifyMessage) MutateRc(n int32) bool {
+	return rcv._tab.MutateInt32Slot(20, n)
+}
+
+/// A message related to an `rc` value indicating an error.
+func (rcv *NotifyMessage) Response() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(22))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
+/// A message related to an `rc` value indicating an error.
+/// Channel Name relating to this message.
+func (rcv *NotifyMessage) ChannelName() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(24))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
+/// Channel Name relating to this message.
 /// Model Register.
 /// (Model -> SimBus)
 /// (SimBus -> Model)
 func (rcv *NotifyMessage) ModelRegister(obj *ModelRegister) *ModelRegister {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(18))
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(26))
 	if o != 0 {
 		x := rcv._tab.Indirect(o + rcv._tab.Pos)
 		if obj == nil {
@@ -208,8 +260,6 @@ func (rcv *NotifyMessage) ModelRegister(obj *ModelRegister) *ModelRegister {
 	return nil
 }
 
-/// Channel Messages.
-/// Send only one of the following per Notify message.
 /// Model Register.
 /// (Model -> SimBus)
 /// (SimBus -> Model)
@@ -217,7 +267,7 @@ func (rcv *NotifyMessage) ModelRegister(obj *ModelRegister) *ModelRegister {
 /// (Model -> SimBus)
 /// (SimBus -> Model)
 func (rcv *NotifyMessage) SignalIndex(obj *SignalIndex) *SignalIndex {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(20))
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(28))
 	if o != 0 {
 		x := rcv._tab.Indirect(o + rcv._tab.Pos)
 		if obj == nil {
@@ -235,7 +285,7 @@ func (rcv *NotifyMessage) SignalIndex(obj *SignalIndex) *SignalIndex {
 /// Model Exit.
 /// (Model -> SimBus)
 func (rcv *NotifyMessage) ModelExit(obj *ModelExit) *ModelExit {
-	o := flatbuffers.UOffsetT(rcv._tab.Offset(22))
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(30))
 	if o != 0 {
 		x := rcv._tab.Indirect(o + rcv._tab.Pos)
 		if obj == nil {
@@ -250,7 +300,7 @@ func (rcv *NotifyMessage) ModelExit(obj *ModelExit) *ModelExit {
 /// Model Exit.
 /// (Model -> SimBus)
 func NotifyMessageStart(builder *flatbuffers.Builder) {
-	builder.StartObject(10)
+	builder.StartObject(14)
 }
 func NotifyMessageAddSignals(builder *flatbuffers.Builder, signals flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(signals), 0)
@@ -279,14 +329,26 @@ func NotifyMessageAddBenchNotifyTimeNs(builder *flatbuffers.Builder, benchNotify
 func NotifyMessageAddBenchModelTimeNs(builder *flatbuffers.Builder, benchModelTimeNs uint64) {
 	builder.PrependUint64Slot(6, benchModelTimeNs, 0)
 }
+func NotifyMessageAddToken(builder *flatbuffers.Builder, token int32) {
+	builder.PrependInt32Slot(7, token, 0)
+}
+func NotifyMessageAddRc(builder *flatbuffers.Builder, rc int32) {
+	builder.PrependInt32Slot(8, rc, 0)
+}
+func NotifyMessageAddResponse(builder *flatbuffers.Builder, response flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(9, flatbuffers.UOffsetT(response), 0)
+}
+func NotifyMessageAddChannelName(builder *flatbuffers.Builder, channelName flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(10, flatbuffers.UOffsetT(channelName), 0)
+}
 func NotifyMessageAddModelRegister(builder *flatbuffers.Builder, modelRegister flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(modelRegister), 0)
+	builder.PrependUOffsetTSlot(11, flatbuffers.UOffsetT(modelRegister), 0)
 }
 func NotifyMessageAddSignalIndex(builder *flatbuffers.Builder, signalIndex flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(signalIndex), 0)
+	builder.PrependUOffsetTSlot(12, flatbuffers.UOffsetT(signalIndex), 0)
 }
 func NotifyMessageAddModelExit(builder *flatbuffers.Builder, modelExit flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(9, flatbuffers.UOffsetT(modelExit), 0)
+	builder.PrependUOffsetTSlot(13, flatbuffers.UOffsetT(modelExit), 0)
 }
 func NotifyMessageEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

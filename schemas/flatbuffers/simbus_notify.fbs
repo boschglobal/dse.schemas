@@ -151,6 +151,19 @@ table NotifyMessage {
     /// Channel Messages.
     /// Send only one of the following per Notify message.
 
+    /// Client supplied token which will request a Message ACK (i.e. an empty
+    /// Channel Message with the same token value).
+    token:int;
+
+    /// Indicate a return code for a Message Processing. Only set in case of error.
+    rc:int;
+
+    /// A message related to an `rc` value indicating an error.
+    response:string;
+
+    /// Channel Name relating to this message.
+    channel_name:string;
+
     /// Model Register.
     /// (Model -> SimBus)
     /// (SimBus -> Model)
