@@ -60,21 +60,21 @@ table SignalIndex {
 }
 
 table SignalWrite {
-    data:[ubyte]  (deprecated);
+    data:[ubyte];
 
     /// Vector encoded Signals (scalar).
     signal:[Signal];
 }
 
 table SignalRead {
-    data:[ubyte]  (deprecated);
+    data:[ubyte];
 
     /// Vector encoded Signals (scalar).
     signal:[Signal];
 }
 
 table SignalValue {
-    data:[ubyte]  (deprecated);
+    data:[ubyte];
 
     /// Vector encoded Signals (scalar).
     signal:[Signal];

@@ -15,6 +15,52 @@ namespace dse.schemas.fbs.notify;
 
 
 /*
+    Model Messages
+    ==============
+
+    Migrated from SimBus Channel schema (SBCH). These messages are embedded
+    in the Notify message; encode one per Notify message, and _without_ an
+    additional SignalVector.
+
+*/
+
+/// ModelRegister: Register a Model with the SimBus.
+/// (Model -> SimBus)
+table ModelRegister {
+    /// Specify the step_size of the Model.
+    step_size:double;
+
+    /// Model UID of the Model sending this message.
+    model_uid:uint;
+
+    /// Notify UID for sending consolidated Notify messages to a single endpoint
+    /// which represents several Model UIDs.
+    notify_uid:uint;
+}
+
+table SignalLookup {
+    /// Signal UID, set to 0 if SimBus should assign (typical).
+    signal_uid:uint;
+
+    /// Name of the Signal.
+    name:string;
+}
+
+/// SignalIndex: Index signals with the SimBus.
+/// (Model -> SimBus)
+/// (SimBus -> Model)
+table SignalIndex {
+    indexes:[SignalLookup];
+}
+
+/// ModelExit: Indicate that the Model is disconnecting from this Channel of
+/// the Simulation Bus.
+/// (Model -> SimBus)
+table ModelExit {
+}
+
+
+/*
     Signal Vectors
     ==============
 
@@ -75,6 +121,7 @@ table NotifyMessage {
     /// Signal Vectors.
     signals:[SignalVector];
 
+
     /// Model Time.
     /// (SimBus -> Model) From where the Model should start its execution step.
     /// (Model -> SimBus) Indicates the reached and committed Model Time.
@@ -93,11 +140,30 @@ table NotifyMessage {
     /// (Model -> SimBus) Indicate which Models are represented by this Notify Message.
     model_uid:[uint];
 
+
     /// Benchmarking.
     /// (notify) Amount of time processing the Notify Message.
     bench_notify_time_ns:ulong;
     /// (model) Amount of time executing the Model (i.e. calling do_step()).
     bench_model_time_ns:ulong;
+
+
+    /// Channel Messages.
+    /// Send only one of the following per Notify message.
+
+    /// Model Register.
+    /// (Model -> SimBus)
+    /// (SimBus -> Model)
+    model_register:ModelRegister;
+
+    /// Signal Index.
+    /// (Model -> SimBus)
+    /// (SimBus -> Model)
+    signal_index:SignalIndex;
+
+    /// Model Exit.
+    /// (Model -> SimBus)
+    model_exit:ModelExit;
 }
 
 

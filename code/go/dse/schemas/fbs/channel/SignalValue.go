@@ -41,6 +41,40 @@ func (rcv *SignalValue) Table() flatbuffers.Table {
 	return rcv._tab
 }
 
+func (rcv *SignalValue) Data(j int) byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		a := rcv._tab.Vector(o)
+		return rcv._tab.GetByte(a + flatbuffers.UOffsetT(j*1))
+	}
+	return 0
+}
+
+func (rcv *SignalValue) DataLength() int {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		return rcv._tab.VectorLen(o)
+	}
+	return 0
+}
+
+func (rcv *SignalValue) DataBytes() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
+func (rcv *SignalValue) MutateData(j int, n byte) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		a := rcv._tab.Vector(o)
+		return rcv._tab.MutateByte(a+flatbuffers.UOffsetT(j*1), n)
+	}
+	return false
+}
+
 /// Vector encoded Signals (scalar).
 func (rcv *SignalValue) Signal(obj *Signal, j int) bool {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(6))
@@ -64,6 +98,12 @@ func (rcv *SignalValue) SignalLength() int {
 /// Vector encoded Signals (scalar).
 func SignalValueStart(builder *flatbuffers.Builder) {
 	builder.StartObject(2)
+}
+func SignalValueAddData(builder *flatbuffers.Builder, data flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(data), 0)
+}
+func SignalValueStartDataVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
+	return builder.StartVector(1, numElems, 1)
 }
 func SignalValueAddSignal(builder *flatbuffers.Builder, signal flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(signal), 0)
