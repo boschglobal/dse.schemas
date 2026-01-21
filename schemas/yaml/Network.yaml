@@ -92,14 +92,31 @@ components:
                       position: 0
     NetworkSpec:
       type: object
-      required:
-        - messages
+      description: Specification for a Network.
       properties:
         messages:
           type: array
           description: A list of messages belonging to this Network.
           items:
             $ref: '#/components/schemas/NetworkMessage'
+        pdus:
+          type: array
+          description: A list of PDUs belonging to this Network..
+          items:
+            $ref: 'pdu.yaml#/components/schemas/Pdu'
+        metadata:
+          $ref: '#/components/schemas/NetworkMetadata'
+      anyOf:
+        - required: [messages]
+        - required: [pdus]
+    NetworkMetadata:
+      description: Network-level metadata and configuration objects.
+      oneOf:
+        - type: object
+          required: [flexray]
+          properties:
+            flexray:
+              $ref: 'pdu.yaml#/components/schemas/FlexrayConfig'
     NetworkMessage:
       type: object
       description: |

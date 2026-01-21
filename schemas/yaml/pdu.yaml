@@ -1,0 +1,437 @@
+# Copyright 2026 Robert Bosch GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+openapi: 3.0.0
+info:
+  title: Pdu
+  version: 1.0.0
+paths:
+  /Pdu:
+    get:
+      responses:
+        '200':
+          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pdu'
+  /FlexrayConfig:
+    get:
+      responses:
+        '200':
+          description: ''
+          content:
+            text/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FlexrayConfig'
+components:
+  schemas:
+    Pdu:
+      type: object
+      description: |
+        A Protocol Data Unit (PDU) definition.
+      required:
+        - id
+        - length
+        - signals
+      properties:
+        pdu:
+          type: string
+          description: The name of the PDU.
+        id:
+          type: integer
+          description: Identifier for the PDU.
+        length:
+          type: integer
+          minimum: 1
+          description: Length of the PDU in bytes.
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'
+        container:
+          type: integer
+          description: Optional container identifier indicating this PDU is emitted within a multiplexor PDU (M-PDU).
+        functions:
+          $ref: '#/components/schemas/LuaFunctions'
+        metadata:
+          $ref: '#/components/schemas/PduMetadata'
+        signals:
+          type: array
+          description: |
+            Defines the layout and content of the PDU. Each entry is one of:
+            - a multiplexor definition (`multiplexor:`) using byte-based encoding
+            - a nested PDU container area (`pdu:`) using byte-based encoding
+            - a scalar signal (`signal:`) using bit-based `encoding`
+          items:
+            $ref: '#/components/schemas/PduSignal'
+    PduSignal:
+      description: One of multiplexor entry, nested PDU container entry, or scalar signal.
+      oneOf:
+        - $ref: '#/components/schemas/PduMultiplexer'
+        - $ref: '#/components/schemas/PduContainer'
+        - $ref: '#/components/schemas/PduSignalScalar'
+    PduMultiplexer:
+      type: object
+      description: Defines a multiplexor field using byte-based encoding. The `id` of the contained PDU is written into this field.
+      required:
+        - multiplexor
+      properties:
+        multiplexor:
+          $ref: '#/components/schemas/PduEncodingBytes'
+    PduContainer:
+      type: object
+      description: Defines a nested PDU container area using byte-based encoding. The contained PDU is copied into this field.
+      required:
+        - pdu
+      properties:
+        pdu:
+          $ref: '#/components/schemas/PduEncodingBytes'
+    PduSignalScalar:
+      type: object
+      description: Defines a scalar signal and its associated encoding.
+      required:
+        - signal
+      properties:
+        signal:
+          type: string
+          description: The name of the scalar signal.
+        encoding:
+          $ref: '#/components/schemas/PduSignalEncoding'
+        functions:
+          $ref: '#/components/schemas/LuaFunctions'
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'
+    PduEncodingBytes:
+      type: object
+      description: Byte-based encoding, used for multiplexor and nested PDU container entries.
+      required:
+        - start
+        - length
+      properties:
+        start:
+          type: integer
+          minimum: 0
+          description: Start offset in bytes.
+        length:
+          type: integer
+          minimum: 1
+          description: Length in bytes.
+    PduSignalEncoding:
+      type: object
+      description: Bit-based encoding for scalar signals, with optional scaling and Lua hooks.
+      required:
+        - start
+        - length
+      properties:
+        factor:
+          type: number
+          default: 1
+          description: Scaling factor applied during encode/decode.
+        offset:
+          type: number
+          default: 0
+          description: Offset applied during encode/decode.
+        min:
+          type: number
+          description: Optional minimum value constraint (of the physical signal value). Causes truncation of the value.
+        max:
+          type: number
+          description: Optional maximum value constraint. (of the physical signal value). Causes truncation of the value.
+        start:
+          type: integer
+          minimum: 0
+          description: Bit start position for the encoded signal value in the PDU.
+        length:
+          type: integer
+          minimum: 1
+          description: Bit length for the encoded signal value in the PDU.
+    LuaFunctions:
+      type: object
+      description: |
+        Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.
+      properties:
+        encode:
+          type: array
+          description: Lua script/functions applied during the encode path.
+          items:
+            $ref: '#/components/schemas/LuaFunction'
+        decode:
+          type: array
+          description: Lua script/functions applied during the decode path.
+          items:
+            $ref: '#/components/schemas/LuaFunction'
+    LuaFunction:
+      type: object
+      description: A Lua script/function block.
+      required:
+        - lua
+      properties:
+        lua:
+          type: string
+          description: Inline Lua script. Multi-line strings supported.
+
+    FlexrayConfig:
+      type: object
+      properties:
+        vcn:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlexrayNodeIdentifier'
+        initial_poc_state_cha:
+          $ref: '#/components/schemas/FlexrayPocState'
+        initial_poc_state_chb:
+          $ref: '#/components/schemas/FlexrayPocState'
+        inhibit_null_frames:
+          type: boolean
+        macrotick_per_cycle:
+          type: integer
+        microtick_per_cycle:
+          type: integer
+        network_idle_start:
+          type: integer
+        static_slot_length:
+          type: integer
+        static_slot_count:
+          type: integer
+        minislot_length:
+          type: integer
+        minislot_count:
+          type: integer
+        static_slot_payload_length:
+          type: integer
+        bit_rate:
+          $ref: '#/components/schemas/FlexrayBitrate'
+        channel_enable:
+          $ref: '#/components/schemas/FlexrayChannel'
+        wakeup_channel_select:
+          type: integer
+        single_slot_enabled:
+          type: boolean
+        bus_model_mode:
+          $ref: '#/components/schemas/FlexrayBusModelMode'
+        node_name:
+          type: string
+
+    FlexrayNodeIdentifier:
+      type: object
+      properties:
+        ecu_id:
+          type: integer
+        cc_id:
+          type: integer
+        swc_id:
+          type: integer
+    FlexrayBitrate:
+      type: integer
+      enum: ["BR10Mbps", "BR5Mbps", "BR2_5Mbps"]
+    FlexrayDirection:
+      type: integer
+      enum: ["Rx", "Tx"]
+    FlexrayTransmitMode:
+      type: integer
+      enum: ["Continuous", "SingleShot"]
+    FlexrayChannel:
+      type: integer
+      enum: ["A", "B", "AB"]
+    FlexrayPocState:
+      type: integer
+      enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    FlexrayBusModelMode:
+      type: integer
+      enum: ["Pop"]
+
+    PduMetadata:
+      description: Transport metadata for a PDU.
+      oneOf:
+        - type: object
+          required: [can]
+          properties:
+            can:
+              $ref: '#/components/schemas/CanMessageMetadata'
+        - type: object
+          required: [flexray]
+          properties:
+            flexray:
+              $ref: '#/components/schemas/FlexrayMetadata'
+        - type: object
+          required: [ip]
+          properties:
+            ip:
+              $ref: '#/components/schemas/IpMessageMetadata'
+        - type: object
+          required: [struct]
+          properties:
+            struct:
+              $ref: '#/components/schemas/StructMetadata'
+    CanMessageFormat:
+      type: integer
+      enum: ["Base", "Extended", "FdBase", "FdExtended"]
+    CanFrameType:
+      type: integer
+      enum: ["Data", "Remote", "Error", "Overload"]
+    CanMessageMetadata:
+      type: object
+      properties:
+        message_format:
+          $ref: '#/components/schemas/CanMessageFormat'
+        frame_type:
+          $ref: '#/components/schemas/CanFrameType'
+        interface_id:
+          type: integer
+          description: CAN interface ID of the interface sending this PDU.
+        network_id:
+          type: integer
+          description: CAN network ID carrying this PDU.
+
+    DoIpMetadata:
+      type: object
+      required:
+        - protocol_version
+        - payload_type
+      properties:
+        protocol_version:
+          type: integer
+        payload_type:
+          type: integer
+    SomeIpMetadata:
+      type: object
+      required:
+        - message_id
+        - request_id
+        - protocol_version
+        - interface_version
+        - message_type
+        - return_code
+        - length
+      properties:
+        message_id:
+          type: integer
+        length:
+          type: integer
+        request_id:
+          type: integer
+        protocol_version:
+          type: integer
+        interface_version:
+          type: integer
+        message_type:
+          type: integer
+        return_code:
+          type: integer
+    SocketAdapter:
+      description: Socket adapter metadata (DoIP or SOME/IP).
+      oneOf:
+        - $ref: '#/components/schemas/DoIpMetadata'
+        - $ref: '#/components/schemas/SomeIpMetadata'
+    IpProtocol:
+      type: integer
+      enum: [0, 6, 17]
+      description: 0=None, 6=TCP, 17=UDP
+    IpAddressV6:
+      type: object
+      properties:
+        v0: { type: integer }
+        v1: { type: integer }
+        v2: { type: integer }
+        v3: { type: integer }
+        v4: { type: integer }
+        v5: { type: integer }
+        v6: { type: integer }
+        v7: { type: integer }
+    IpV4:
+      type: object
+      required:
+        - src_addr
+        - dst_addr
+      properties:
+        src_addr:
+          type: integer
+        dst_addr:
+          type: integer
+    IpV6:
+      type: object
+      required:
+        - src_addr
+        - dst_addr
+      properties:
+        src_addr:
+          $ref: '#/components/schemas/IpAddressV6'
+        dst_addr:
+          $ref: '#/components/schemas/IpAddressV6'
+    IpAddr:
+      description: IP address (IPv4 or IPv6).
+      oneOf:
+        - $ref: '#/components/schemas/IpV4'
+        - $ref: '#/components/schemas/IpV6'
+    IpMessageMetadata:
+      type: object
+      properties:
+        eth_dst_mac:
+          type: integer
+          description: Destination MAC (lower 48-bits used).
+        eth_src_mac:
+          type: integer
+          description: Source MAC (lower 48-bits used).
+        eth_ethertype:
+          type: integer
+        eth_tci_pcp:
+          type: integer
+        eth_tci_dei:
+          type: integer
+        eth_tci_vid:
+          type: integer
+        ip_addr:
+          $ref: '#/components/schemas/IpAddr'
+        ip_protocol:
+          $ref: '#/components/schemas/IpProtocol'
+        ip_src_port:
+          type: integer
+        ip_dst_port:
+          type: integer
+        adapter:
+          $ref: '#/components/schemas/SocketAdapter'
+
+    StructMetadata:
+      type: object
+      properties:
+        type_name:
+          type: string
+        var_name:
+          type: string
+        encoding:
+          type: string
+        attribute_aligned:
+          type: integer
+        attribute_packed:
+          type: boolean
+        platform_arch:
+          type: string
+        platform_os:
+          type: string
+        platform_abi:
+          type: string
+
+    FlexrayMetadata:
+      type: object
+      properties:
+        slot_id:
+          type: integer
+        payload_length:
+          type: integer
+        cycle_repetition:
+          type: integer
+        base_cycle:
+          type: integer
+        direction:
+          $ref: '#/components/schemas/FlexrayDirection'
+        channel:
+          $ref: '#/components/schemas/FlexrayChannel'
+        transmit_mode:
+          $ref: '#/components/schemas/FlexrayTransmitMode'
+        inhibit_null:
+          type: boolean
