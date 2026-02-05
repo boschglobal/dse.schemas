@@ -17,10 +17,19 @@ Schemas of the Dynamic Simulation Environment (DSE) Core Platform.
 
 ### Project Structure
 
-```
-L- docs        Documentation (integrates with Hugo/Docsy).
-L- schemas     Schemas of the DSE Core Platform.
-L- templates   Templates used for building schema packages.
+```text
+dse.schemas
+└── code/go/dse                     <-- Go Module, generated, including YAML schema parsers.
+└── doc                             <-- Documentation, generated.
+└── schemas
+    └── flatbuffers                 <-- Flatbuffers schemas: SimBus Protocol.
+    └── yaml                        <-- YAML schemas: DSE "Kind" documents.
+└── templates                       <-- Templates used for generating code packages.
+└── wireshark
+    └── README.md                   <-- Readme for Wireshark Dissectors.
+    └── simbus_dissector.lua        <-- SimBus Protocol dissector.
+    └── examples/                   <-- Example traces for use with dissectors.
+└── Makefile                        <-- Repo level Makefile.
 ```
 
 
@@ -129,6 +138,8 @@ Schemas in this repository require:
 * [msgpack-c](https://github.com/msgpack/msgpack-c) v3.3.0 (or later).
 
 Later versions may require testing.
+
+> __Note:__ Use of MsgPack is depreciated in schema consumers (preference is for Flatbuffers).
 
 
 ## Contribute
