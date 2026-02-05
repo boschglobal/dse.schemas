@@ -44,6 +44,9 @@ table SignalLookup {
 
     /// Name of the Signal.
     name:string;
+
+    /// MIME type associated with this signal.
+    mime_type:string;
 }
 
 /// SignalIndex: Index signals with the SimBus.

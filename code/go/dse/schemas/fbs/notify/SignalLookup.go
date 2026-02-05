@@ -65,14 +65,27 @@ func (rcv *SignalLookup) Name() []byte {
 }
 
 /// Name of the Signal.
+/// MIME type associated with this signal.
+func (rcv *SignalLookup) MimeType() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
+/// MIME type associated with this signal.
 func SignalLookupStart(builder *flatbuffers.Builder) {
-	builder.StartObject(2)
+	builder.StartObject(3)
 }
 func SignalLookupAddSignalUid(builder *flatbuffers.Builder, signalUid uint32) {
 	builder.PrependUint32Slot(0, signalUid, 0)
 }
 func SignalLookupAddName(builder *flatbuffers.Builder, name flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(name), 0)
+}
+func SignalLookupAddMimeType(builder *flatbuffers.Builder, mimeType flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(mimeType), 0)
 }
 func SignalLookupEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()
