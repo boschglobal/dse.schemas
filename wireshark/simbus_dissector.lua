@@ -36,6 +36,7 @@ fields.notify_uid = ProtoField.uint32("simbus.model_register.notify_uid", "Notif
 fields.signal_lookup_count = ProtoField.uint32("simbus.signal_index.count", "Signal Count")
 fields.signal_lookup_uid = ProtoField.uint32("simbus.signal_lookup.uid", "Signal UID")
 fields.signal_lookup_name = ProtoField.string("simbus.signal_lookup.name", "Signal Name")
+fields.signal_lookup_mime_type = ProtoField.string("simbus.signal_lookup.mime_type", "MIME Type")
 
 -- SignalVector fields
 fields.signal_vector_name = ProtoField.string("simbus.signal_vector.name", "Signal Vector Name")
@@ -452,6 +453,14 @@ local function parse_signal_index(buffer, offset, tree)
                             if name then
                                 lookup_tree:add(fields.signal_lookup_name, name)
                                 lookup_tree:append_text(": " .. name)
+                            end
+                        end
+
+                        local mime_type_offset, err = get_table_field_offset(buffer, lookup_offset, 2)
+                        if mime_type_offset then
+                            local mime_type, err = safe_read_string(buffer, mime_type_offset)
+                            if mime_type then
+                                lookup_tree:add(fields.signal_lookup_mime_type, mime_type)
                             end
                         end
                     end
