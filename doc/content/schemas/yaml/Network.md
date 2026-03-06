@@ -112,6 +112,10 @@ Specification for a Network.
 |» pdu|string|false|The name of the PDU.|
 |» id|integer|true|Identifier for the PDU.|
 |» length|integer|true|Length of the PDU in bytes.|
+|» dir|string|false|none|
+|» schedule|object|false|none|
+|»» phase|number|false|none|
+|»» interval|number|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|any|false|none|
 |» container|integer|false|Optional container identifier indicating this PDU is emitted within a multiplexor PDU (M-PDU).|
@@ -142,9 +146,9 @@ xor
 |»»»» payload_length|integer|false|none|
 |»»»» cycle_repetition|integer|false|none|
 |»»»» base_cycle|integer|false|none|
-|»»»» direction|integer|false|none|
-|»»»» channel|integer|false|none|
-|»»»» transmit_mode|integer|false|none|
+|»»»» direction|string|false|none|
+|»»»» channel|string|false|none|
+|»»»» transmit_mode|string|false|none|
 |»»»» inhibit_null|boolean|false|none|
 
 xor
@@ -273,6 +277,8 @@ continued
 |Name|Type|Required|Description|
 |---|---|---|---|
 |metadata|[NetworkMetadata](#schemanetworkmetadata)|false|Network-level metadata and configuration objects.|
+|schedule|[NetworkSchedule](#schemanetworkschedule)|false|none|
+|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
 
 anyOf
 
@@ -290,6 +296,8 @@ or
 
 |Property|Value|
 |---|---|
+|dir|Tx|
+|dir|Rx|
 |message_format|Base|
 |message_format|Extended|
 |message_format|FdBase|
@@ -335,7 +343,7 @@ flexray:
   static_slot_payload_length: 0
   bit_rate: BR10Mbps
   channel_enable: A
-  wakeup_channel_select: 0
+  wakeup_channel_select: A
   single_slot_enabled: true
   bus_model_mode: Pop
   node_name: string
@@ -364,11 +372,11 @@ Network-level metadata and configuration objects.
 |» minislot_length|integer|false|none|
 |» minislot_count|integer|false|none|
 |» static_slot_payload_length|integer|false|none|
-|» bit_rate|integer|false|none|
-|» channel_enable|integer|false|none|
-|» wakeup_channel_select|integer|false|none|
+|» bit_rate|string|false|none|
+|» channel_enable|string|false|none|
+|» wakeup_channel_select|[NetworkMetadata/oneOf/0/properties/flexray/properties/channel_enable](#schemanetworkmetadata/oneof/0/properties/flexray/properties/channel_enable)|false|none|
 |» single_slot_enabled|boolean|false|none|
-|» bus_model_mode|integer|false|none|
+|» bus_model_mode|string|false|none|
 |» node_name|string|false|none|
 
 #### Enumerated Values
@@ -521,14 +529,34 @@ annotations:
 
 ```
 
-A Network Function definition.
+Network Function definitions.
 
 ### Properties
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|function|string|true|The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).|
+|function|string|false|The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).|
+|global|[object]|false|none|
+|» lua|string|true|Inline Lua script. Multi-line strings supported.|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+
+<h2 id="tocS_NetworkSchedule">NetworkSchedule</h2>
+
+<a id="schemanetworkschedule"></a>
+<a id="schema_NetworkSchedule"></a>
+<a id="tocSnetworkschedule"></a>
+<a id="tocsnetworkschedule"></a>
+
+```yaml
+epoch_offset: 0
+
+```
+
+### Properties
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|epoch_offset|number|false|none|
 
 undefined
 

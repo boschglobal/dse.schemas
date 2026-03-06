@@ -18,6 +18,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transform'
+
 components:
   schemas:
     Transform:
@@ -39,3 +40,5 @@ components:
             offset:
               type: number
               format: double
+        lua:
+          $ref: 'lua.yaml#/components/schemas/LuaFunction'

@@ -17,8 +17,9 @@ type Network struct {
 }
 type NetworkKind string
 type NetworkFunction struct {
-	Annotations *Annotations `yaml:"annotations,omitempty"`
-	Function    string       `yaml:"function"`
+	Annotations *Annotations   `yaml:"annotations,omitempty"`
+	Function    *string        `yaml:"function,omitempty"`
+	Global      *[]LuaFunction `yaml:"global,omitempty"`
 }
 type NetworkFunctions struct {
 	Decode *[]NetworkFunction `yaml:"decode,omitempty"`
@@ -36,15 +37,20 @@ type NetworkMetadata struct {
 type NetworkMetadata0 struct {
 	Flexray FlexrayConfig `yaml:"flexray"`
 }
+type NetworkSchedule struct {
+	EpochOffset *float32 `yaml:"epoch_offset,omitempty"`
+}
 type NetworkSignal struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Signal      string       `yaml:"signal"`
 }
 type NetworkSpec struct {
-	Messages *[]NetworkMessage `yaml:"messages,omitempty"`
-	Metadata *NetworkMetadata  `yaml:"metadata,omitempty"`
-	Pdus     *[]Pdu            `yaml:"pdus,omitempty"`
-	union    json.RawMessage
+	Functions *NetworkFunctions `yaml:"functions,omitempty"`
+	Messages  *[]NetworkMessage `yaml:"messages,omitempty"`
+	Metadata  *NetworkMetadata  `yaml:"metadata,omitempty"`
+	Pdus      *[]Pdu            `yaml:"pdus,omitempty"`
+	Schedule  *NetworkSchedule  `yaml:"schedule,omitempty"`
+	union     json.RawMessage
 }
 type NetworkSpec0 = interface{}
 type NetworkSpec1 = interface{}
@@ -126,6 +132,12 @@ func (t NetworkSpec) MarshalJSON() ([]byte, error) {
 			return nil, err
 		}
 	}
+	if t.Functions != nil {
+		object["functions"], err = json.Marshal(t.Functions)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'functions': %w", err)
+		}
+	}
 	if t.Messages != nil {
 		object["messages"], err = json.Marshal(t.Messages)
 		if err != nil {
@@ -144,6 +156,12 @@ func (t NetworkSpec) MarshalJSON() ([]byte, error) {
 			return nil, fmt.Errorf("error marshaling 'pdus': %w", err)
 		}
 	}
+	if t.Schedule != nil {
+		object["schedule"], err = json.Marshal(t.Schedule)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'schedule': %w", err)
+		}
+	}
 	b, err = json.Marshal(object)
 	return b, err
 }
@@ -156,6 +174,12 @@ func (t *NetworkSpec) UnmarshalJSON(b []byte) error {
 	err = json.Unmarshal(b, &object)
 	if err != nil {
 		return err
+	}
+	if raw, found := object["functions"]; found {
+		err = json.Unmarshal(raw, &t.Functions)
+		if err != nil {
+			return fmt.Errorf("error reading 'functions': %w", err)
+		}
 	}
 	if raw, found := object["messages"]; found {
 		err = json.Unmarshal(raw, &t.Messages)
@@ -173,6 +197,12 @@ func (t *NetworkSpec) UnmarshalJSON(b []byte) error {
 		err = json.Unmarshal(raw, &t.Pdus)
 		if err != nil {
 			return fmt.Errorf("error reading 'pdus': %w", err)
+		}
+	}
+	if raw, found := object["schedule"]; found {
+		err = json.Unmarshal(raw, &t.Schedule)
+		if err != nil {
+			return fmt.Errorf("error reading 'schedule': %w", err)
 		}
 	}
 	return err

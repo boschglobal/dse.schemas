@@ -18,21 +18,21 @@ const (
 	FdExtended CanMessageFormat = FdExtended
 )
 const (
-	BR10Mbps FlexrayBitrate = BR10Mbps
-	BR25Mbps FlexrayBitrate = BR2_5Mbps
-	BR5Mbps  FlexrayBitrate = BR5Mbps
+	BR10Mbps FlexrayBitrate = "BR10Mbps"
+	BR25Mbps FlexrayBitrate = "BR2_5Mbps"
+	BR5Mbps  FlexrayBitrate = "BR5Mbps"
 )
 const (
-	Pop FlexrayBusModelMode = Pop
+	Pop FlexrayBusModelMode = "Pop"
 )
 const (
-	A  FlexrayChannel = A
-	AB FlexrayChannel = AB
-	B  FlexrayChannel = B
+	A  FlexrayChannel = "A"
+	AB FlexrayChannel = "AB"
+	B  FlexrayChannel = "B"
 )
 const (
-	Rx FlexrayDirection = Rx
-	Tx FlexrayDirection = Tx
+	FlexrayDirectionRx FlexrayDirection = "Rx"
+	FlexrayDirectionTx FlexrayDirection = "Tx"
 )
 const (
 	FlexrayPocStateN0 FlexrayPocState = 0
@@ -47,13 +47,17 @@ const (
 	FlexrayPocStateN9 FlexrayPocState = 9
 )
 const (
-	Continuous FlexrayTransmitMode = Continuous
-	SingleShot FlexrayTransmitMode = SingleShot
+	Continuous FlexrayTransmitMode = "Continuous"
+	SingleShot FlexrayTransmitMode = "SingleShot"
 )
 const (
 	IpProtocolN0  IpProtocol = 0
 	IpProtocolN17 IpProtocol = 17
 	IpProtocolN6  IpProtocol = 6
+)
+const (
+	PduDirRx PduDir = "Rx"
+	PduDirTx PduDir = "Tx"
 )
 
 type CanFrameType int
@@ -68,9 +72,9 @@ type DoIpMetadata struct {
 	PayloadType     int `yaml:"payload_type"`
 	ProtocolVersion int `yaml:"protocol_version"`
 }
-type FlexrayBitrate int
-type FlexrayBusModelMode int
-type FlexrayChannel int
+type FlexrayBitrate string
+type FlexrayBusModelMode string
+type FlexrayChannel string
 type FlexrayConfig struct {
 	BitRate                 *FlexrayBitrate          `yaml:"bit_rate,omitempty"`
 	BusModelMode            *FlexrayBusModelMode     `yaml:"bus_model_mode,omitempty"`
@@ -89,9 +93,9 @@ type FlexrayConfig struct {
 	StaticSlotLength        *int                     `yaml:"static_slot_length,omitempty"`
 	StaticSlotPayloadLength *int                     `yaml:"static_slot_payload_length,omitempty"`
 	Vcn                     *[]FlexrayNodeIdentifier `yaml:"vcn,omitempty"`
-	WakeupChannelSelect     *int                     `yaml:"wakeup_channel_select,omitempty"`
+	WakeupChannelSelect     *FlexrayChannel          `yaml:"wakeup_channel_select,omitempty"`
 }
-type FlexrayDirection int
+type FlexrayDirection string
 type FlexrayMetadata struct {
 	BaseCycle       *int                 `yaml:"base_cycle,omitempty"`
 	Channel         *FlexrayChannel      `yaml:"channel,omitempty"`
@@ -108,7 +112,7 @@ type FlexrayNodeIdentifier struct {
 	SwcId *int `yaml:"swc_id,omitempty"`
 }
 type FlexrayPocState int
-type FlexrayTransmitMode int
+type FlexrayTransmitMode string
 type IpAddr struct {
 	union json.RawMessage
 }
@@ -144,9 +148,6 @@ type IpV6 struct {
 	DstAddr IpAddressV6 `yaml:"dst_addr"`
 	SrcAddr IpAddressV6 `yaml:"src_addr"`
 }
-type LuaFunction struct {
-	Lua string `yaml:"lua"`
-}
 type LuaFunctions struct {
 	Decode *[]LuaFunction `yaml:"decode,omitempty"`
 	Encode *[]LuaFunction `yaml:"encode,omitempty"`
@@ -154,13 +155,16 @@ type LuaFunctions struct {
 type Pdu struct {
 	Annotations *Annotations  `yaml:"annotations,omitempty"`
 	Container   *int          `yaml:"container,omitempty"`
+	Dir         *PduDir       `yaml:"dir,omitempty"`
 	Functions   *LuaFunctions `yaml:"functions,omitempty"`
 	Id          int           `yaml:"id"`
 	Length      int           `yaml:"length"`
 	Metadata    *PduMetadata  `yaml:"metadata,omitempty"`
 	Pdu         *string       `yaml:"pdu,omitempty"`
+	Schedule    *PduSchedule  `yaml:"schedule,omitempty"`
 	Signals     []PduSignal   `yaml:"signals"`
 }
+type PduDir string
 type PduContainer struct {
 	Pdu PduEncodingBytes `yaml:"pdu"`
 }
@@ -185,6 +189,10 @@ type PduMetadata3 struct {
 }
 type PduMultiplexer struct {
 	Multiplexor PduEncodingBytes `yaml:"multiplexor"`
+}
+type PduSchedule struct {
+	Interval *float32 `yaml:"interval,omitempty"`
+	Phase    *float32 `yaml:"phase,omitempty"`
 }
 type PduSignal struct {
 	union json.RawMessage

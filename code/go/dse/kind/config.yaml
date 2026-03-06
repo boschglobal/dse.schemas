@@ -3,6 +3,7 @@ generate:
   models: true
 import-mapping:
   channel.yaml: delete_this_line
+  lua.yaml: delete_this_line
   metadata.yaml: delete_this_line
   pdu.yaml: delete_this_line
   transform.yaml: delete_this_line

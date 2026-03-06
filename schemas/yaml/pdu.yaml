@@ -30,6 +30,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FlexrayConfig'
+
 components:
   schemas:
     Pdu:
@@ -51,6 +52,11 @@ components:
           type: integer
           minimum: 1
           description: Length of the PDU in bytes.
+        dir:
+          type: string
+          enum: ["Tx", "Rx"]
+        schedule:
+          $ref: '#/components/schemas/PduSchedule'
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
         container:
@@ -69,12 +75,22 @@ components:
             - a scalar signal (`signal:`) using bit-based `encoding`
           items:
             $ref: '#/components/schemas/PduSignal'
+
+    PduSchedule:
+      type: object
+      properties:
+        phase:
+          type: number
+        interval:
+          type: number
+
     PduSignal:
       description: One of multiplexor entry, nested PDU container entry, or scalar signal.
       oneOf:
         - $ref: '#/components/schemas/PduMultiplexer'
         - $ref: '#/components/schemas/PduContainer'
         - $ref: '#/components/schemas/PduSignalScalar'
+
     PduMultiplexer:
       type: object
       description: Defines a multiplexor field using byte-based encoding. The `id` of the contained PDU is written into this field.
@@ -83,6 +99,7 @@ components:
       properties:
         multiplexor:
           $ref: '#/components/schemas/PduEncodingBytes'
+
     PduContainer:
       type: object
       description: Defines a nested PDU container area using byte-based encoding. The contained PDU is copied into this field.
@@ -91,6 +108,7 @@ components:
       properties:
         pdu:
           $ref: '#/components/schemas/PduEncodingBytes'
+
     PduSignalScalar:
       type: object
       description: Defines a scalar signal and its associated encoding.
@@ -106,6 +124,7 @@ components:
           $ref: '#/components/schemas/LuaFunctions'
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
+
     PduEncodingBytes:
       type: object
       description: Byte-based encoding, used for multiplexor and nested PDU container entries.
@@ -121,6 +140,7 @@ components:
           type: integer
           minimum: 1
           description: Length in bytes.
+
     PduSignalEncoding:
       type: object
       description: Bit-based encoding for scalar signals, with optional scaling and Lua hooks.
@@ -150,30 +170,6 @@ components:
           type: integer
           minimum: 1
           description: Bit length for the encoded signal value in the PDU.
-    LuaFunctions:
-      type: object
-      description: |
-        Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.
-      properties:
-        encode:
-          type: array
-          description: Lua script/functions applied during the encode path.
-          items:
-            $ref: '#/components/schemas/LuaFunction'
-        decode:
-          type: array
-          description: Lua script/functions applied during the decode path.
-          items:
-            $ref: '#/components/schemas/LuaFunction'
-    LuaFunction:
-      type: object
-      description: A Lua script/function block.
-      required:
-        - lua
-      properties:
-        lua:
-          type: string
-          description: Inline Lua script. Multi-line strings supported.
 
     FlexrayConfig:
       type: object
@@ -209,7 +205,7 @@ components:
         channel_enable:
           $ref: '#/components/schemas/FlexrayChannel'
         wakeup_channel_select:
-          type: integer
+          $ref: '#/components/schemas/FlexrayChannel'
         single_slot_enabled:
           type: boolean
         bus_model_mode:
@@ -227,22 +223,22 @@ components:
         swc_id:
           type: integer
     FlexrayBitrate:
-      type: integer
+      type: string
       enum: ["BR10Mbps", "BR5Mbps", "BR2_5Mbps"]
     FlexrayDirection:
-      type: integer
+      type: string
       enum: ["Rx", "Tx"]
     FlexrayTransmitMode:
-      type: integer
+      type: string
       enum: ["Continuous", "SingleShot"]
     FlexrayChannel:
-      type: integer
+      type: string
       enum: ["A", "B", "AB"]
     FlexrayPocState:
       type: integer
       enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     FlexrayBusModelMode:
-      type: integer
+      type: string
       enum: ["Pop"]
 
     PduMetadata:
@@ -435,3 +431,19 @@ components:
           $ref: '#/components/schemas/FlexrayTransmitMode'
         inhibit_null:
           type: boolean
+
+    LuaFunctions:
+      type: object
+      description: |
+        Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.
+      properties:
+        encode:
+          type: array
+          description: Lua script/functions applied during the encode path.
+          items:
+            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+        decode:
+          type: array
+          description: Lua script/functions applied during the decode path.
+          items:
+            $ref: 'lua.yaml#/components/schemas/LuaFunction'

@@ -29,6 +29,8 @@ spec:
         linear:
           factor: 0
           offset: 0
+        lua:
+          lua: string
       annotations:
         ? property1
         ? property2
@@ -70,6 +72,8 @@ signals:
       linear:
         factor: 0
         offset: 0
+      lua:
+        lua: string
     annotations:
       ? property1
       ? property2
@@ -95,6 +99,8 @@ transform:
   linear:
     factor: 0
     offset: 0
+  lua:
+    lua: string
 annotations:
   ? property1
   ? property2
@@ -112,6 +118,8 @@ A signal definition.
 |» linear|object|false|Represents a linear transformation in the form:<br>    f(X) = X * factor + offset.|
 |»» factor|number(double)|true|none|
 |»» offset|number(double)|true|none|
+|» lua|object|false|A Lua script/function block.|
+|»» lua|string|true|Inline Lua script. Multi-line strings supported.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 
