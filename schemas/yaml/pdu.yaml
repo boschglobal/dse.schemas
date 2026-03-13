@@ -60,8 +60,47 @@ components:
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
         container:
-          type: integer
-          description: Optional container identifier indicating this PDU is emitted within a multiplexor PDU (M-PDU).
+          description: Container configuration indicating how/where this PDU is transported.
+          oneOf:
+            - type: object
+              description: Container PDU configuration (eff. L-PDU).
+              required: [header]
+              properties:
+                header:
+                  type: string
+                  description: Container PDU header format.
+                  enum: ["Short", "Full"]
+            - type: object
+              description: Multiplexor PDU configuration (eff. M-PDU).
+              required: [header, signal]
+              properties:
+                header:
+                  type: string
+                  description: Container PDU header format.
+                  enum: ["Static"]
+                signal:
+                  type: string
+                  description: Name of the multiplexor signal.
+            - type: object
+              description: Contained PDU configuration (eff. I-PDU).
+              required: [id, priority]
+              properties:
+                id:
+                  type: integer
+                  description: Identifier of the Container PDU.
+                priority:
+                  type: integer
+                  description: Priority of this PDU within the Container PDU.
+            - type: object
+              description: Multiplexed PDU configuration.
+              required: [id, selector]
+              properties:
+                id:
+                  type: integer
+                  description: Identifier of the Container PDU.
+                selector:
+                  type: integer
+                  description: Selector of this PDU.
         functions:
           $ref: '#/components/schemas/LuaFunctions'
         metadata:
@@ -85,31 +124,6 @@ components:
           type: number
 
     PduSignal:
-      description: One of multiplexor entry, nested PDU container entry, or scalar signal.
-      oneOf:
-        - $ref: '#/components/schemas/PduMultiplexer'
-        - $ref: '#/components/schemas/PduContainer'
-        - $ref: '#/components/schemas/PduSignalScalar'
-
-    PduMultiplexer:
-      type: object
-      description: Defines a multiplexor field using byte-based encoding. The `id` of the contained PDU is written into this field.
-      required:
-        - multiplexor
-      properties:
-        multiplexor:
-          $ref: '#/components/schemas/PduEncodingBytes'
-
-    PduContainer:
-      type: object
-      description: Defines a nested PDU container area using byte-based encoding. The contained PDU is copied into this field.
-      required:
-        - pdu
-      properties:
-        pdu:
-          $ref: '#/components/schemas/PduEncodingBytes'
-
-    PduSignalScalar:
       type: object
       description: Defines a scalar signal and its associated encoding.
       required:
@@ -124,22 +138,6 @@ components:
           $ref: '#/components/schemas/LuaFunctions'
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
-
-    PduEncodingBytes:
-      type: object
-      description: Byte-based encoding, used for multiplexor and nested PDU container entries.
-      required:
-        - start
-        - length
-      properties:
-        start:
-          type: integer
-          minimum: 0
-          description: Start offset in bytes.
-        length:
-          type: integer
-          minimum: 1
-          description: Length in bytes.
 
     PduSignalEncoding:
       type: object

@@ -56,6 +56,13 @@ const (
 	IpProtocolN6  IpProtocol = 6
 )
 const (
+	Full  PduContainer0Header = "Full"
+	Short PduContainer0Header = "Short"
+)
+const (
+	Static PduContainer1Header = "Static"
+)
+const (
 	PduDirRx PduDir = "Rx"
 	PduDirTx PduDir = "Tx"
 )
@@ -153,25 +160,38 @@ type LuaFunctions struct {
 	Encode *[]LuaFunction `yaml:"encode,omitempty"`
 }
 type Pdu struct {
-	Annotations *Annotations  `yaml:"annotations,omitempty"`
-	Container   *int          `yaml:"container,omitempty"`
-	Dir         *PduDir       `yaml:"dir,omitempty"`
-	Functions   *LuaFunctions `yaml:"functions,omitempty"`
-	Id          int           `yaml:"id"`
-	Length      int           `yaml:"length"`
-	Metadata    *PduMetadata  `yaml:"metadata,omitempty"`
-	Pdu         *string       `yaml:"pdu,omitempty"`
-	Schedule    *PduSchedule  `yaml:"schedule,omitempty"`
-	Signals     []PduSignal   `yaml:"signals"`
+	Annotations *Annotations   `yaml:"annotations,omitempty"`
+	Container   *Pdu_Container `yaml:"container,omitempty"`
+	Dir         *PduDir        `yaml:"dir,omitempty"`
+	Functions   *LuaFunctions  `yaml:"functions,omitempty"`
+	Id          int            `yaml:"id"`
+	Length      int            `yaml:"length"`
+	Metadata    *PduMetadata   `yaml:"metadata,omitempty"`
+	Pdu         *string        `yaml:"pdu,omitempty"`
+	Schedule    *PduSchedule   `yaml:"schedule,omitempty"`
+	Signals     []PduSignal    `yaml:"signals"`
+}
+type PduContainer0 struct {
+	Header PduContainer0Header `yaml:"header"`
+}
+type PduContainer0Header string
+type PduContainer1 struct {
+	Header PduContainer1Header `yaml:"header"`
+	Signal string              `yaml:"signal"`
+}
+type PduContainer1Header string
+type PduContainer2 struct {
+	Id       int `yaml:"id"`
+	Priority int `yaml:"priority"`
+}
+type PduContainer3 struct {
+	Id       int `yaml:"id"`
+	Selector int `yaml:"selector"`
+}
+type Pdu_Container struct {
+	union json.RawMessage
 }
 type PduDir string
-type PduContainer struct {
-	Pdu PduEncodingBytes `yaml:"pdu"`
-}
-type PduEncodingBytes struct {
-	Length int `yaml:"length"`
-	Start  int `yaml:"start"`
-}
 type PduMetadata struct {
 	union json.RawMessage
 }
@@ -187,15 +207,15 @@ type PduMetadata2 struct {
 type PduMetadata3 struct {
 	Struct StructMetadata `yaml:"struct"`
 }
-type PduMultiplexer struct {
-	Multiplexor PduEncodingBytes `yaml:"multiplexor"`
-}
 type PduSchedule struct {
 	Interval *float32 `yaml:"interval,omitempty"`
 	Phase    *float32 `yaml:"phase,omitempty"`
 }
 type PduSignal struct {
-	union json.RawMessage
+	Annotations *Annotations       `yaml:"annotations,omitempty"`
+	Encoding    *PduSignalEncoding `yaml:"encoding,omitempty"`
+	Functions   *LuaFunctions      `yaml:"functions,omitempty"`
+	Signal      string             `yaml:"signal"`
 }
 type PduSignalEncoding struct {
 	Factor *float32 `yaml:"factor,omitempty"`
@@ -204,12 +224,6 @@ type PduSignalEncoding struct {
 	Min    *float32 `yaml:"min,omitempty"`
 	Offset *float32 `yaml:"offset,omitempty"`
 	Start  int      `yaml:"start"`
-}
-type PduSignalScalar struct {
-	Annotations *Annotations       `yaml:"annotations,omitempty"`
-	Encoding    *PduSignalEncoding `yaml:"encoding,omitempty"`
-	Functions   *LuaFunctions      `yaml:"functions,omitempty"`
-	Signal      string             `yaml:"signal"`
 }
 type SocketAdapter struct {
 	union json.RawMessage
@@ -277,6 +291,90 @@ func (t IpAddr) MarshalJSON() ([]byte, error) {
 	return b, err
 }
 func (t *IpAddr) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+func (t Pdu_Container) AsPduContainer0() (PduContainer0, error) {
+	var body PduContainer0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+func (t *Pdu_Container) FromPduContainer0(v PduContainer0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+func (t *Pdu_Container) MergePduContainer0(v PduContainer0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+func (t Pdu_Container) AsPduContainer1() (PduContainer1, error) {
+	var body PduContainer1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+func (t *Pdu_Container) FromPduContainer1(v PduContainer1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+func (t *Pdu_Container) MergePduContainer1(v PduContainer1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+func (t Pdu_Container) AsPduContainer2() (PduContainer2, error) {
+	var body PduContainer2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+func (t *Pdu_Container) FromPduContainer2(v PduContainer2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+func (t *Pdu_Container) MergePduContainer2(v PduContainer2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+func (t Pdu_Container) AsPduContainer3() (PduContainer3, error) {
+	var body PduContainer3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+func (t *Pdu_Container) FromPduContainer3(v PduContainer3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+func (t *Pdu_Container) MergePduContainer3(v PduContainer3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+func (t Pdu_Container) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+func (t *Pdu_Container) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -361,71 +459,6 @@ func (t PduMetadata) MarshalJSON() ([]byte, error) {
 	return b, err
 }
 func (t *PduMetadata) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-func (t PduSignal) AsPduMultiplexer() (PduMultiplexer, error) {
-	var body PduMultiplexer
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-func (t *PduSignal) FromPduMultiplexer(v PduMultiplexer) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-func (t *PduSignal) MergePduMultiplexer(v PduMultiplexer) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-func (t PduSignal) AsPduContainer() (PduContainer, error) {
-	var body PduContainer
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-func (t *PduSignal) FromPduContainer(v PduContainer) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-func (t *PduSignal) MergePduContainer(v PduContainer) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-func (t PduSignal) AsPduSignalScalar() (PduSignalScalar, error) {
-	var body PduSignalScalar
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-func (t *PduSignal) FromPduSignalScalar(v PduSignalScalar) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-func (t *PduSignal) MergePduSignalScalar(v PduSignalScalar) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-func (t PduSignal) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-func (t *PduSignal) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }

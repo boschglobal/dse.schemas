@@ -118,7 +118,43 @@ Specification for a Network.
 |»» interval|number|false|none|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|any|false|none|
-|» container|integer|false|Optional container identifier indicating this PDU is emitted within a multiplexor PDU (M-PDU).|
+|» container|any|false|Container configuration indicating how/where this PDU is transported.|
+
+oneOf
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|Container PDU configuration (eff. L-PDU).|
+|»»» header|string|true|Container PDU header format.|
+
+xor
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|Multiplexor PDU configuration (eff. M-PDU).|
+|»»» header|string|true|Container PDU header format.|
+|»»» signal|string|true|Name of the multiplexor signal.|
+
+xor
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|Contained PDU configuration (eff. I-PDU).|
+|»»» id|integer|true|Identifier of the Container PDU.|
+|»»» priority|integer|true|Priority of this PDU within the Container PDU.|
+
+xor
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|Multiplexed PDU configuration.|
+|»»» id|integer|true|Identifier of the Container PDU.|
+|»»» selector|integer|true|Selector of this PDU.|
+
+continued
+
+|Name|Type|Required|Description|
+|---|---|---|---|
 |» functions|object|false|Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.|
 |»» encode|[object]|false|Lua script/functions applied during the encode path.|
 |»»» lua|string|true|Inline Lua script. Multi-line strings supported.|
@@ -238,44 +274,17 @@ continued
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|» signals|[oneOf]|true|Defines the layout and content of the PDU. Each entry is one of:<br>- a multiplexor definition (`multiplexor:`) using byte-based encoding<br>- a nested PDU container area (`pdu:`) using byte-based encoding<br>- a scalar signal (`signal:`) using bit-based `encoding`|
-
-oneOf
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|»» *anonymous*|object|false|Defines a multiplexor field using byte-based encoding. The `id` of the contained PDU is written into this field.|
-|»»» multiplexor|object|true|Byte-based encoding, used for multiplexor and nested PDU container entries.|
-|»»»» start|integer|true|Start offset in bytes.|
-|»»»» length|integer|true|Length in bytes.|
-
-xor
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|»» *anonymous*|object|false|Defines a nested PDU container area using byte-based encoding. The contained PDU is copied into this field.|
-|»»» pdu|[NetworkSpec/properties/pdus/items/properties/signals/items/oneOf/0/properties/multiplexor](#schemanetworkspec/properties/pdus/items/properties/signals/items/oneof/0/properties/multiplexor)|true|Byte-based encoding, used for multiplexor and nested PDU container entries.|
-
-xor
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|»» *anonymous*|object|false|Defines a scalar signal and its associated encoding.|
-|»»» signal|string|true|The name of the scalar signal.|
-|»»» encoding|object|false|Bit-based encoding for scalar signals, with optional scaling and Lua hooks.|
-|»»»» factor|number|false|Scaling factor applied during encode/decode.|
-|»»»» offset|number|false|Offset applied during encode/decode.|
-|»»»» min|number|false|Optional minimum value constraint (of the physical signal value). Causes truncation of the value.|
-|»»»» max|number|false|Optional maximum value constraint. (of the physical signal value). Causes truncation of the value.|
-|»»»» start|integer|true|Bit start position for the encoded signal value in the PDU.|
-|»»»» length|integer|true|Bit length for the encoded signal value in the PDU.|
-|»»» functions|[NetworkSpec/properties/pdus/items/properties/functions](#schemanetworkspec/properties/pdus/items/properties/functions)|false|Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.|
-|»»» annotations|[NetworkSpec/properties/pdus/items/properties/annotations](#schemanetworkspec/properties/pdus/items/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
-
-continued
-
-|Name|Type|Required|Description|
-|---|---|---|---|
+|» signals|[object]|true|Defines the layout and content of the PDU. Each entry is one of:<br>- a multiplexor definition (`multiplexor:`) using byte-based encoding<br>- a nested PDU container area (`pdu:`) using byte-based encoding<br>- a scalar signal (`signal:`) using bit-based `encoding`|
+|»» signal|string|true|The name of the scalar signal.|
+|»» encoding|object|false|Bit-based encoding for scalar signals, with optional scaling and Lua hooks.|
+|»»» factor|number|false|Scaling factor applied during encode/decode.|
+|»»» offset|number|false|Offset applied during encode/decode.|
+|»»» min|number|false|Optional minimum value constraint (of the physical signal value). Causes truncation of the value.|
+|»»» max|number|false|Optional maximum value constraint. (of the physical signal value). Causes truncation of the value.|
+|»»» start|integer|true|Bit start position for the encoded signal value in the PDU.|
+|»»» length|integer|true|Bit length for the encoded signal value in the PDU.|
+|»» functions|[NetworkSpec/properties/pdus/items/properties/functions](#schemanetworkspec/properties/pdus/items/properties/functions)|false|Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.|
+|»» annotations|[NetworkSpec/properties/pdus/items/properties/annotations](#schemanetworkspec/properties/pdus/items/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 |metadata|[NetworkMetadata](#schemanetworkmetadata)|false|Network-level metadata and configuration objects.|
 |schedule|[NetworkSchedule](#schemanetworkschedule)|false|none|
 |functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
@@ -298,6 +307,9 @@ or
 |---|---|
 |dir|Tx|
 |dir|Rx|
+|header|Short|
+|header|Full|
+|header|Static|
 |message_format|Base|
 |message_format|Extended|
 |message_format|FdBase|
