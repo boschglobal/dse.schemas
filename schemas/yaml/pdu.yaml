@@ -445,3 +445,13 @@ components:
           description: Lua script/functions applied during the decode path.
           items:
             $ref: 'lua.yaml#/components/schemas/LuaFunction'
+        tx:
+          type: array
+          description: Lua script/functions applied during PDU Tx.
+          items:
+            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+        rx:
+          type: array
+          description: Lua script/functions applied during PDU Rx.
+          items:
+            $ref: 'lua.yaml#/components/schemas/LuaFunction'
