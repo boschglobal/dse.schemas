@@ -50,8 +50,8 @@ Alternatively, the latest Docker Images are available on ghcr.io and can be
 used as follows:
 
 ```bash
-$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:main
-$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:main
+$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:latest
+$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:latest
 ```
 
 
@@ -63,8 +63,8 @@ $ git clone https://github.com/boschglobal/dse.schemas.git
 $ cd dse.schemas
 
 # Optionally set builder images.
-$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:main
-$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:main
+$ export FLATC_BUILDER_IMAGE=ghcr.io/boschglobal/dse-flatc-builder:latest
+$ export PYTHON_BUILDER_IMAGE=ghcr.io/boschglobal/dse-python-builder:latest
 
 # Build and package the schemas.
 $ make

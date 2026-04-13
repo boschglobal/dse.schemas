@@ -46,7 +46,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-flatc-builder:main
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-flatc-builder:latest
           username: ${{ github.actor }}
           password:  ${{ secrets.GITHUB_TOKEN }}
           options: |
@@ -59,7 +59,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:main
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:latest
           username: ${{ github.actor }}
           password:  ${{ secrets.GITHUB_TOKEN }}
           options: |
@@ -74,7 +74,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:main
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE_NAME }}-python-builder:latest
           username: ${{ github.actor }}
           password:  ${{ secrets.GITHUB_TOKEN }}
           options: |
