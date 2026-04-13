@@ -71,6 +71,7 @@ type Stack struct {
 	Name        string         `yaml:"name"`
 	Sequential  *bool          `yaml:"sequential,omitempty"`
 	Stacked     *bool          `yaml:"stacked,omitempty"`
+	Workflows   *[]Workflow    `yaml:"workflows,omitempty"`
 }
 type Uses struct {
 	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`

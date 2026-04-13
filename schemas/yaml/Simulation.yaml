@@ -263,6 +263,11 @@ components:
             Sets environment variables in the runtime of this simulation stack.
           items:
             $ref: '#/components/schemas/Var'
+        workflows:
+          type: array
+          description: An array of workflows used to construct/process artifacts in this stack.
+          items:
+            $ref: '#/components/schemas/Workflow'
         models:
           type: array
           description: The list of models belonging to this simulation stack.

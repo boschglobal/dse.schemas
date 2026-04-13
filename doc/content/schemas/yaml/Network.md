@@ -159,6 +159,8 @@ continued
 |»» encode|[object]|false|Lua script/functions applied during the encode path.|
 |»»» lua|string|true|Inline Lua script. Multi-line strings supported.|
 |»» decode|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during the decode path.|
+|»» tx|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during PDU Tx.|
+|»» rx|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during PDU Rx.|
 |» metadata|any|false|Transport metadata for a PDU.|
 
 oneOf
@@ -167,8 +169,8 @@ oneOf
 |---|---|---|---|
 |»» *anonymous*|object|false|none|
 |»»» can|object|true|none|
-|»»»» message_format|integer|false|none|
-|»»»» frame_type|integer|false|none|
+|»»»» message_format|string|false|none|
+|»»»» frame_type|string|false|none|
 |»»»» interface_id|integer|false|CAN interface ID of the interface sending this PDU.|
 |»»»» network_id|integer|false|CAN network ID carrying this PDU.|
 

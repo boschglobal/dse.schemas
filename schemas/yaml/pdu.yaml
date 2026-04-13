@@ -263,10 +263,10 @@ components:
             struct:
               $ref: '#/components/schemas/StructMetadata'
     CanMessageFormat:
-      type: integer
+      type: string
       enum: ["Base", "Extended", "FdBase", "FdExtended"]
     CanFrameType:
-      type: integer
+      type: string
       enum: ["Data", "Remote", "Error", "Overload"]
     CanMessageMetadata:
       type: object

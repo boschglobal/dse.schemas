@@ -6,16 +6,16 @@ import (
 )
 
 const (
-	Data     CanFrameType = Data
-	Error    CanFrameType = Error
-	Overload CanFrameType = Overload
-	Remote   CanFrameType = Remote
+	Data     CanFrameType = "Data"
+	Error    CanFrameType = "Error"
+	Overload CanFrameType = "Overload"
+	Remote   CanFrameType = "Remote"
 )
 const (
-	Base       CanMessageFormat = Base
-	Extended   CanMessageFormat = Extended
-	FdBase     CanMessageFormat = FdBase
-	FdExtended CanMessageFormat = FdExtended
+	Base       CanMessageFormat = "Base"
+	Extended   CanMessageFormat = "Extended"
+	FdBase     CanMessageFormat = "FdBase"
+	FdExtended CanMessageFormat = "FdExtended"
 )
 const (
 	BR10Mbps FlexrayBitrate = "BR10Mbps"
@@ -67,8 +67,8 @@ const (
 	PduDirTx PduDir = "Tx"
 )
 
-type CanFrameType int
-type CanMessageFormat int
+type CanFrameType string
+type CanMessageFormat string
 type CanMessageMetadata struct {
 	FrameType     *CanFrameType     `yaml:"frame_type,omitempty"`
 	InterfaceId   *int              `yaml:"interface_id,omitempty"`
@@ -158,6 +158,8 @@ type IpV6 struct {
 type LuaFunctions struct {
 	Decode *[]LuaFunction `yaml:"decode,omitempty"`
 	Encode *[]LuaFunction `yaml:"encode,omitempty"`
+	Rx     *[]LuaFunction `yaml:"rx,omitempty"`
+	Tx     *[]LuaFunction `yaml:"tx,omitempty"`
 }
 type Pdu struct {
 	Annotations *Annotations   `yaml:"annotations,omitempty"`

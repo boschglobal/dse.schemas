@@ -124,6 +124,14 @@ stacks:
         value: string
         reference: uses
         networktype: network
+    workflows:
+      - name: string
+        uses: string
+        vars:
+          - name: string
+            value: string
+            reference: uses
+            networktype: network
     models:
       - annotations:
           - ? property1
@@ -361,6 +369,14 @@ env:
     value: string
     reference: uses
     networktype: network
+workflows:
+  - name: string
+    uses: string
+    vars:
+      - name: string
+        value: string
+        reference: uses
+        networktype: network
 models:
   - annotations:
       - ? property1
@@ -415,6 +431,7 @@ A stack definition which composes one or more models as a logical unit of the si
 |stacked|boolean|false|Indicate that models in this stack should be run in a 'stacked' configuration (i.e. as a single process).|
 |sequential|boolean|false|Indicate that models in this stack should be run as a Sequential Co-Simulation.|
 |env|[[Var](#schemavar)]|false|Sets environment variables in the runtime of this simulation stack.|
+|workflows|[[Workflow](#schemaworkflow)]|false|An array of workflows used to construct/process artifacts in this stack.|
 |models|[[Model](#schemamodel)]|true|The list of models belonging to this simulation stack.|
 
 <h2 id="tocS_Model">Model</h2>
