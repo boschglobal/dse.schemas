@@ -40,7 +40,6 @@ components:
       required:
         - id
         - length
-        - signals
       properties:
         pdu:
           type: string

@@ -27,13 +27,24 @@ spec:
     - signal: string
       transform:
         linear:
-          factor: 0
-          offset: 0
-        lua:
-          lua: string
+          factor: 2.5
+          offset: 1
+        functions:
+          vector:
+            lua: |
+              return function(s_vector)
+                return s_vector * 10
+              end
+          model:
+            lua: |
+              return function(s_model)
+                return s_model + 3
+              end
       annotations:
         ? property1
         ? property2
+  functions:
+    - lua: string
 
 ```
 
@@ -70,13 +81,24 @@ signals:
   - signal: string
     transform:
       linear:
-        factor: 0
-        offset: 0
-      lua:
-        lua: string
+        factor: 2.5
+        offset: 1
+      functions:
+        vector:
+          lua: |
+            return function(s_vector)
+              return s_vector * 10
+            end
+        model:
+          lua: |
+            return function(s_model)
+              return s_model + 3
+            end
     annotations:
       ? property1
       ? property2
+functions:
+  - lua: string
 
 ```
 
@@ -85,6 +107,8 @@ signals:
 |Name|Type|Required|Description|
 |---|---|---|---|
 |signals|[[Signal](#schemasignal)]|true|A list of signals belonging to this signal group.|
+|functions|[object]|false|A list of functions supporting transformations of this signal group.|
+|» lua|string|true|Inline Lua script. Multi-line strings supported.|
 
 <h2 id="tocS_Signal">Signal</h2>
 
@@ -97,10 +121,19 @@ signals:
 signal: string
 transform:
   linear:
-    factor: 0
-    offset: 0
-  lua:
-    lua: string
+    factor: 2.5
+    offset: 1
+  functions:
+    vector:
+      lua: |
+        return function(s_vector)
+          return s_vector * 10
+        end
+    model:
+      lua: |
+        return function(s_model)
+          return s_model + 3
+        end
 annotations:
   ? property1
   ? property2
@@ -115,11 +148,13 @@ A signal definition.
 |---|---|---|---|
 |signal|string|true|The name of the signal.|
 |transform|object|false|A transformation definition.|
-|» linear|object|false|Represents a linear transformation in the form:<br>    f(X) = X * factor + offset.|
+|» linear|object|false|Represents a linear transformation in the form:<br>    $S_{\mathrm{model}} = S_{\mathrm{vector}} \cdot factor + offset$|
 |»» factor|number(double)|true|none|
 |»» offset|number(double)|true|none|
-|» lua|object|false|A Lua script/function block.|
-|»» lua|string|true|Inline Lua script. Multi-line strings supported.|
+|» functions|object|false|Represents a function transformation in the forms: - $S_{\mathrm{model}} = f(S_{\mathrm{vector}})$<br>  This function transform is applied _after_ all other transforms.<br>- $S_{\mathrm{vector}} = f(S_{\mathrm{model}})$<br>  This function transform is applied _before_ all other transforms.|
+|»» model|object|false|A Lua script/function block.|
+|»»» lua|string|true|Inline Lua script. Multi-line strings supported.|
+|»» vector|[Signal/properties/transform/properties/functions/properties/model](#schemasignal/properties/transform/properties/functions/properties/model)|false|A Lua script/function block.|
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 

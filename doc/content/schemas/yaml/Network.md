@@ -15,47 +15,14 @@ linkTitle: "Network"
 ```yaml
 kind: Network
 metadata:
-  name: CAN1
+  name: string
+  labels:
+    property1: string
+    property2: string
   annotations:
-    message_lib: examples/stub/data/message.so
-    function_lib: examples/stub/data/function.so
-spec:
-  messages:
-    - message: systemStatus
-      annotations:
-        struct_name: CAN1_systemStatus_t
-        struct_size: 4
-        frame_id: 496
-        frame_length: 8
-        cycle_time_ms: 10
-      signals:
-        - signal: Crc
-          annotations:
-            struct_member_name: crc
-            struct_member_offset: 0
-            struct_member_primitive_type: uint8_t
-        - signal: Alive
-          annotations:
-            struct_member_name: alive
-            struct_member_offset: 1
-            struct_member_primitive_type: uint8
-        - signal: Temperature
-          annotations:
-            struct_member_name: temperature
-            struct_member_offset: 2
-            struct_member_primitive_type: int16_t
-      functions:
-        encode:
-          - function: counter_inc_uint8
-            annotations:
-              position: 1
-          - function: crc_generate
-            annotations:
-              position: 0
-        decode:
-          - function: crc_validate
-            annotations:
-              position: 0
+    ? property1
+    ? property2
+spec: {}
 
 ```
 
@@ -276,7 +243,7 @@ continued
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|» signals|[object]|true|Defines the layout and content of the PDU. Each entry is one of:<br>- a multiplexor definition (`multiplexor:`) using byte-based encoding<br>- a nested PDU container area (`pdu:`) using byte-based encoding<br>- a scalar signal (`signal:`) using bit-based `encoding`|
+|» signals|[object]|false|Defines the layout and content of the PDU. Each entry is one of:<br>- a multiplexor definition (`multiplexor:`) using byte-based encoding<br>- a nested PDU container area (`pdu:`) using byte-based encoding<br>- a scalar signal (`signal:`) using bit-based `encoding`|
 |»» signal|string|true|The name of the scalar signal.|
 |»» encoding|object|false|Bit-based encoding for scalar signals, with optional scaling and Lua hooks.|
 |»»» factor|number|false|Scaling factor applied during encode/decode.|
@@ -289,15 +256,15 @@ continued
 |»» annotations|[NetworkSpec/properties/pdus/items/properties/annotations](#schemanetworkspec/properties/pdus/items/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 |metadata|[NetworkMetadata](#schemanetworkmetadata)|false|Network-level metadata and configuration objects.|
 |schedule|[NetworkSchedule](#schemanetworkschedule)|false|none|
-|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
+|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Network Function definitions.|
 
-anyOf
+oneOf
 
 |Name|Type|Required|Description|
 |---|---|---|---|
 |*anonymous*|object|false|none|
 
-or
+xor
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -467,7 +434,7 @@ A Network message definition.
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 |signals|[[NetworkSignal](#schemanetworksignal)]|false|A list of signals represented in this message.|
-|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
+|functions|[MessageFunctions](#schemamessagefunctions)|false|Message functions to be applied to this message.|
 
 <h2 id="tocS_NetworkSignal">NetworkSignal</h2>
 
@@ -502,21 +469,18 @@ A Network signal definition.
 |signal|string|true|The name of the signal.|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 
-<h2 id="tocS_NetworkFunctions">NetworkFunctions</h2>
+<h2 id="tocS_MessageFunctions">MessageFunctions</h2>
 
-<a id="schemanetworkfunctions"></a>
-<a id="schema_NetworkFunctions"></a>
-<a id="tocSnetworkfunctions"></a>
-<a id="tocsnetworkfunctions"></a>
+<a id="schemamessagefunctions"></a>
+<a id="schema_MessageFunctions"></a>
+<a id="tocSmessagefunctions"></a>
+<a id="tocsmessagefunctions"></a>
 
 ```yaml
 encode:
-  - &a1
-    function: crc_generate
-    annotations:
-      position: 0
+  - lua: string
 decode:
-  - *a1
+  - lua: string
 
 ```
 
@@ -526,20 +490,24 @@ Message functions to be applied to this message.
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|encode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
-|decode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
+|encode|[object]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
+|» lua|string|true|Inline Lua script. Multi-line strings supported.|
+|decode|[[MessageFunctions/properties/encode/items](#schemamessagefunctions/properties/encode/items)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
 
-<h2 id="tocS_NetworkFunction">NetworkFunction</h2>
+<h2 id="tocS_NetworkFunctions">NetworkFunctions</h2>
 
-<a id="schemanetworkfunction"></a>
-<a id="schema_NetworkFunction"></a>
-<a id="tocSnetworkfunction"></a>
-<a id="tocsnetworkfunction"></a>
+<a id="schemanetworkfunctions"></a>
+<a id="schema_NetworkFunctions"></a>
+<a id="tocSnetworkfunctions"></a>
+<a id="tocsnetworkfunctions"></a>
 
 ```yaml
-function: crc_generate
+function: string
 annotations:
-  position: 0
+  ? property1
+  ? property2
+global:
+  - lua: string
 
 ```
 
@@ -550,9 +518,8 @@ Network Function definitions.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |function|string|false|The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).|
-|global|[object]|false|none|
-|» lua|string|true|Inline Lua script. Multi-line strings supported.|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+|global|[[MessageFunctions/properties/encode/items](#schemamessagefunctions/properties/encode/items)]|false|[A Lua script/function block.]|
 
 <h2 id="tocS_NetworkSchedule">NetworkSchedule</h2>
 

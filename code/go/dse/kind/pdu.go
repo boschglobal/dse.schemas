@@ -171,7 +171,7 @@ type Pdu struct {
 	Metadata    *PduMetadata   `yaml:"metadata,omitempty"`
 	Pdu         *string        `yaml:"pdu,omitempty"`
 	Schedule    *PduSchedule   `yaml:"schedule,omitempty"`
-	Signals     []PduSignal    `yaml:"signals"`
+	Signals     *[]PduSignal   `yaml:"signals,omitempty"`
 }
 type PduContainer0 struct {
 	Header PduContainer0Header `yaml:"header"`

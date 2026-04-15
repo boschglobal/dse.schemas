@@ -18,5 +18,6 @@ type SignalGroup struct {
 }
 type SignalGroupKind string
 type SignalGroupSpec struct {
-	Signals []Signal `yaml:"signals"`
+	Functions *[]LuaFunction `yaml:"functions,omitempty"`
+	Signals   []Signal       `yaml:"signals"`
 }

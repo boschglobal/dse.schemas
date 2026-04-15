@@ -45,6 +45,11 @@ components:
           description: A list of signals belonging to this signal group.
           items:
             $ref: '#/components/schemas/Signal'
+        functions:
+          type: array
+          description: A list of functions supporting transformations of this signal group.
+          items:
+            $ref: 'lua.yaml#/components/schemas/LuaFunction'
     Signal:
       type: object
       description: A signal definition.

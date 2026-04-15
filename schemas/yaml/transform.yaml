@@ -24,12 +24,27 @@ components:
     Transform:
       type: object
       description: A transformation definition.
+      example:
+        linear:
+          factor: 2.5
+          offset: 1.0
+        functions:
+          vector:
+            lua: |
+              return function(s_vector)
+                return s_vector * 10
+              end
+          model:
+            lua: |
+              return function(s_model)
+                return s_model + 3
+              end
       properties:
         linear:
           type: object
           description: >
             Represents a linear transformation in the form:
-                f(X) = X * factor + offset.
+                $S_{\mathrm{model}} = S_{\mathrm{vector}} \cdot factor + offset$
           required:
             - factor
             - offset
@@ -40,5 +55,16 @@ components:
             offset:
               type: number
               format: double
-        lua:
-          $ref: 'lua.yaml#/components/schemas/LuaFunction'
+        functions:
+          type: object
+          description: >
+            Represents a function transformation in the forms:
+            - $S_{\mathrm{model}} = f(S_{\mathrm{vector}})$
+              This function transform is applied _after_ all other transforms.
+            - $S_{\mathrm{vector}} = f(S_{\mathrm{model}})$
+              This function transform is applied _before_ all other transforms.
+          properties:
+            model:
+              $ref: 'lua.yaml#/components/schemas/LuaFunction'
+            vector:
+              $ref: 'lua.yaml#/components/schemas/LuaFunction'
