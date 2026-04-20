@@ -22,7 +22,7 @@ type File struct {
 }
 type FileReference string
 type Model struct {
-	Annotations *[]Annotations          `yaml:"annotations,omitempty"`
+	Annotations *Annotations            `yaml:"annotations,omitempty"`
 	Arch        *string                 `yaml:"arch,omitempty"`
 	Channels    []ModelChannel          `yaml:"channels"`
 	Env         *[]Var                  `yaml:"env,omitempty"`
@@ -64,14 +64,14 @@ type SimulationSpec struct {
 	Vars     *[]Var              `yaml:"vars,omitempty"`
 }
 type Stack struct {
-	Annotations *[]Annotations `yaml:"annotations,omitempty"`
-	Arch        *string        `yaml:"arch,omitempty"`
-	Env         *[]Var         `yaml:"env,omitempty"`
-	Models      []Model        `yaml:"models"`
-	Name        string         `yaml:"name"`
-	Sequential  *bool          `yaml:"sequential,omitempty"`
-	Stacked     *bool          `yaml:"stacked,omitempty"`
-	Workflows   *[]Workflow    `yaml:"workflows,omitempty"`
+	Annotations *Annotations `yaml:"annotations,omitempty"`
+	Arch        *string      `yaml:"arch,omitempty"`
+	Env         *[]Var       `yaml:"env,omitempty"`
+	Models      []Model      `yaml:"models"`
+	Name        string       `yaml:"name"`
+	Sequential  *bool        `yaml:"sequential,omitempty"`
+	Stacked     *bool        `yaml:"stacked,omitempty"`
+	Workflows   *[]Workflow  `yaml:"workflows,omitempty"`
 }
 type Uses struct {
 	Metadata *map[string]interface{} `yaml:"metadata,omitempty"`

@@ -113,8 +113,8 @@ vars:
     networktype: network
 stacks:
   - annotations:
-      - ? property1
-        ? property2
+      ? property1
+      ? property2
     name: string
     arch: linux-amd64
     stacked: true
@@ -134,8 +134,8 @@ stacks:
             networktype: network
     models:
       - annotations:
-          - ? property1
-            ? property2
+          ? property1
+          ? property2
         name: string
         model: string
         uid: 0
@@ -358,8 +358,8 @@ A file definition.
 
 ```yaml
 annotations:
-  - ? property1
-    ? property2
+  ? property1
+  ? property2
 name: string
 arch: linux-amd64
 stacked: true
@@ -379,8 +379,8 @@ workflows:
         networktype: network
 models:
   - annotations:
-      - ? property1
-        ? property2
+      ? property1
+      ? property2
     name: string
     model: string
     uid: 0
@@ -424,7 +424,7 @@ A stack definition which composes one or more models as a logical unit of the si
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|annotations|[object]|false|none|
+|annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 |name|string|true|The name of the stack.|
 |arch|string|false|The architecture of the stack, if different from the simulation default architecture.|
@@ -443,8 +443,8 @@ A stack definition which composes one or more models as a logical unit of the si
 
 ```yaml
 annotations:
-  - ? property1
-    ? property2
+  ? property1
+  ? property2
 name: string
 model: string
 uid: 0
@@ -486,7 +486,7 @@ vars:
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|annotations|[[Stack/properties/annotations/items](#schemastack/properties/annotations/items)]|false|[Non identifying information (i.e. information specific to the object itself).]|
+|annotations|[Stack/properties/annotations](#schemastack/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 |name|string|true|The name of the model in the simulation (i.e. the model instance name).|
 |model|string|true|The name of the model this instance represents (as named in the associated repository metadata).|
 |uid|integer|false|UID assigned to this model instance. Should be unique to the simulation.|
