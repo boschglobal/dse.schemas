@@ -109,7 +109,7 @@ components:
           items:
             $ref: '#/components/schemas/NetworkSignal'
         functions:
-          $ref: '#/components/schemas/MessageFunctions'
+          $ref: '#/components/schemas/NetworkFunctions'
       example:
         message: systemStatus
         annotations:
@@ -161,7 +161,7 @@ components:
           struct_member_offset: 2
           struct_member_primitive_type: int16_t
 
-    MessageFunctions:
+    NetworkFunctions:
       type: object
       description: Message functions to be applied to this message.
       properties:
@@ -169,14 +169,20 @@ components:
           type: array
           description: Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.
           items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+            $ref: '#/components/schemas/NetworkFunction'
         decode:
           type: array
           description: Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.
           items:
+            $ref: '#/components/schemas/NetworkFunction'
+        annotations:
+          $ref: 'metadata.yaml#/components/schemas/Annotations'
+        global:
+          type: array
+          items:
             $ref: 'lua.yaml#/components/schemas/LuaFunction'
 
-    NetworkFunctions:
+    NetworkFunction:
       type: object
       description: |
         Network Function definitions.
@@ -186,10 +192,6 @@ components:
           description: The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
-        global:
-          type: array
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
 
     NetworkSchedule:
       type: object

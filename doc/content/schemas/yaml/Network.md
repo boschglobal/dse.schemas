@@ -256,7 +256,7 @@ continued
 |»» annotations|[NetworkSpec/properties/pdus/items/properties/annotations](#schemanetworkspec/properties/pdus/items/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 |metadata|[NetworkMetadata](#schemanetworkmetadata)|false|Network-level metadata and configuration objects.|
 |schedule|[NetworkSchedule](#schemanetworkschedule)|false|none|
-|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Network Function definitions.|
+|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
 
 oneOf
 
@@ -434,7 +434,7 @@ A Network message definition.
 |annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |» **additionalProperties**|any|false|none|
 |signals|[[NetworkSignal](#schemanetworksignal)]|false|A list of signals represented in this message.|
-|functions|[MessageFunctions](#schemamessagefunctions)|false|Message functions to be applied to this message.|
+|functions|[NetworkFunctions](#schemanetworkfunctions)|false|Message functions to be applied to this message.|
 
 <h2 id="tocS_NetworkSignal">NetworkSignal</h2>
 
@@ -469,17 +469,28 @@ A Network signal definition.
 |signal|string|true|The name of the signal.|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
 
-<h2 id="tocS_MessageFunctions">MessageFunctions</h2>
+<h2 id="tocS_NetworkFunctions">NetworkFunctions</h2>
 
-<a id="schemamessagefunctions"></a>
-<a id="schema_MessageFunctions"></a>
-<a id="tocSmessagefunctions"></a>
-<a id="tocsmessagefunctions"></a>
+<a id="schemanetworkfunctions"></a>
+<a id="schema_NetworkFunctions"></a>
+<a id="tocSnetworkfunctions"></a>
+<a id="tocsnetworkfunctions"></a>
 
 ```yaml
 encode:
-  - lua: string
+  - function: string
+    annotations:
+      ? property1
+      ? property2
 decode:
+  - function: string
+    annotations:
+      ? property1
+      ? property2
+annotations:
+  ? property1
+  ? property2
+global:
   - lua: string
 
 ```
@@ -490,24 +501,24 @@ Message functions to be applied to this message.
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|encode|[object]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
+|encode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
+|decode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
+|annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
+|global|[object]|false|none|
 |» lua|string|true|Inline Lua script. Multi-line strings supported.|
-|decode|[[MessageFunctions/properties/encode/items](#schemamessagefunctions/properties/encode/items)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
 
-<h2 id="tocS_NetworkFunctions">NetworkFunctions</h2>
+<h2 id="tocS_NetworkFunction">NetworkFunction</h2>
 
-<a id="schemanetworkfunctions"></a>
-<a id="schema_NetworkFunctions"></a>
-<a id="tocSnetworkfunctions"></a>
-<a id="tocsnetworkfunctions"></a>
+<a id="schemanetworkfunction"></a>
+<a id="schema_NetworkFunction"></a>
+<a id="tocSnetworkfunction"></a>
+<a id="tocsnetworkfunction"></a>
 
 ```yaml
 function: string
 annotations:
   ? property1
   ? property2
-global:
-  - lua: string
 
 ```
 
@@ -519,7 +530,6 @@ Network Function definitions.
 |---|---|---|---|
 |function|string|false|The name of the function (i.e. the name of the symbol _in_ the Network Function shared library).|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
-|global|[[MessageFunctions/properties/encode/items](#schemamessagefunctions/properties/encode/items)]|false|[A Lua script/function block.]|
 
 <h2 id="tocS_NetworkSchedule">NetworkSchedule</h2>
 

@@ -10,24 +10,25 @@ const (
 	NetworkKindNetwork NetworkKind = "Network"
 )
 
-type MessageFunctions struct {
-	Decode *[]LuaFunction `yaml:"decode,omitempty"`
-	Encode *[]LuaFunction `yaml:"encode,omitempty"`
-}
 type Network struct {
 	Kind     NetworkKind     `yaml:"kind"`
 	Metadata *ObjectMetadata `yaml:"metadata,omitempty"`
 	Spec     NetworkSpec     `yaml:"spec"`
 }
 type NetworkKind string
+type NetworkFunction struct {
+	Annotations *Annotations `yaml:"annotations,omitempty"`
+	Function    *string      `yaml:"function,omitempty"`
+}
 type NetworkFunctions struct {
-	Annotations *Annotations   `yaml:"annotations,omitempty"`
-	Function    *string        `yaml:"function,omitempty"`
-	Global      *[]LuaFunction `yaml:"global,omitempty"`
+	Annotations *Annotations       `yaml:"annotations,omitempty"`
+	Decode      *[]NetworkFunction `yaml:"decode,omitempty"`
+	Encode      *[]NetworkFunction `yaml:"encode,omitempty"`
+	Global      *[]LuaFunction     `yaml:"global,omitempty"`
 }
 type NetworkMessage struct {
 	Annotations *Annotations      `yaml:"annotations,omitempty"`
-	Functions   *MessageFunctions `yaml:"functions,omitempty"`
+	Functions   *NetworkFunctions `yaml:"functions,omitempty"`
 	Message     string            `yaml:"message"`
 	Signals     *[]NetworkSignal  `yaml:"signals,omitempty"`
 }
