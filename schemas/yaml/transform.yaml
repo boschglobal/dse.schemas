@@ -65,6 +65,20 @@ components:
               This function transform is applied _before_ all other transforms.
           properties:
             model:
-              $ref: 'lua.yaml#/components/schemas/LuaFunction'
+              type: object
+              description: Determine the Model value based on the Transform of the Vector value.
+              properties:
+                lua:
+                  type: string
+                  description: Inline Lua script.
             vector:
-              $ref: 'lua.yaml#/components/schemas/LuaFunction'
+              type: object
+              description: Determine the Vector value based on the Transform of the Model value.
+              properties:
+                lua:
+                  type: string
+                  description: Inline Lua script.
+        timing:
+          allOf:
+            - $ref: 'timing.yaml#/components/schemas/Timing'
+          description: Signal level time modelling.

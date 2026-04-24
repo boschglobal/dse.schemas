@@ -19,6 +19,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SignalGroup'
+
 components:
   schemas:
     SignalGroup:
@@ -46,10 +47,16 @@ components:
           items:
             $ref: '#/components/schemas/Signal'
         functions:
-          type: array
-          description: A list of functions supporting transformations of this signal group.
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          description: A map of function types supporting transformations of this signal group.
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script.
+        timing:
+          allOf:
+            - $ref: 'timing.yaml#/components/schemas/Timing'
+          description: Signal Group time modelling, applies to all contained signals.
     Signal:
       type: object
       description: A signal definition.

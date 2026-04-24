@@ -6,4 +6,5 @@ import-mapping:
   lua.yaml: delete_this_line
   metadata.yaml: delete_this_line
   pdu.yaml: delete_this_line
+  timing.yaml: delete_this_line
   transform.yaml: delete_this_line

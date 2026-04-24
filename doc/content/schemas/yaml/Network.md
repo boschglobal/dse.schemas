@@ -80,9 +80,9 @@ Specification for a Network.
 |» id|integer|true|Identifier for the PDU.|
 |» length|integer|true|Length of the PDU in bytes.|
 |» dir|string|false|none|
-|» schedule|object|false|none|
-|»» phase|number|false|none|
-|»» interval|number|false|none|
+|» schedule|object|false|PDU schedule.|
+|»» phase|number|false|Phase offset relative to source or reference.|
+|»» interval|number|false|Time interval between updates, samples, or cycles.|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|any|false|none|
 |» container|any|false|Container configuration indicating how/where this PDU is transported.|

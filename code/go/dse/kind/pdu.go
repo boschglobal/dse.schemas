@@ -209,10 +209,7 @@ type PduMetadata2 struct {
 type PduMetadata3 struct {
 	Struct StructMetadata `yaml:"struct"`
 }
-type PduSchedule struct {
-	Interval *float32 `yaml:"interval,omitempty"`
-	Phase    *float32 `yaml:"phase,omitempty"`
-}
+type PduSchedule = Timing
 type PduSignal struct {
 	Annotations *Annotations       `yaml:"annotations,omitempty"`
 	Encoding    *PduSignalEncoding `yaml:"encoding,omitempty"`

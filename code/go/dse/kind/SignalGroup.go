@@ -18,6 +18,9 @@ type SignalGroup struct {
 }
 type SignalGroupKind string
 type SignalGroupSpec struct {
-	Functions *[]LuaFunction `yaml:"functions,omitempty"`
-	Signals   []Signal       `yaml:"signals"`
+	Functions *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"functions,omitempty"`
+	Signals []Signal `yaml:"signals"`
+	Timing  *Timing  `yaml:"timing,omitempty"`
 }

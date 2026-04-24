@@ -115,12 +115,9 @@ components:
             $ref: '#/components/schemas/PduSignal'
 
     PduSchedule:
-      type: object
-      properties:
-        phase:
-          type: number
-        interval:
-          type: number
+      allOf:
+        - $ref: 'timing.yaml#/components/schemas/Timing'
+      description: PDU schedule.
 
     PduSignal:
       type: object
