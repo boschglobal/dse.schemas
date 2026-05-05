@@ -178,9 +178,11 @@ components:
         annotations:
           $ref: 'metadata.yaml#/components/schemas/Annotations'
         global:
-          type: array
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script.
 
     NetworkFunction:
       type: object

@@ -24,7 +24,9 @@ type NetworkFunctions struct {
 	Annotations *Annotations       `yaml:"annotations,omitempty"`
 	Decode      *[]NetworkFunction `yaml:"decode,omitempty"`
 	Encode      *[]NetworkFunction `yaml:"encode,omitempty"`
-	Global      *[]LuaFunction     `yaml:"global,omitempty"`
+	Global      *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"global,omitempty"`
 }
 type NetworkMessage struct {
 	Annotations *Annotations      `yaml:"annotations,omitempty"`

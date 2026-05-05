@@ -123,11 +123,14 @@ continued
 |Name|Type|Required|Description|
 |---|---|---|---|
 |» functions|object|false|Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.|
-|»» encode|[object]|false|Lua script/functions applied during the encode path.|
-|»»» lua|string|true|Inline Lua script. Multi-line strings supported.|
-|»» decode|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during the decode path.|
-|»» tx|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during PDU Tx.|
-|»» rx|[[NetworkSpec/properties/pdus/items/properties/functions/properties/encode/items](#schemanetworkspec/properties/pdus/items/properties/functions/properties/encode/items)]|false|Lua script/functions applied during PDU Rx.|
+|»» encode|object|false|none|
+|»»» lua|string|false|Inline Lua script applied during the encode path.|
+|»» decode|object|false|none|
+|»»» lua|string|false|Inline Lua script applied during the decode path.|
+|»» tx|object|false|none|
+|»»» lua|string|false|Inline Lua script applied during PDU Tx.|
+|»» rx|object|false|none|
+|»»» lua|string|false|Inline Lua script applied during the PDU Rx.|
 |» metadata|any|false|Transport metadata for a PDU.|
 
 oneOf
@@ -491,7 +494,7 @@ annotations:
   ? property1
   ? property2
 global:
-  - lua: string
+  lua: string
 
 ```
 
@@ -504,8 +507,8 @@ Message functions to be applied to this message.
 |encode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the encode processing path (i.e. from Signal to Network interface). Functions are implicitly applied in the order of definition.|
 |decode|[[NetworkFunction](#schemanetworkfunction)]|false|Message functions applied to the decode processing path (i.e. from Network to Signal interface). Functions are implicitly applied in the order of definition.|
 |annotations|[NetworkMessage/properties/annotations](#schemanetworkmessage/properties/annotations)|false|Non identifying information (i.e. information specific to the object itself).|
-|global|[object]|false|none|
-|» lua|string|true|Inline Lua script. Multi-line strings supported.|
+|global|object|false|none|
+|» lua|string|false|Inline Lua script.|
 
 <h2 id="tocS_NetworkFunction">NetworkFunction</h2>
 

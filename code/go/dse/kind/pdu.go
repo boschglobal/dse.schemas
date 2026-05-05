@@ -156,10 +156,18 @@ type IpV6 struct {
 	SrcAddr IpAddressV6 `yaml:"src_addr"`
 }
 type LuaFunctions struct {
-	Decode *[]LuaFunction `yaml:"decode,omitempty"`
-	Encode *[]LuaFunction `yaml:"encode,omitempty"`
-	Rx     *[]LuaFunction `yaml:"rx,omitempty"`
-	Tx     *[]LuaFunction `yaml:"tx,omitempty"`
+	Decode *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"decode,omitempty"`
+	Encode *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"encode,omitempty"`
+	Rx *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"rx,omitempty"`
+	Tx *struct {
+		Lua *string `yaml:"lua,omitempty"`
+	} `yaml:"tx,omitempty"`
 }
 type Pdu struct {
 	Annotations *Annotations   `yaml:"annotations,omitempty"`

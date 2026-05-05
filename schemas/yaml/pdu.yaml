@@ -432,22 +432,26 @@ components:
         Lua-based script/functions to be applied in order. Each entry contains a Lua script block which is loaded into the Lua runtime.
       properties:
         encode:
-          type: array
-          description: Lua script/functions applied during the encode path.
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script applied during the encode path.
         decode:
-          type: array
-          description: Lua script/functions applied during the decode path.
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script applied during the decode path.
         tx:
-          type: array
-          description: Lua script/functions applied during PDU Tx.
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script applied during PDU Tx.
         rx:
-          type: array
-          description: Lua script/functions applied during PDU Rx.
-          items:
-            $ref: 'lua.yaml#/components/schemas/LuaFunction'
+          type: object
+          properties:
+            lua:
+              type: string
+              description: Inline Lua script applied during the PDU Rx.
