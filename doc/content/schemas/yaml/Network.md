@@ -80,9 +80,27 @@ Specification for a Network.
 |» id|integer|true|Identifier for the PDU.|
 |» length|integer|true|Length of the PDU in bytes.|
 |» dir|string|false|none|
-|» schedule|object|false|PDU schedule.|
-|»» phase|number|false|Phase offset relative to source or reference.|
-|»» interval|number|false|Time interval between updates, samples, or cycles.|
+|» schedule|any|false|PDU schedule.|
+
+allOf
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|A timing block.|
+|»»» phase|number|false|Phase offset relative to source or reference.|
+|»»» interval|number|false|Time interval between updates, samples, or cycles.|
+
+and
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|»» *anonymous*|object|false|none|
+|»»» trigger|string|false|none|
+
+continued
+
+|Name|Type|Required|Description|
+|---|---|---|---|
 |» annotations|object|false|Non identifying information (i.e. information specific to the object itself).|
 |»» **additionalProperties**|any|false|none|
 |» container|any|false|Container configuration indicating how/where this PDU is transported.|
@@ -279,6 +297,8 @@ xor
 |---|---|
 |dir|Tx|
 |dir|Rx|
+|trigger|Change|
+|trigger|Periodic|
 |header|Short|
 |header|Full|
 |header|Static|

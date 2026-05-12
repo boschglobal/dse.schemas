@@ -66,6 +66,10 @@ const (
 	PduDirRx PduDir = "Rx"
 	PduDirTx PduDir = "Tx"
 )
+const (
+	Change   PduScheduleTrigger = "Change"
+	Periodic PduScheduleTrigger = "Periodic"
+)
 
 type CanFrameType string
 type CanMessageFormat string
@@ -217,7 +221,12 @@ type PduMetadata2 struct {
 type PduMetadata3 struct {
 	Struct StructMetadata `yaml:"struct"`
 }
-type PduSchedule = Timing
+type PduSchedule struct {
+	Interval *float32            `yaml:"interval,omitempty"`
+	Phase    *float32            `yaml:"phase,omitempty"`
+	Trigger  *PduScheduleTrigger `yaml:"trigger,omitempty"`
+}
+type PduScheduleTrigger string
 type PduSignal struct {
 	Annotations *Annotations       `yaml:"annotations,omitempty"`
 	Encoding    *PduSignalEncoding `yaml:"encoding,omitempty"`
