@@ -116,3 +116,5 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git tag -a -f -m "${{ env.tag }}" code/go/dse/${{ env.tag }}
           git push origin tag code/go/dse/${{ env.tag }}
+          git tag -a -f -m "${{ env.tag }}" code/go/ab/${{ env.tag }}
+          git push origin tag code/go/ab/${{ env.tag }}

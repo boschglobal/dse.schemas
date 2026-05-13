@@ -3,9 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ###############
-## Builder Images.
+## Docker Images.
 FLATC_BUILDER_IMAGE ?= ghcr.io/boschglobal/dse-flatc-builder:latest
 PYTHON_BUILDER_IMAGE ?= ghcr.io/boschglobal/dse-python-builder:latest
+
+
+###############
+## External Projects.
+ABS_REPO ?= https://github.com/boschglobal/automotive-bus-schema
+ABS_VERSION ?= 1.0.16
+export ABS_URL ?= $(ABS_REPO)/releases/download/v$(ABS_VERSION)/automotive-bus-schema.tar.gz
 
 
 ###############
@@ -155,6 +162,7 @@ dist:
 generate_clean:
 	-@rm -rf $(DOC_SCHEMA_YAML_DIR)
 	$(MAKE) -C code/go/dse clean
+	$(MAKE) -C code/go/ab clean
 
 # NOTE FBS doc generation is not working.
 generate_doc_fbs:
@@ -187,6 +195,7 @@ generate_doc: generate_doc_yaml
 
 generate_code:
 	$(MAKE) -C code/go/dse generate
+	$(MAKE) -C code/go/ab generate
 
 generate: generate_clean generate_code $(DOC_YAML_SCHEMAS) generate_doc
 
