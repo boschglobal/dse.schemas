@@ -233,6 +233,9 @@ components:
           description: This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.
           enum:
             - uses
+        path:
+          type: string
+          description: A sub-path relative to the uses artefact (ZIP file) where the item is located.
     Stack:
       type: object
       description: A stack definition which composes one or more models as a logical unit of the simulation.

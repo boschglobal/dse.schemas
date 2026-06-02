@@ -17,6 +17,7 @@ const (
 
 type File struct {
 	Name      string         `yaml:"name"`
+	Path      *string        `yaml:"path,omitempty"`
 	Reference *FileReference `yaml:"reference,omitempty"`
 	Value     string         `yaml:"value"`
 }

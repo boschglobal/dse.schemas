@@ -152,6 +152,7 @@ stacks:
           - name: string
             value: string
             reference: uses
+            path: string
         env:
           - name: string
             value: string
@@ -330,6 +331,7 @@ A variable definition.
 name: string
 value: string
 reference: uses
+path: string
 
 ```
 
@@ -342,6 +344,7 @@ A file definition.
 |name|string|true|Name of the file (to be placed in the data folder of a model) or a relative path of the file (i.e. relative to the Model defining the file).|
 |value|string|true|A corresponding file value, interpret as a 'uses' reference or a local file path.|
 |reference|string|false|This value is derived from the specified reference (e.g. a downloaded file) The resource name is specified in the value.|
+|path|string|false|A sub-path relative to the uses artefact (ZIP file) where the item is located.|
 
 #### Enumerated Values
 
@@ -397,6 +400,7 @@ models:
       - name: string
         value: string
         reference: uses
+        path: string
     env:
       - name: string
         value: string
@@ -461,6 +465,7 @@ files:
   - name: string
     value: string
     reference: uses
+    path: string
 env:
   - name: string
     value: string
