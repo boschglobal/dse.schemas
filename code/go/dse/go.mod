@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/google/flatbuffers v25.12.19+incompatible
-	github.com/oapi-codegen/runtime v1.6.0
+	github.com/oapi-codegen/runtime v1.7.0
 )
 
 require (
