@@ -11,6 +11,15 @@ const (
 	StackKindStack StackKind = "Stack"
 )
 
+func (e StackKind) Valid() bool {
+	switch e {
+	case StackKindStack:
+		return true
+	default:
+		return false
+	}
+}
+
 type MessageQueue struct {
 	Uri *string `yaml:"uri,omitempty"`
 }

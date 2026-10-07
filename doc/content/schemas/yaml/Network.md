@@ -22,7 +22,121 @@ metadata:
   annotations:
     ? property1
     ? property2
-spec: {}
+spec:
+  messages:
+    - message: systemStatus
+      annotations:
+        struct_name: CAN1_systemStatus_t
+        struct_size: 4
+        frame_id: 496
+        frame_length: 8
+        cycle_time_ms: 10
+      signals:
+        - signal: Crc
+          annotations:
+            struct_member_name: crc
+            struct_member_offset: 0
+            struct_member_primitive_type: uint8_t
+      functions:
+        encode:
+          - function: crc_generate
+            annotations:
+              position: 0
+        decode:
+          - function: crc_validate
+            annotations:
+              position: 0
+  pdus:
+    - pdu: string
+      id: 0
+      length: 1
+      dir: Tx
+      schedule:
+        phase: 0
+        interval: 0
+        trigger: Change
+      annotations:
+        ? property1
+        ? property2
+      container:
+        header: Short
+      functions:
+        encode:
+          lua: string
+        decode:
+          lua: string
+        tx:
+          lua: string
+        rx:
+          lua: string
+      metadata:
+        can:
+          message_format: Base
+          frame_type: Data
+          interface_id: 0
+          network_id: 0
+      signals:
+        - signal: string
+          encoding:
+            factor: 1
+            offset: 0
+            min: 0
+            max: 0
+            start: 0
+            length: 1
+          functions:
+            encode:
+              lua: string
+            decode:
+              lua: string
+            tx:
+              lua: string
+            rx:
+              lua: string
+          annotations:
+            ? property1
+            ? property2
+  metadata:
+    flexray:
+      vcn:
+        - ecu_id: 0
+          cc_id: 0
+          swc_id: 0
+      initial_poc_state_cha: 0
+      initial_poc_state_chb: 0
+      inhibit_null_frames: true
+      macrotick_per_cycle: 0
+      microtick_per_cycle: 0
+      network_idle_start: 0
+      static_slot_length: 0
+      static_slot_count: 0
+      minislot_length: 0
+      minislot_count: 0
+      static_slot_payload_length: 0
+      bit_rate: BR10Mbps
+      channel_enable: A
+      wakeup_channel_select: A
+      single_slot_enabled: true
+      bus_model_mode: Pop
+      node_name: string
+  schedule:
+    epoch_offset: 0
+  functions:
+    encode:
+      - function: string
+        annotations:
+          ? property1
+          ? property2
+    decode:
+      - function: string
+        annotations:
+          ? property1
+          ? property2
+    annotations:
+      ? property1
+      ? property2
+    global:
+      lua: string
 
 ```
 
@@ -64,7 +178,120 @@ A Network definition.
 <a id="tocsnetworkspec"></a>
 
 ```yaml
-{}
+messages:
+  - message: systemStatus
+    annotations:
+      struct_name: CAN1_systemStatus_t
+      struct_size: 4
+      frame_id: 496
+      frame_length: 8
+      cycle_time_ms: 10
+    signals:
+      - signal: Crc
+        annotations:
+          struct_member_name: crc
+          struct_member_offset: 0
+          struct_member_primitive_type: uint8_t
+    functions:
+      encode:
+        - function: crc_generate
+          annotations:
+            position: 0
+      decode:
+        - function: crc_validate
+          annotations:
+            position: 0
+pdus:
+  - pdu: string
+    id: 0
+    length: 1
+    dir: Tx
+    schedule:
+      phase: 0
+      interval: 0
+      trigger: Change
+    annotations:
+      ? property1
+      ? property2
+    container:
+      header: Short
+    functions:
+      encode:
+        lua: string
+      decode:
+        lua: string
+      tx:
+        lua: string
+      rx:
+        lua: string
+    metadata:
+      can:
+        message_format: Base
+        frame_type: Data
+        interface_id: 0
+        network_id: 0
+    signals:
+      - signal: string
+        encoding:
+          factor: 1
+          offset: 0
+          min: 0
+          max: 0
+          start: 0
+          length: 1
+        functions:
+          encode:
+            lua: string
+          decode:
+            lua: string
+          tx:
+            lua: string
+          rx:
+            lua: string
+        annotations:
+          ? property1
+          ? property2
+metadata:
+  flexray:
+    vcn:
+      - ecu_id: 0
+        cc_id: 0
+        swc_id: 0
+    initial_poc_state_cha: 0
+    initial_poc_state_chb: 0
+    inhibit_null_frames: true
+    macrotick_per_cycle: 0
+    microtick_per_cycle: 0
+    network_idle_start: 0
+    static_slot_length: 0
+    static_slot_count: 0
+    minislot_length: 0
+    minislot_count: 0
+    static_slot_payload_length: 0
+    bit_rate: BR10Mbps
+    channel_enable: A
+    wakeup_channel_select: A
+    single_slot_enabled: true
+    bus_model_mode: Pop
+    node_name: string
+schedule:
+  epoch_offset: 0
+functions:
+  encode:
+    - function: string
+      annotations:
+        ? property1
+        ? property2
+  decode:
+    - function: string
+      annotations:
+        ? property1
+        ? property2
+  annotations:
+    ? property1
+    ? property2
+  global:
+    lua: string
 
 ```
 

@@ -6,6 +6,15 @@ const (
 	ModelKindModel ModelKind = "Model"
 )
 
+func (e ModelKind) Valid() bool {
+	switch e {
+	case ModelKindModel:
+		return true
+	default:
+		return false
+	}
+}
+
 type ExecutableSpec struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Arch        *string      `yaml:"arch,omitempty"`

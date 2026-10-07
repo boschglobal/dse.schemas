@@ -10,6 +10,15 @@ const (
 	NetworkKindNetwork NetworkKind = "Network"
 )
 
+func (e NetworkKind) Valid() bool {
+	switch e {
+	case NetworkKindNetwork:
+		return true
+	default:
+		return false
+	}
+}
+
 type Network struct {
 	Kind     NetworkKind     `yaml:"kind"`
 	Metadata *ObjectMetadata `yaml:"metadata,omitempty"`

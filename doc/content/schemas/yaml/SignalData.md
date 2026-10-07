@@ -67,7 +67,7 @@ Signal UID.
 <a id="tocssignalvaluenumeric"></a>
 
 ```yaml
-0
+0.1
 
 ```
 

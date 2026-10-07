@@ -11,29 +11,111 @@ const (
 	Overload CanFrameType = "Overload"
 	Remote   CanFrameType = "Remote"
 )
+
+func (e CanFrameType) Valid() bool {
+	switch e {
+	case Data:
+		return true
+	case Error:
+		return true
+	case Overload:
+		return true
+	case Remote:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Base       CanMessageFormat = "Base"
 	Extended   CanMessageFormat = "Extended"
 	FdBase     CanMessageFormat = "FdBase"
 	FdExtended CanMessageFormat = "FdExtended"
 )
+
+func (e CanMessageFormat) Valid() bool {
+	switch e {
+	case Base:
+		return true
+	case Extended:
+		return true
+	case FdBase:
+		return true
+	case FdExtended:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	BR10Mbps FlexrayBitrate = "BR10Mbps"
 	BR25Mbps FlexrayBitrate = "BR2_5Mbps"
 	BR5Mbps  FlexrayBitrate = "BR5Mbps"
 )
+
+func (e FlexrayBitrate) Valid() bool {
+	switch e {
+	case BR10Mbps:
+		return true
+	case BR25Mbps:
+		return true
+	case BR5Mbps:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Pop FlexrayBusModelMode = "Pop"
 )
+
+func (e FlexrayBusModelMode) Valid() bool {
+	switch e {
+	case Pop:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	A  FlexrayChannel = "A"
 	AB FlexrayChannel = "AB"
 	B  FlexrayChannel = "B"
 )
+
+func (e FlexrayChannel) Valid() bool {
+	switch e {
+	case A:
+		return true
+	case AB:
+		return true
+	case B:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	FlexrayDirectionRx FlexrayDirection = "Rx"
 	FlexrayDirectionTx FlexrayDirection = "Tx"
 )
+
+func (e FlexrayDirection) Valid() bool {
+	switch e {
+	case FlexrayDirectionRx:
+		return true
+	case FlexrayDirectionTx:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	FlexrayPocStateN0 FlexrayPocState = 0
 	FlexrayPocStateN1 FlexrayPocState = 1
@@ -46,30 +128,129 @@ const (
 	FlexrayPocStateN8 FlexrayPocState = 8
 	FlexrayPocStateN9 FlexrayPocState = 9
 )
+
+func (e FlexrayPocState) Valid() bool {
+	switch e {
+	case FlexrayPocStateN0:
+		return true
+	case FlexrayPocStateN1:
+		return true
+	case FlexrayPocStateN2:
+		return true
+	case FlexrayPocStateN3:
+		return true
+	case FlexrayPocStateN4:
+		return true
+	case FlexrayPocStateN5:
+		return true
+	case FlexrayPocStateN6:
+		return true
+	case FlexrayPocStateN7:
+		return true
+	case FlexrayPocStateN8:
+		return true
+	case FlexrayPocStateN9:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Continuous FlexrayTransmitMode = "Continuous"
 	SingleShot FlexrayTransmitMode = "SingleShot"
 )
+
+func (e FlexrayTransmitMode) Valid() bool {
+	switch e {
+	case Continuous:
+		return true
+	case SingleShot:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	IpProtocolN0  IpProtocol = 0
 	IpProtocolN17 IpProtocol = 17
 	IpProtocolN6  IpProtocol = 6
 )
+
+func (e IpProtocol) Valid() bool {
+	switch e {
+	case IpProtocolN0:
+		return true
+	case IpProtocolN17:
+		return true
+	case IpProtocolN6:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Full  PduContainer0Header = "Full"
 	Short PduContainer0Header = "Short"
 )
+
+func (e PduContainer0Header) Valid() bool {
+	switch e {
+	case Full:
+		return true
+	case Short:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Static PduContainer1Header = "Static"
 )
+
+func (e PduContainer1Header) Valid() bool {
+	switch e {
+	case Static:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	PduDirRx PduDir = "Rx"
 	PduDirTx PduDir = "Tx"
 )
+
+func (e PduDir) Valid() bool {
+	switch e {
+	case PduDirRx:
+		return true
+	case PduDirTx:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Change   PduScheduleTrigger = "Change"
 	Periodic PduScheduleTrigger = "Periodic"
 )
+
+func (e PduScheduleTrigger) Valid() bool {
+	switch e {
+	case Change:
+		return true
+	case Periodic:
+		return true
+	default:
+		return false
+	}
+}
 
 type CanFrameType string
 type CanMessageFormat string

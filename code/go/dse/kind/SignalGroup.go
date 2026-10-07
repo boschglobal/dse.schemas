@@ -6,6 +6,15 @@ const (
 	SignalGroupKindSignalGroup SignalGroupKind = "SignalGroup"
 )
 
+func (e SignalGroupKind) Valid() bool {
+	switch e {
+	case SignalGroupKindSignalGroup:
+		return true
+	default:
+		return false
+	}
+}
+
 type Signal struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Signal      string       `yaml:"signal"`

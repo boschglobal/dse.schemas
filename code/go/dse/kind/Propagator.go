@@ -5,11 +5,34 @@ import ()
 const (
 	PropagatorKindPropagator PropagatorKind = "Propagator"
 )
+
+func (e PropagatorKind) Valid() bool {
+	switch e {
+	case PropagatorKindPropagator:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Both    PropagatorSpecOptionsDirection = "both"
 	Forward PropagatorSpecOptionsDirection = "forward"
 	Reverse PropagatorSpecOptionsDirection = "reverse"
 )
+
+func (e PropagatorSpecOptionsDirection) Valid() bool {
+	switch e {
+	case Both:
+		return true
+	case Forward:
+		return true
+	case Reverse:
+		return true
+	default:
+		return false
+	}
+}
 
 type Propagator struct {
 	Kind     PropagatorKind  `yaml:"kind"`

@@ -6,6 +6,15 @@ const (
 	ParameterSetKindParameterSet ParameterSetKind = "ParameterSet"
 )
 
+func (e ParameterSetKind) Valid() bool {
+	switch e {
+	case ParameterSetKindParameterSet:
+		return true
+	default:
+		return false
+	}
+}
+
 type Parameter struct {
 	Annotations *Annotations `yaml:"annotations,omitempty"`
 	Parameter   string       `yaml:"parameter"`

@@ -6,6 +6,15 @@ const (
 	RunnableKindRunnable RunnableKind = "Runnable"
 )
 
+func (e RunnableKind) Valid() bool {
+	switch e {
+	case RunnableKindRunnable:
+		return true
+	default:
+		return false
+	}
+}
+
 type Runnable struct {
 	Kind     RunnableKind    `yaml:"kind"`
 	Metadata *ObjectMetadata `yaml:"metadata,omitempty"`

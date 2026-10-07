@@ -5,9 +5,28 @@ import ()
 const (
 	ManifestKindManifest ManifestKind = "Manifest"
 )
+
+func (e ManifestKind) Valid() bool {
+	switch e {
+	case ManifestKindManifest:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Redispubsub SimulationParametersTransport = "redispubsub"
 )
+
+func (e SimulationParametersTransport) Valid() bool {
+	switch e {
+	case Redispubsub:
+		return true
+	default:
+		return false
+	}
+}
 
 type File struct {
 	Generate   *string `yaml:"generate,omitempty"`

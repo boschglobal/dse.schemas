@@ -5,15 +5,54 @@ import ()
 const (
 	FileReferenceUses FileReference = "uses"
 )
+
+func (e FileReference) Valid() bool {
+	switch e {
+	case FileReferenceUses:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	SimulationKindSimulation SimulationKind = "Simulation"
 )
+
+func (e SimulationKind) Valid() bool {
+	switch e {
+	case SimulationKindSimulation:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	Network VarNetworktype = "network"
 )
+
+func (e VarNetworktype) Valid() bool {
+	switch e {
+	case Network:
+		return true
+	default:
+		return false
+	}
+}
+
 const (
 	VarReferenceUses VarReference = "uses"
 )
+
+func (e VarReference) Valid() bool {
+	switch e {
+	case VarReferenceUses:
+		return true
+	default:
+		return false
+	}
+}
 
 type File struct {
 	Name      string         `yaml:"name"`

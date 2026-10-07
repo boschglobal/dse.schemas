@@ -12,7 +12,8 @@ PYTHON_BUILDER_IMAGE ?= ghcr.io/boschglobal/dse-python-builder:latest
 ## External Projects.
 ABS_REPO ?= https://github.com/boschglobal/automotive-bus-schema
 ABS_VERSION ?= 1.0.16
-export ABS_URL ?= $(ABS_REPO)/releases/download/v$(ABS_VERSION)/automotive-bus-schema.tar.gz
+ABS_URL ?= $(ABS_REPO)/releases/download/v$(ABS_VERSION)/automotive-bus-schema.tar.gz
+export ABS_URL
 
 
 ###############
@@ -176,7 +177,7 @@ generate_doc_fbs:
 		sed -i "1s;^;title: \"Schema: $$(basename $$d .yaml)\"\n;" $(DOC_SCHEMA_FBS_DIR)/$$(basename $$d .yaml).md ;\
 		sed -i '1s;^;---\n;' $(DOC_SCHEMA_FBS_DIR)/$$(basename S$$d .yaml).md ;\
 	done;
-	cp doc/templates/fbs/_index.md $(DOC_SCHEMA_FBS_DIR)/_index.md
+	cp doc/templates/fbs/index.md $(DOC_SCHEMA_FBS_DIR)/index.md
 
 generate_doc_yaml:
 	for d in $(DOC_YAML_SCHEMAS) ;\
@@ -189,7 +190,7 @@ generate_doc_yaml:
 		sed -i "1s;^;title: \"Schema: $$(basename $$d .yaml)\"\n;" $(DOC_SCHEMA_YAML_DIR)/$$(basename $$d .yaml).md ;\
 		sed -i '1s;^;---\n;' $(DOC_SCHEMA_YAML_DIR)/$$(basename S$$d .yaml).md ;\
 	done;
-	cp doc/templates/yaml/_index.md $(DOC_SCHEMA_YAML_DIR)/_index.md
+	cp doc/templates/yaml/index.md $(DOC_SCHEMA_YAML_DIR)/index.md
 
 generate_doc: generate_doc_yaml
 
