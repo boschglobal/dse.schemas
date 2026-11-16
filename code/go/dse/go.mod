@@ -1,10 +1,10 @@
 module github.com/boschglobal/dse.schemas/code/go/dse
 
-go 1.24.0
+go 1.26.0
 
 require (
 	github.com/google/flatbuffers v25.12.19+incompatible
-	github.com/oapi-codegen/runtime v1.8.0
+	github.com/oapi-codegen/runtime v1.9.0
 )
 
 require (
